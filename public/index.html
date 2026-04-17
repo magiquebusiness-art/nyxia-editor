@@ -220,10 +220,10 @@
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
                 Dashboard
             </button>
-            <a class="nav-item" href="/editor.html" style="text-decoration:none;">
+            <button class="nav-item" data-section="editor">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
                 Editeur
-            </a>
+            </button>
 
             <div class="nav-divider"></div>
             <div class="nav-section-label">Outils IA</div>
@@ -511,6 +511,8 @@
     (function() {
         var navItems = document.querySelectorAll('.nav-item[data-section]');
         var pageTitle = document.getElementById('page-title');
+        var sidebar = document.querySelector('.sidebar');
+        var topBar = document.querySelector('.top-bar');
         var titles = { dashboard:'Tableau de bord', editor:'Editeur NyXia', chat:'Chat NyXia', medias:'Banque de Medias', video:'Creation IA' };
         navItems.forEach(function(item) {
             item.addEventListener('click', function(e) {
@@ -522,6 +524,13 @@
                 var target = document.getElementById('section-' + section);
                 if (target) target.classList.add('active');
                 pageTitle.textContent = titles[section] || 'Tableau de bord';
+                if (section === 'editor') {
+                    sidebar.style.display = 'none';
+                    topBar.style.display = 'none';
+                } else {
+                    sidebar.style.display = '';
+                    topBar.style.display = '';
+                }
             });
         });
     })();
@@ -577,7 +586,16 @@
                 card.addEventListener('click', function(e) {
                     if (e.target.closest('.btn-delete-project')) return;
                     // Open project in editor
-                    window.location.href = '/editor.html?id=' + p.id;
+                    var navEditor = document.querySelector('.nav-item[data-section="editor"]');
+                    if (navEditor) navEditor.click();
+                    setTimeout(function(){
+                        try {
+                            var iframe = document.getElementById('editor-iframe');
+                            if (iframe && iframe.contentWindow) {
+                                iframe.contentWindow.postMessage({ type: 'openProject', project: p }, '*');
+                            }
+                        } catch(e) {}
+                    }, 500);
                 });
                 projectsGrid.appendChild(card);
             });
