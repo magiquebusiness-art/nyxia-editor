@@ -8,6 +8,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script>pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';</script>
 
   <style>
     :root {
@@ -113,10 +115,11 @@
     .btn-send:disabled { opacity: .5; cursor: not-allowed; }
     .chat-hint { text-align: center; font-size: 11px; color: var(--t4); padding: 6px 0 0; }
 
-    #panel-generator { flex-direction: column; overflow-y: auto; }
-    .panel-header { padding: 24px 32px 0; flex-shrink: 0; }
-    .panel-title { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 600; background: linear-gradient(135deg, #a78bfa, var(--p3)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 4px; }
-    .panel-sub { color: var(--t3); font-size: 14px; margin-bottom: 24px; }
+    /* ══ Parcours Starter — boutons inline ══ */
+    .parcours-btns { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; padding-top: 14px; border-top: 1px solid rgba(123,92,255,0.15); }
+    .parcours-btn { padding: 9px 16px; border-radius: 50px; border: 1px solid rgba(123,92,255,0.3); background: linear-gradient(135deg, rgba(123,92,255,0.12), rgba(90,108,255,0.08)); color: var(--t2); font-family: 'Outfit', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; transition: all .2s; text-align: left; line-height: 1.3; }
+    .parcours-btn:hover { border-color: var(--p); background: linear-gradient(135deg, rgba(123,92,255,0.25), rgba(90,108,255,0.18)); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(123,92,255,0.2); color: var(--t); }
+
     .tool-embed { flex: 1; border: none; width: 100%; height: 100%; background: transparent; }
     #panel-medias { overflow: hidden; }
     #panel-medias iframe { width: 100%; height: 100%; border: none; }
@@ -156,7 +159,7 @@
       <div class="welcome-text">Bienvenue dans mon univers ✦ <strong id="header-username"></strong></div>
     </div>
     <div class="header-actions">
-      <span class="btn-header btn-pro">⭐ VISIONNAIRE</span>
+      <span class="btn-header btn-pro">⭐ STARTER</span>
       <button class="btn-header btn-logout" onclick="logout()">Déconnexion</button>
     </div>
   </header>
@@ -177,9 +180,6 @@
           <button id="agent-seo" style="width:100%;text-align:left;margin-bottom:8px;font-size:12px;padding:6px 10px;background:transparent;border:1px solid rgba(123,92,255,0.1);color:var(--t3);border-radius:8px;cursor:pointer;font-family:Outfit,sans-serif">🔍 SEO</button>
           <div style="font-size:10px;font-weight:700;letter-spacing:1px;color:var(--t4);text-transform:uppercase;margin-bottom:5px">💾 Sauvegardes</div>
           <div id="projects-list" style="margin-bottom:8px"><div style="font-size:11px;color:var(--t4)">Aucune sauvegarde</div></div>
-        </div>
-        <div class="nav-item" id="nav-generator" onclick="showPanel('generator')">
-          <span class="nav-icon">🏗</span> Créer mon site <span class="nav-arrow">›</span>
         </div>
         <div class="nav-item" id="nav-medias" onclick="showPanel('medias')">
           <span class="nav-icon">🎬</span> Photos &amp; Vidéos <span class="nav-arrow">›</span>
@@ -209,7 +209,7 @@
           <div class="user-avatar" id="sidebar-avatar">D</div>
           <div class="user-info">
             <div class="user-name" id="sidebar-username">Chargement...</div>
-            <div class="user-plan">✦ Plan Visionnaire</div>
+            <div class="user-plan">✦ Plan Starter</div>
           </div>
         </div>
       </div>
@@ -227,12 +227,7 @@
             <button class="btn-speak" id="btn-speak" onclick="toggleSpeak()">🔊 Écouter NyXia</button>
           </div>
           <div class="chat-messages" id="chat-messages"></div>
-          <div class="suggestions" id="suggestions">
-            <button class="sugg-btn" onclick="sendSuggestion('Je veux créer un site web')">🌐 Je veux créer un site web</button>
-            <button class="sugg-btn" onclick="sendSuggestion('Aide-moi avec mes publications')">📱 Aide-moi avec mes publications</button>
-            <button class="sugg-btn" onclick="sendSuggestion('Je veux plus de clients')">🚀 Je veux plus de clients</button>
-            <button class="sugg-btn" onclick="sendSuggestion('Comment structurer mon offre ?')">💎 Comment structurer mon offre ?</button>
-          </div>
+          <div class="suggestions" id="suggestions" style="display:none"></div>
           <div id="attach-bar" style="display:none;padding:6px 20px;background:rgba(123,92,255,0.08);border-top:1px solid rgba(123,92,255,0.1);align-items:center;gap:8px;flex-shrink:0;font-size:12px;color:var(--t3)">
             <span id="attach-name"></span>
             <button id="btn-clear-attach" style="background:none;border:none;color:var(--t4);cursor:pointer;font-size:14px">✕</button>
@@ -248,7 +243,6 @@
         </div>
       </div>
 
-      <div class="panel" id="panel-generator"><iframe src="/generatorsiteweb.html" class="tool-embed" id="generator-frame"></iframe></div>
       <div class="panel" id="panel-medias"><iframe src="/medias.html" class="tool-embed" id="medias-frame"></iframe></div>
       <div class="panel" id="panel-wan"><iframe src="/wan-video.html" class="tool-embed" id="wan-frame"></iframe></div>
       <div class="panel" id="panel-wanimg"><iframe src="/wan-image.html" class="tool-embed" id="wanimg-frame"></iframe></div>
@@ -388,12 +382,17 @@
 
     /* ═══════ CHAT ═══════ */
     var chatHistory = [], isSpeaking = false
+    var _parcoursMode = false, _parcoursStep = 0, _parcoursData = {}
 
     function sendWelcome() {
-      var welcome = clientName
-        ? 'Bienvenue dans mon univers ✦\n\nSalut **' + clientName + '** ! Je suis NyXia, ton agente IA spécialisée en marketing et conversion. 💜\n\nDis-moi, quel est ton projet du moment ?'
-        : 'Bienvenue dans mon univers ✦\n\nJe suis **NyXia**, ton agente IA spécialisée en marketing et conversion. 💜\n\nAvant tout — comment tu t\'appelles ?'
+      var welcome;
+      if (clientName) {
+        welcome = 'Bienvenue dans mon univers ✦\n\nSalut **' + clientName + '** ! Je suis **NyXia** 💜\n\nEt je suis là pour t\'aider à créer ton premier projet digital, pas à partir des outils, mais à partir de **toi**.\n\nOn va aller à l\'essentiel ensemble. **5 questions, et tu repartiras avec un plan clair.**'
+      } else {
+        welcome = 'Bienvenue dans mon univers ✦\n\nJe suis **NyXia** 💜\n\nEt je suis là pour t\'aider à créer ton premier projet digital, pas à partir des outils, mais à partir de **toi**.\n\nOn va aller à l\'essentiel ensemble. **5 questions, et tu repartiras avec un plan clair.**\n\nAvant tout — comment tu t\'appelles ?'
+      }
       addBotMessage(welcome)
+      if (clientName) { setTimeout(function(){ _startParcours(); }, 800) }
     }
 
     function sendSuggestion(text) {
@@ -420,14 +419,32 @@
           document.getElementById('header-username').textContent = clientName
           document.getElementById('sidebar-username').textContent = clientName
           document.getElementById('sidebar-avatar').textContent = clientName.charAt(0).toUpperCase()
+          /* Nom capturé → démarrer le parcours */
+          setTimeout(function(){ _startParcours(); }, 800)
         }
+      }
+      /* Parcours Starter : interception du texte libre */
+      if (_parcoursMode && (_parcoursStep === 1 || _parcoursStep === '1b' || _parcoursStep === '1c' || _parcoursStep === 2 || _parcoursStep === '3b' || _parcoursStep === 5 || _parcoursStep === '5b')) {
+        _handleParcoursText(text)
+        return
       }
       var attachmentToSend = _currentAttachment ? JSON.parse(JSON.stringify(_currentAttachment)) : null
       var displayText = text
       if (attachmentToSend) { displayText = text ? text + '\n📎 ' + attachmentToSend.name : '📎 ' + attachmentToSend.name }
       addUserMessage(displayText)
       var historyContent = text
-      if (attachmentToSend) { historyContent = (text ? text + '\n' : '') + '[Fichier joint: ' + attachmentToSend.name + ' (' + attachmentToSend.type + ')]' }
+      if (attachmentToSend) {
+        if (attachmentToSend.text) {
+          /* PDF : injecter le texte extrait (tronqué si trop long) */
+          var pdfText = attachmentToSend.text
+          if (pdfText.length > 12000) {
+            pdfText = pdfText.substring(0, 12000) + '\n\n[... Texte tronqué — ' + attachmentToSend.name + ' contient plus de contenu. Pose des questions specifiques sur les sections qui t\'interessent.]'
+          }
+          historyContent = (text ? text + '\n\n' : '') + '[Contenu du PDF "' + attachmentToSend.name + '"]\n' + pdfText
+        } else {
+          historyContent = (text ? text + '\n' : '') + '[Fichier joint: ' + attachmentToSend.name + ' (' + attachmentToSend.type + ')]'
+        }
+      }
       chatHistory.push({ role: 'user', content: historyContent })
       if (_currentAttachment) {
         _currentAttachment = null
@@ -625,6 +642,203 @@
       setTimeout(function() { el.style.display = 'none' }, 5000)
     }
 
+    /* ═══════ PARCOURS STARTER ═══════ */
+    function _startParcours() {
+      _parcoursMode = true; _parcoursStep = 1; _parcoursData = { nom: clientName }
+      var items = [
+        ['💰 Vendre une offre ou un produit','Vendre une offre ou un produit'],
+        ['📅 Recevoir des prises de rendez-vous','Recevoir des prises de rendez-vous'],
+        ['📧 Construire une liste email','Construire une liste email'],
+        ['🎓 Partager mon expertise / créer une formation','Partager mon expertise / créer une formation'],
+        ['🤷 Je ne sais pas encore — aide-moi','Je ne sais pas encore']
+      ]
+      var handlers = items.map(function(item) { return function() { _parcoursAnswer(1, item[1]) } })
+      _addBotWithBtns('**❓ Question 1 — Ton intention**\n\nQu\'est-ce que tu veux que ce projet fasse concrètement pour toi ?', items, handlers)
+    }
+
+    /* Ajoute un message bot avec boutons cliquables intégrés */
+    function _addBotWithBtns(text, items, handlers) {
+      var msgs = document.getElementById('chat-messages')
+      var div = document.createElement('div'); div.className = 'msg bot'
+      var avatar = document.createElement('img'); avatar.src = '/NyXia.png'; avatar.className = 'msg-avatar'; avatar.alt = 'NyXia'
+      var wrapper = document.createElement('div'); wrapper.style.cssText = 'display:flex;flex-direction:column;gap:4px;max-width:100%'
+      var bubble = document.createElement('div'); bubble.className = 'msg-bubble'
+      bubble.innerHTML = escHtml(text).replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>')
+      wrapper.appendChild(bubble)
+      /* Boutons parcours */
+      var btnsWrap = document.createElement('div'); btnsWrap.className = 'parcours-btns'
+      items.forEach(function(item, idx) {
+        var btn = document.createElement('button'); btn.className = 'parcours-btn'; btn.textContent = item[0]
+        btn.addEventListener('click', function() {
+          /* Désactiver tous les boutons après clic */
+          btnsWrap.querySelectorAll('.parcours-btn').forEach(function(b) { b.disabled = true; b.style.opacity = '0.4'; b.style.cursor = 'default' })
+          btn.style.opacity = '1'; btn.style.borderColor = 'var(--p)'; btn.style.background = 'rgba(123,92,255,0.25)'
+          handlers[idx]()
+        })
+        btnsWrap.appendChild(btn)
+      })
+      wrapper.appendChild(btnsWrap)
+      div.appendChild(avatar); div.appendChild(wrapper)
+      msgs.appendChild(div)
+      msgs.scrollTop = msgs.scrollHeight
+    }
+
+    /* Montre les boutons parcours inline (pour étapes 3, 4, 5) */
+    function _showParcoursStep(step) {
+      var items = [], msg = ''
+      if (step === 3) {
+        items = [
+          ['✅ Oui, j\'ai déjà quelque chose','Oui'],
+          ['❌ Non, pas encore','Non']
+        ]
+        msg = '**❓ Question 3 — Ton offre**\n\nTu as déjà quelque chose à proposer ? Une idée, un service, un produit ?'
+      } else if (step === 4) {
+        items = [
+          ['1 — Pas du tout sûr(e)','1'],['2 — Un peu perdu(e)','2'],['3 — Je me débrouille','3'],['4 — Ça va bien','4'],['5 — Je suis prêt(e) !','5']
+        ]
+        msg = '**❓ Question 4 — Ton niveau de confiance**\n\nSur une échelle de 1 à 5, tu te sens où par rapport à ce projet en ce moment ?'
+      }
+      var handlers = items.map(function(item) { return function() { _parcoursAnswer(step, item[1]) } })
+      _addBotWithBtns(msg, items, handlers)
+    }
+
+    function _parcoursAnswer(step, value) {
+      addUserMessage(value)
+      _parcoursData['q' + step] = value
+
+      if (step === 1) {
+        if (value === 'Je ne sais pas encore') {
+          _parcoursStep = '1b'
+          addBotMessage('C\'est tout à fait normal 💜\n\nDis-moi : **qu\'est-ce qui te frustre le plus** dans ta situation actuelle ?')
+          return
+        }
+        _parcoursStep = 2
+        setTimeout(function() {
+          addBotMessage('Parfait ✦\n\n**❓ Question 2 — Ton client idéal**\n\nÀ qui tu t\'adresses ? Décris-moi la personne que tu veux aider en une phrase.')
+        }, 500)
+
+      } else if (step === 3) {
+        if (value === 'Oui') {
+          _parcoursStep = '3b'
+          addBotMessage('Super !\n\n**Décris-moi brièvement ce que tu proposes** — je vais t\'aider à la formuler en **Offre Irrésistible**.')
+        } else {
+          _parcoursData.leadMagnet = true
+          addBotMessage('Aucun problème ! On va créer ensemble un **Lead Magnet de Qualification** — le premier pas idéal pour attirer ton audience.\n\nJe vais t\'expliquer comment dans ton plan personnalisé.')
+          setTimeout(function() { _askQ4() }, 800)
+        }
+
+      } else if (step === 4) {
+        var n = parseInt(value)
+        if (n <= 2) {
+          addBotMessage('C\'est normal. Beaucoup de projets n\'ont pas vu le jour non pas par manque d\'idées, mais parce que le système nerveux était en mode survie.\n\nOn va avancer à **ton rythme**. La première étape sera petite, concrète, et faisable aujourd\'hui.')
+        } else if (n === 3) {
+          addBotMessage('Tu es dans la bonne zone. L\'important c\'est de transformer cette énergie en action — une petite étape à la fois.')
+        } else {
+          addBotMessage('J\'aime cette énergie ! On va canaliser ça dans un plan concret pour que ça se transforme en résultats réels.')
+        }
+        setTimeout(function() { _askQ5() }, 800)
+      }
+    }
+
+    function _handleParcoursText(text) {
+      addUserMessage(text)
+      if (_parcoursStep === 1) {
+        _parcoursData.q1 = text
+        document.getElementById('suggestions').style.display = 'none'
+        addBotMessage('Parfait ✦\n\n**❓ Question 2 — Ton client idéal**\n\nÀ qui tu t\'adresses ? Décris-moi la personne que tu veux aider en une phrase.')
+        _parcoursStep = 2
+      } else if (_parcoursStep === '1b') {
+        _parcoursData.frustration = text
+        addBotMessage('Merci.\n\nEt si tu pouvais vivre la situation inverse — **ta vie idéale** — ça ressemblerait à quoi ?')
+        _parcoursStep = '1c'
+      } else if (_parcoursStep === '1c') {
+        _parcoursData.dream = text
+        _parcoursData.q1 = 'Avancer vers une vie alignée'
+        addBotMessage('Merci de partager ça ✦\n\nD\'après ce que tu me dis, ton projet devrait t\'aider à sortir de cette frustration et avancer vers ce qui te fait vibrer.\n\nOn continue !')
+        _parcoursStep = 2
+        setTimeout(function() {
+          addBotMessage('**❓ Question 2 — Ton client idéal**\n\nÀ qui tu t\'adresses ? Décris-moi la personne que tu veux aider en une phrase.')
+        }, 500)
+      } else if (_parcoursStep === 2) {
+        _parcoursData.q2 = text
+        chatHistory.push({ role: 'user', content: text })
+        addTyping()
+        _sendParcoursAI('reformuler')
+      } else if (_parcoursStep === '3b') {
+        _parcoursData.offreDesc = text
+        chatHistory.push({ role: 'user', content: text })
+        addTyping()
+        _sendParcoursAI('offre')
+      } else if (_parcoursStep === 5 || _parcoursStep === '5b') {
+        _parcoursData.q5 = text
+        chatHistory.push({ role: 'user', content: text })
+        _generatePlan()
+      }
+    }
+
+    function _askQ4() {
+      _parcoursStep = 4
+      _showParcoursStep(4)
+    }
+
+    function _askQ5() {
+      _parcoursStep = 5
+      var items = [['💡 Aide-moi à trouver un nom','Aide-moi à trouver un nom']]
+      var handlers = [function() {
+        addUserMessage('Aide-moi à trouver un nom')
+        _parcoursStep = '5b'
+        addTyping()
+        _sendParcoursAI('noms')
+      }]
+      _addBotWithBtns('**❓ Question 5 — Ton nom de projet**\n\nTu as un nom pour ce projet, ou tu veux qu\'on en trouve un ensemble ?\n\nTu peux aussi taper ton idée directement dans le chat.', items, handlers)
+    }
+
+    function _sendParcoursAI(type) {
+      var ctx = '', userMsg = ''
+      if (type === 'reformuler') {
+        ctx = 'PARCOURS STARTER — Étape 2 (Reformulation client idéal).\n\nDonnées : ' + JSON.stringify(_parcoursData) + '\n\nMISSION : Reformule la description du client idéal pour identifier son PAIN POINT (frustration principale) et son DREAM STATE (résultat désiré). Utilise les concepts du lexique CashFlow. Sois brève, chaleureuse et encourageante.'
+        userMsg = _parcoursData.q2
+      } else if (type === 'offre') {
+        ctx = 'PARCOURS STARTER — Étape 3 (Offre Irrésistible).\n\nDonnées : ' + JSON.stringify(_parcoursData) + '\n\nMISSION : Formule une Offre Irrésistible (God Offer) basée sur la description. Utilise les concepts CashFlow (Sweet Spot, Ancrage de Prix, Value Ladder). Sois concise et encourageante.'
+        userMsg = _parcoursData.offreDesc
+      } else if (type === 'noms') {
+        ctx = 'PARCOURS STARTER — Étape 5 (Suggestions de noms).\n\nDonnées : ' + JSON.stringify(_parcoursData) + '\n\nMISSION : Suggère 3 noms de projet créatifs basés sur l\'intention, le client idéal et l\'univers de la personne. Utilise le concept d\'Authority Positioning. Format numéroté avec une brève explication pour chaque.'
+        userMsg = 'Suggère-moi 3 noms pour mon projet'
+      }
+      fetch('/api/chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ message: userMsg, history: [], userName: clientName, agent: _currentAgent, parcoursContext: ctx }) })
+      .then(function(r) { return r.json() })
+      .then(function(data) {
+        removeTyping()
+        var reply = data.content || 'Erreur... réessaie 💜'
+        addBotMessage(reply); chatHistory.push({ role: 'assistant', content: reply })
+        if (type === 'reformuler') {
+          setTimeout(function() {
+            _showParcoursStep(3); _parcoursStep = 3
+          }, 1000)
+        } else if (type === 'offre') {
+          setTimeout(function() { _askQ4() }, 1000)
+        } else if (type === 'noms') {
+          _parcoursStep = 5
+          addBotMessage('Lequel te parle le plus ? Ou tu en as un autre en tête ?')
+        }
+      })
+      .catch(function() { removeTyping(); addBotMessage('Petite interruption... réessaie 💜') })
+    }
+
+    function _generatePlan() {
+      addTyping()
+      var ctx = 'PARCOURS STARTER — GÉNÉRATION DU PLAN FINAL.\n\nTu as accompagné ' + clientName + ' à travers 5 questions.\n\nDonnées complètes :\n' + JSON.stringify(_parcoursData, null, 2) + '\n\nMISSION : Génère un "Plan de Lancement en 3 étapes" personnalisé.\n\nFormat :\n\n# Ton plan pour ' + clientName + '\n\n🎯 Étape 1 : [Titre clair] — [Description concrète avec l\'outil à utiliser]\n🖼️ Étape 2 : [Titre clair] — [Description concrète avec l\'outil à utiliser]\n🚀 Étape 3 : [Titre clair] — [Description concrète avec l\'outil à utiliser]\n\nOutils disponibles : Éditeur de pages (drag & drop), Générateur d\'images IA, Studio vidéo IA, Photos & Vidéos.\n\nAdapte les étapes selon l\'intention. Utilise les concepts CashFlow (Nurturing, Pain Point, Dream State, Pattern Interrupt, Lead Magnet, God Offer).\nSois encourageante et concrète. Termine par : "Tu es prêt(e) à commencer l\'Étape 1 ?"'
+      fetch('/api/chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ message: 'Génère mon plan de lancement', history: [], userName: clientName, agent: _currentAgent, parcoursContext: ctx }) })
+      .then(function(r) { return r.json() })
+      .then(function(data) {
+        removeTyping()
+        var reply = data.content || 'Erreur... réessaie 💜'
+        addBotMessage(reply); chatHistory.push({ role: 'assistant', content: reply })
+        _parcoursMode = false; _parcoursStep = 0
+      })
+      .catch(function() { removeTyping(); addBotMessage('Petite interruption... réessaie 💜') })
+    }
+
     /* ══ PROJETS ══ */
     var _projects=[], _currentProjectId=null, _currentAttachment=null, _currentAgent='general', _realProjects=[]
     var _projTypes = { livre:'📚 Écriture de livre', formation:'🎓 Création de formation', site:'🌐 Site web', copywriting:'✍️ Copywriting', seo:'🔍 SEO & Contenu', marketing:'📱 Marketing réseaux sociaux', autre:'💼 Autre' }
@@ -679,14 +893,38 @@
     }
     function _newConversation() {
       if(chatHistory&&chatHistory.length>1)_saveProject()
-      _currentProjectId=null;chatHistory=[];var msgs=document.getElementById('chat-messages');if(msgs)msgs.innerHTML='';var sugg=document.getElementById('suggestions');if(sugg)sugg.style.display='flex';sendWelcome()
+      _currentProjectId=null;chatHistory=[];_parcoursMode=false;_parcoursStep=0;_parcoursData={};var msgs=document.getElementById('chat-messages');if(msgs)msgs.innerHTML='';sendWelcome()
     }
     function _setAgentStyle(agent) {_currentAgent=agent;document.querySelectorAll('[id^="agent-"]').forEach(function(b){b.style.background='transparent';b.style.borderColor='rgba(123,92,255,0.1)';b.style.color='var(--t3)'});var ab=document.getElementById('agent-'+agent);if(ab){ab.style.background='rgba(123,92,255,0.15)';ab.style.borderColor='rgba(123,92,255,0.3)';ab.style.color='#fff'}}
 
     document.addEventListener('DOMContentLoaded', function() {
       var plist=document.getElementById('projects-list');if(plist)plist.addEventListener('click',function(e){var item=e.target.closest('.proj-item');if(item&&item.dataset.pid)_loadProject(item.dataset.pid)})
       var fi=document.getElementById('chat-file')
-      if(fi)fi.addEventListener('change',function(){var f=this.files[0];if(!f)return;var size=f.size>1048576?(f.size/1048576).toFixed(1)+'MB':Math.round(f.size/1024)+'KB';_currentAttachment={name:f.name,type:f.type,data:null};var bar=document.getElementById('attach-bar'),nm=document.getElementById('attach-name'),sendBtn=document.getElementById('btn-send');if(bar)bar.style.display='flex';if(nm)nm.innerHTML='<strong>'+f.name+'</strong> ('+size+') — ⏳ Chargement...';if(sendBtn)sendBtn.disabled=true;var reader=new FileReader();reader.onload=function(e){_currentAttachment.data=e.target.result.split(',')[1];if(nm)nm.innerHTML='<strong>'+f.name+'</strong> ('+size+') — ✅ Prêt';if(sendBtn)sendBtn.disabled=false};reader.onerror=function(){_currentAttachment=null;if(nm)nm.innerHTML='❌ Erreur';if(sendBtn)sendBtn.disabled=false};reader.readAsDataURL(f)})
+      if(fi)fi.addEventListener('change',function(){var f=this.files[0];if(!f)return;var size=f.size>1048576?(f.size/1048576).toFixed(1)+'MB':Math.round(f.size/1024)+'KB';_currentAttachment={name:f.name,type:f.type,data:null,text:null};var bar=document.getElementById('attach-bar'),nm=document.getElementById('attach-name'),sendBtn=document.getElementById('btn-send');if(bar)bar.style.display='flex';if(nm)nm.innerHTML='<strong>'+f.name+'</strong> ('+size+') — ⏳ Chargement...';if(sendBtn)sendBtn.disabled=true;
+        if(f.type==='application/pdf'){
+          /* PDF : extraire le texte avec pdf.js */
+          var pdfReader=new FileReader();
+          pdfReader.onload=function(e){
+            var typedArray=new Uint8Array(e.target.result);
+            pdfjsLib.getDocument(typedArray).promise.then(function(pdf){
+              var pages=[];var total=pdf.numPages;
+              (function extractPage(i){
+                if(i>=total){
+                  _currentAttachment.text=pages.join('\n\n--- PAGE '+(i)+' ---\n\n');
+                  if(nm)nm.innerHTML='<strong>'+f.name+'</strong> ('+size+') — ✅ PDF prêt ('+total+' pages)';
+                  if(sendBtn)sendBtn.disabled=false;
+                  return;
+                }
+                pdf.getPage(i+1).then(function(page){page.getTextContent().then(function(content){var text=content.items.map(function(item){return item.str}).join(' ');pages.push(text);extractPage(i+1)})});
+              })(0);
+            }).catch(function(err){_currentAttachment=null;if(nm)nm.innerHTML='❌ Erreur PDF';if(sendBtn)sendBtn.disabled=false});
+          };
+          pdfReader.readAsArrayBuffer(f);
+        } else {
+          /* Image : base64 classique */
+          var reader=new FileReader();reader.onload=function(e){_currentAttachment.data=e.target.result.split(',')[1];if(nm)nm.innerHTML='<strong>'+f.name+'</strong> ('+size+') — ✅ Prêt';if(sendBtn)sendBtn.disabled=false};reader.onerror=function(){_currentAttachment=null;if(nm)nm.innerHTML='❌ Erreur';if(sendBtn)sendBtn.disabled=false};reader.readAsDataURL(f);
+        }
+      })
       var ca=document.getElementById('btn-clear-attach');if(ca)ca.addEventListener('click',function(){_currentAttachment=null;var bar=document.getElementById('attach-bar'),fi2=document.getElementById('chat-file');if(bar)bar.style.display='none';if(fi2)fi2.value=''})
       function setAgent(agent) {_currentAgent=agent;showPanel('chat');var msgs=document.getElementById('chat-messages');if(msgs)msgs.innerHTML='';chatHistory=[];var sugg=document.getElementById('suggestions');if(sugg)sugg.style.display='none';var name=clientName||'';var w={general:(name?'Salut '+name+' ! 💜':'Bonjour ! 💜')+' Je suis NyXia, ton agente IA. Sur quoi travailles-tu ?',copywriter:'✍️ Mode **Copywriter** activé !\n\nJe rédige : annonces pub, posts réseaux, emails de vente, chapitres de livre, VSL...\n\nQuel type de contenu et pour quelle plateforme ?',formation:'🎓 Mode **Créateur de Formation** activé !\n\nJe structure ta formation : modules, scripts vidéo, workbooks et page de vente.\n\nQuel est le sujet et qui est ton audience cible ?',seo:'🔍 Mode **Expert SEO** activé !\n\nJe combine référencement et Psychologie du Clic pour rankler ET convertir.\n\nTon site/business, ta niche et tes mots-clés actuels ?'};addBotMessage(w[agent]||w.general)}
       ['general','copywriter','formation','seo'].forEach(function(a){var b=document.getElementById('agent-'+a);if(b)b.addEventListener('click',function(){_setAgentStyle(a);setAgent(a)})})
