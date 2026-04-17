@@ -42,8 +42,17 @@ export async function onRequestPost({ env, request }) {
     }
    
     if (action === 'list') {
-      const { results } = await env.DB.prepare("SELECT id, name, updated_at FROM projects ORDER BY updated_at DESC").all();
+      const { results } = await env.DB.prepare("SELECT id, name, content, updated_at FROM projects ORDER BY updated_at DESC").all();
       return new Response(JSON.stringify(results), {
+        headers: { "Content-Type": "application/json" }
+      });
+    }
+
+
+    if (action === 'delete') {
+      const { id } = body;
+      await env.DB.prepare("DELETE FROM projects WHERE id = ?").bind(id).run();
+      return new Response(JSON.stringify({ success: true, message: "Projet supprimé" }), {
         headers: { "Content-Type": "application/json" }
       });
     }
