@@ -220,10 +220,10 @@
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
                 Dashboard
             </button>
-            <button class="nav-item" data-section="editor">
+            <a class="nav-item" href="/editor.html" style="text-decoration:none;">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
                 Editeur
-            </button>
+            </a>
 
             <div class="nav-divider"></div>
             <div class="nav-section-label">Outils IA</div>
@@ -577,14 +577,7 @@
                 card.addEventListener('click', function(e) {
                     if (e.target.closest('.btn-delete-project')) return;
                     // Open project in editor
-                    var navEditor = document.querySelector('.nav-item[data-section="editor"]');
-                    if (navEditor) navEditor.click();
-                    try {
-                        var iframe = document.getElementById('editor-iframe');
-                        if (iframe && iframe.contentWindow) {
-                            iframe.contentWindow.postMessage({ type: 'openProject', project: p }, '*');
-                        }
-                    } catch(e) {}
+                    window.location.href = '/editor.html?id=' + p.id;
                 });
                 projectsGrid.appendChild(card);
             });
