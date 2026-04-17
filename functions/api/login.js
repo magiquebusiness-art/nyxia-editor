@@ -51,7 +51,7 @@ export async function onRequestPost(context) {
 
         // Chercher l'utilisateur dans D1
         const user = await env.DB.prepare(
-            'SELECT id, email, firstname, password_hash, salt FROM users WHERE email = ?'
+            'SELECT id, email, firstname, lastname, password_hash, salt, is_admin, access_projects FROM users WHERE email = ?'
         ).bind(email.toLowerCase()).first();
 
         if (!user) {
@@ -85,7 +85,10 @@ export async function onRequestPost(context) {
         return new Response(JSON.stringify({
             success: true,
             token: token,
-            firstname: user.firstname || ''
+            firstname: user.firstname || '',
+            lastname: user.lastname || '',
+            is_admin: !!user.is_admin,
+            access_projects: user.access_projects || '[]'
         }), {
             status: 200,
             headers: { 'Content-Type': 'application/json', ...corsHeaders }

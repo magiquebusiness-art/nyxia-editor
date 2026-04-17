@@ -22,7 +22,7 @@ export async function onRequestPost(context) {
 
         // Vérifier le token dans la base
         const session = await env.DB.prepare(
-            'SELECT s.token, s.expires_at, u.id, u.email, u.firstname FROM sessions s JOIN users u ON s.user_id = u.id WHERE s.token = ?'
+            'SELECT s.token, s.expires_at, u.id, u.email, u.firstname, u.lastname, u.is_admin FROM sessions s JOIN users u ON s.user_id = u.id WHERE s.token = ?'
         ).bind(token).first();
 
         if (!session) {
@@ -43,7 +43,9 @@ export async function onRequestPost(context) {
 
         return new Response(JSON.stringify({
             valid: true,
-            firstname: session.firstname || ''
+            firstname: session.firstname || '',
+            lastname: session.lastname || '',
+            is_admin: !!session.is_admin
         }), {
             status: 200,
             headers: { 'Content-Type': 'application/json', ...corsHeaders }

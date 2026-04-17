@@ -291,6 +291,7 @@
   </div>
 
   <script src="/js/starry-bg.js" defer></script>
+  <script src="/nyxia-chat.js" defer></script>
 
   <script>
     /* AUTH CHECK - redirige si deja connecte */
@@ -304,7 +305,11 @@
         })
         .then(function(r) { return r.json() })
         .then(function(data) {
-          if (data.valid) window.location.href = '/editor.html'
+          if (data.valid) {
+            // Verifier si c'est un admin pour rediriger au bon endroit
+            var isAdmin = sessionStorage.getItem('nyxia_is_admin') === '1'
+            window.location.href = isAdmin ? '/admin.html' : '/index.html'
+          }
         })
         .catch(function(){})
       }
@@ -344,9 +349,17 @@
             name = name.charAt(0).toUpperCase() + name.slice(1).toLowerCase()
             localStorage.setItem('nyxia_username', name)
           }
+          // Sauvegarder le role et les acces
+          sessionStorage.setItem('nyxia_is_admin', data.is_admin ? '1' : '0')
+          sessionStorage.setItem('nyxia_access', data.access_projects || '[]')
           showMsg('Connexion reussie ! Redirection...', 'success')
           setTimeout(function() {
-            window.location.href = '/editor.html'
+            // Superadmin → panneau admin, Client → dashboard
+            if (data.is_admin) {
+              window.location.href = '/admin.html'
+            } else {
+              window.location.href = '/index.html'
+            }
           }, 1000)
         } else {
           showMsg(data.error || 'Identifiants incorrects.', 'error')
