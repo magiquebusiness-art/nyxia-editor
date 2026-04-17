@@ -2,16 +2,11 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Nyxia Editor V24 - Complet et Stable</title>
-    <!-- Polices Google -->
+    <title>Nyxia Editor V26 - Complet et Stable</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Playfair+Display:wght@400;700&family=Montserrat:wght@400;700&family=Lato:wght@400;700&family=Open+Sans:wght@400;700&family=Raleway:wght@400;700&family=Poppins:wght@400;700&family=Roboto:wght@400;700&family=Nunito:wght@400;700&family=Merriweather:wght@400;700&family=Source+Sans+Pro:wght@400;700&family=Ubuntu:wght@400;700&family=Droid+Serif:wght@400;700&family=PT+Serif:wght@400;700&family=Lora:wght@400;700&family=Vollkorn:wght@400;700&family=Arvo:wght@400;700&family=Bitter:wght@400;700&family=Old+Standard+TT:wght@400;700&family=EB+Garamond:wght@400;700&family=Libre+Baskerville:wght@400;700&family=Zilla+Slab:wght@400;700&family=Abril+Fatface&family=Dancing+Script:wght@400;700&family=Pacifico&family=Satisfy&family=Great+Vibes&family=Amatic+SC:wght@400;700&family=Kalam:wght@400;700&family=Caveat:wght@400;700&family=Permanent+Marker&family=Indie+Flower&display=swap" rel="stylesheet">
-    <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* ================================================================
-           NYXIA IA — DESIGN SYSTEM COMPLET (AUCUNE SUPPRESSION)
-        ================================================================= */
         :root {
             --nx-primary: #7B5CFF;
             --nx-primary-rgb: 123,92,255;
@@ -26,499 +21,89 @@
             --r2: 10px;
             --r3: 50px;
         }
-
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            font-family: 'Outfit', sans-serif;
-            color: var(--nx-text);
-            background: var(--nx-bg);
-            overflow: hidden;
-        }
-
-        #starry-canvas {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            z-index: -1;
-        }
-
-        .editor-container {
-            display: flex;
-            height: 100vh;
-            width: 100vw;
-        }
-
-        /* Sidebar */
-        .sidebar {
-            width: 260px;
-            background: rgba(19, 21, 42, 0.95);
-            backdrop-filter: blur(15px);
-            border-right: 1px solid var(--nx-border);
-            display: flex;
-            flex-direction: column;
-            padding: 20px;
-            overflow-y: auto;
-            z-index: 100;
-        }
-
-        .logo-area {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 25px;
-        }
-
-        .user-avatar {
-            width: 36px; height: 36px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--nx-primary), #9B7BFF);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            color: #fff;
-        }
-
-        .gradient-text {
-            background: linear-gradient(135deg, #a78bfa, var(--nx-primary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        /* Onglets */
-        .tabs-header {
-            display: flex;
-            gap: 3px;
-            margin-bottom: 15px;
-            border-bottom: 1px solid var(--nx-border);
-            padding-bottom: 10px;
-        }
-
-        .tab-btn {
-            flex: 1;
-            padding: 6px 4px;
-            background: transparent;
-            border: none;
-            color: var(--nx-text-dim);
-            cursor: pointer;
-            font-weight: 600;
-            border-radius: 6px;
-            transition: all 0.2s;
-            font-size: 11px;
-        }
-
-        .tab-btn.active {
-            background: rgba(123,92,255,0.2);
-            color: #fff;
-        }
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        .tool-item {
-            padding: 12px;
-            background: rgba(26, 29, 53, 0.6);
-            border: 1px solid var(--nx-border);
-            border-radius: 8px;
-            margin-bottom: 8px;
-            cursor: grab;
-            transition: all 0.2s;
-            user-select: none;
-        }
-
-        .tool-item:hover {
-            border-color: var(--nx-primary);
-            transform: translateX(5px);
-        }
-
-        /* Workspace */
-        .workspace {
-            flex: 1;
-            background: rgba(11, 13, 23, 0.8);
-            padding: 40px;
-            overflow-y: auto;
-            position: relative;
-        }
-
-        .canvas-area {
-            min-height: 100vh;
-            background: var(--nx-bg);
-            border-radius: var(--r);
-            padding: 20px;
-            box-shadow: 0 0 30px rgba(0,0,0,0.5);
-            transition: min-height 0.3s;
-            position: relative;
-        }
-
-        /* Properties Panel */
-        .properties-panel {
-            width: 320px;
-            background: rgba(19, 21, 42, 0.95);
-            backdrop-filter: blur(15px);
-            border-left: 1px solid var(--nx-border);
-            padding: 20px;
-            overflow-y: auto;
-            z-index: 100;
-        }
-
-        .properties-panel h3 {
-            margin-bottom: 20px;
-            color: #fff;
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 18px;
-        }
-
-        .prop-group {
-            margin-bottom: 20px;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            padding-bottom: 15px;
-        }
-        
+        body { font-family: 'Outfit', sans-serif; color: var(--nx-text); background: var(--nx-bg); overflow: hidden; }
+        #starry-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
+        .editor-container { display: flex; height: 100vh; width: 100vw; }
+        .sidebar { width: 260px; background: rgba(19, 21, 42, 0.95); backdrop-filter: blur(15px); border-right: 1px solid var(--nx-border); display: flex; flex-direction: column; padding: 20px; overflow-y: auto; z-index: 100; }
+        .logo-area { display: flex; align-items: center; gap: 12px; margin-bottom: 25px; }
+        .user-avatar { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, var(--nx-primary), #9B7BFF); display: flex; align-items: center; justify-content: center; font-weight: 700; color: #fff; }
+        .gradient-text { background: linear-gradient(135deg, #a78bfa, var(--nx-primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .tabs-header { display: flex; gap: 3px; margin-bottom: 15px; border-bottom: 1px solid var(--nx-border); padding-bottom: 10px; }
+        .tab-btn { flex: 1; padding: 6px 4px; background: transparent; border: none; color: var(--nx-text-dim); cursor: pointer; font-weight: 600; border-radius: 6px; transition: all 0.2s; font-size: 11px; }
+        .tab-btn.active { background: rgba(123,92,255,0.2); color: #fff; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .tool-item { padding: 12px; background: rgba(26, 29, 53, 0.6); border: 1px solid var(--nx-border); border-radius: 8px; margin-bottom: 8px; cursor: grab; transition: all 0.2s; user-select: none; }
+        .tool-item:hover { border-color: var(--nx-primary); transform: translateX(5px); }
+        .workspace { flex: 1; background: rgba(11, 13, 23, 0.8); padding: 40px; overflow-y: auto; position: relative; }
+        .canvas-area { min-height: 100vh; background: var(--nx-bg); border-radius: var(--r); padding: 20px; box-shadow: 0 0 30px rgba(0,0,0,0.5); transition: min-height 0.3s; position: relative; }
+        .properties-panel { width: 320px; background: rgba(19, 21, 42, 0.95); backdrop-filter: blur(15px); border-left: 1px solid var(--nx-border); padding: 20px; overflow-y: auto; z-index: 100; }
+        .properties-panel h3 { margin-bottom: 20px; color: #fff; font-family: 'Cormorant Garamond', serif; font-size: 18px; }
+        .prop-group { margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 15px; }
         .prop-group:last-child { border-bottom: none; }
-
-        .prop-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-size: 12px;
-            color: var(--nx-text-dim);
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-
-        .input-field, .textarea-field, .select-field {
-            width: 100%;
-            background: rgba(26, 29, 53, 0.6);
-            border: 1px solid var(--nx-border);
-            border-radius: var(--r2);
-            color: var(--nx-text);
-            padding: 8px 10px;
-            font-family: 'Outfit', sans-serif;
-            font-size: 13px;
-            margin-bottom: 8px;
-        }
-
-        .input-field:focus, .textarea-field:focus, .select-field:focus {
-            outline: none;
-            border-color: var(--nx-primary);
-        }
-
-        .color-row {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-            margin-bottom: 8px;
-        }
-        .color-row input[type="color"] {
-            width: 40px;
-            height: 35px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            background: none;
-        }
-
-        /* Bouton Paramètres (Roulette) */
-        .settings-btn {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--nx-primary), #9B7BFF);
-            border: none;
-            color: #fff;
-            font-size: 20px;
-            cursor: pointer;
-            box-shadow: 0 4px 20px rgba(123,92,255,0.4);
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: transform 0.3s;
-        }
-
-        .settings-btn:hover {
-            transform: rotate(90deg) scale(1.1);
-        }
-
-        /* Modal */
-        .modal-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.8);
-            backdrop-filter: blur(5px);
-            z-index: 2000;
-            display: none;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal {
-            background: var(--nx-surface);
-            border: 1px solid var(--nx-border);
-            border-radius: 20px;
-            padding: 30px;
-            width: 90%;
-            max-width: 600px;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-
-        .modal h2 {
-            margin-bottom: 20px;
-            color: #fff;
-            font-family: 'Cormorant Garamond', serif;
-        }
-
-        .modal-content {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-
-        .btn-primary {
-            padding: 12px 24px;
-            background: linear-gradient(135deg, var(--nx-primary), #9B7BFF);
-            border: none;
-            border-radius: var(--r3);
-            color: #fff;
-            font-weight: 700;
-            cursor: pointer;
-            width: 100%;
-            margin-top: 10px;
-        }
-        
-        .btn-secondary {
-            padding: 8px 16px;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid var(--nx-border);
-            border-radius: 6px;
-            color: var(--nx-text);
-            font-weight: 600;
-            cursor: pointer;
-            font-size: 12px;
-        }
+        .prop-group label { display: block; margin-bottom: 8px; font-size: 12px; color: var(--nx-text-dim); font-weight: 600; text-transform: uppercase; }
+        .input-field, .textarea-field, .select-field { width: 100%; background: rgba(26, 29, 53, 0.6); border: 1px solid var(--nx-border); border-radius: var(--r2); color: var(--nx-text); padding: 8px 10px; font-family: 'Outfit', sans-serif; font-size: 13px; margin-bottom: 8px; }
+        .input-field:focus, .textarea-field:focus, .select-field:focus { outline: none; border-color: var(--nx-primary); }
+        .color-row { display: flex; gap: 10px; align-items: center; margin-bottom: 8px; }
+        .color-row input[type="color"] { width: 40px; height: 35px; border: none; border-radius: 4px; cursor: pointer; background: none; }
+        .settings-btn { position: fixed; bottom: 30px; right: 30px; width: 50px; height: 50px; border-radius: 50%; background: linear-gradient(135deg, var(--nx-primary), #9B7BFF); border: none; color: #fff; font-size: 20px; cursor: pointer; box-shadow: 0 4px 20px rgba(123,92,255,0.4); z-index: 1000; display: flex; align-items: center; justify-content: center; transition: transform 0.3s; }
+        .settings-btn:hover { transform: rotate(90deg) scale(1.1); }
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); z-index: 2000; display: none; align-items: center; justify-content: center; }
+        .modal { background: var(--nx-surface); border: 1px solid var(--nx-border); border-radius: 20px; padding: 30px; width: 90%; max-width: 600px; max-height: 90vh; overflow-y: auto; }
+        .modal h2 { margin-bottom: 20px; color: #fff; font-family: 'Cormorant Garamond', serif; }
+        .modal-content { display: flex; flex-direction: column; gap: 15px; margin-bottom: 25px; }
+        .btn-primary { padding: 12px 24px; background: linear-gradient(135deg, var(--nx-primary), #9B7BFF); border: none; border-radius: var(--r3); color: #fff; font-weight: 700; cursor: pointer; width: 100%; margin-top: 10px; }
+        .btn-secondary { padding: 8px 16px; background: rgba(255,255,255,0.05); border: 1px solid var(--nx-border); border-radius: 6px; color: var(--nx-text); font-weight: 600; cursor: pointer; font-size: 12px; }
         .btn-secondary:hover { background: rgba(255,255,255,0.1); }
-        
-        .btn-group {
-            display: flex;
-            gap: 5px;
-            margin-bottom: 8px;
-        }
+        .btn-group { display: flex; gap: 5px; margin-bottom: 8px; }
         .btn-group .btn-secondary { flex: 1; }
-
-        /* Éléments dans le canvas */
-        .canvas-element {
-            position: relative;
-            margin-bottom: 15px;
-            padding: 10px;
-            border: 1px dashed transparent;
-            transition: all 0.2s;
-            background: transparent;
-        }
-
-        .canvas-element:hover {
-            border-color: rgba(123,92,255,0.3);
-        }
-
-        .canvas-element.selected {
-            border-color: var(--nx-green);
-            box-shadow: 0 0 0 2px rgba(0,230,118,0.2);
-            background: rgba(0,230,118,0.02);
-        }
-
-        /* Contrôles de sélection (Supprimer, Monter, Descendre) */
-        .element-controls {
-            position: absolute;
-            top: -35px;
-            right: 0;
-            display: none;
-            gap: 5px;
-            background: var(--nx-surface);
-            padding: 4px;
-            border-radius: 6px;
-            border: 1px solid var(--nx-border);
-            z-index: 50;
-        }
-
-        .canvas-element.selected .element-controls {
-            display: flex;
-        }
-
-        .ctrl-btn {
-            width: 24px;
-            height: 24px;
-            border-radius: 4px;
-            background: rgba(255,255,255,0.1);
-            border: none;
-            color: #fff;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-        }
+        .canvas-element { position: relative; margin-bottom: 15px; padding: 10px; border: 1px dashed transparent; transition: all 0.2s; background: transparent; }
+        .canvas-element:hover { border-color: rgba(123,92,255,0.3); }
+        .canvas-element.selected { border-color: var(--nx-green); box-shadow: 0 0 0 2px rgba(0,230,118,0.2); background: rgba(0,230,118,0.02); }
+        .element-controls { position: absolute; top: -35px; right: 0; display: none; gap: 5px; background: var(--nx-surface); padding: 4px; border-radius: 6px; border: 1px solid var(--nx-border); z-index: 50; }
+        .canvas-element.selected .element-controls { display: flex; }
+        .ctrl-btn { width: 24px; height: 24px; border-radius: 4px; background: rgba(255,255,255,0.1); border: none; color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 12px; }
         .ctrl-btn:hover { background: var(--nx-primary); }
         .ctrl-btn.delete { background: rgba(255,75,110,0.2); color: #ff8fab; }
         .ctrl-btn.delete:hover { background: var(--red); }
+        .section-element, .row-element, .col-container { min-height: 80px; background: rgba(26, 29, 53, 0.2); border: 1px dashed var(--nx-border); border-radius: var(--r); padding: 15px; margin-bottom: 15px; transition: all 0.3s; }
+        .section-element.selected, .row-element.selected, .col-container.selected { background: rgba(26, 29, 53, 0.4); border-color: var(--nx-green); }
+        .columns-wrapper { display: flex; gap: 15px; width: 100%; }
+        .col-element { flex: 1; min-height: 100px; background: rgba(123,92,255,0.05); border: 1px dashed rgba(123,92,255,0.2); border-radius: var(--r); padding: 10px; }
+        .col-element.selected { border-color: var(--nx-green); border-style: dashed; }
+        .title-element, .text-element, .content-box { outline: none; min-height: 1em; }
+        .title-element:focus, .text-element:focus, .content-box:focus { background: rgba(255,255,255,0.02); }
+        .text-toolbar { position: absolute; background: var(--nx-surface); border: 1px solid var(--nx-border); border-radius: 8px; padding: 5px; display: none; gap: 5px; box-shadow: 0 5px 20px rgba(0,0,0,0.5); z-index: 200; transform: translateY(-100%); margin-top: -10px; }
+        .text-toolbar button { background: transparent; border: none; color: var(--nx-text); padding: 5px 8px; border-radius: 4px; cursor: pointer; font-size: 14px; }
+        .text-toolbar button:hover, .text-toolbar button.active { background: var(--nx-primary); color: #fff; }
 
-        /* Styles spécifiques aux éléments */
-        .section-element, .row-element, .col-container {
-            min-height: 80px;
-            background: rgba(26, 29, 53, 0.2);
-            border: 1px dashed var(--nx-border);
-            border-radius: var(--r);
-            padding: 15px;
-            margin-bottom: 15px;
-            transition: all 0.3s;
-        }
-        
-        .section-element.selected, .row-element.selected, .col-container.selected {
-            background: rgba(26, 29, 53, 0.4);
-            border-color: var(--nx-green);
-        }
-
-        .columns-wrapper {
-            display: flex;
-            gap: 15px;
-            width: 100%;
-        }
-        
-        .col-element {
-            flex: 1;
-            min-height: 100px;
-            background: rgba(123,92,255,0.05);
-            border: 1px dashed rgba(123,92,255,0.2);
-            border-radius: var(--r);
-            padding: 10px;
-        }
-        
-        .col-element.selected {
-            border-color: var(--nx-green);
-            border-style: dashed;
+        /* CORRECTION BOUTON : Passage en display:block pour un alignement parfait et un texte qui ne bouge plus */
+        .button-element { 
+            display: block; 
+            padding: 12px 24px; 
+            background: var(--nx-primary); 
+            color: #fff; 
+            border-radius: var(--r3); 
+            text-decoration: none; 
+            font-weight: 600; 
+            border: none; 
+            cursor: pointer; 
+            text-align: center; /* Garde le texte parfaitement centré en interne */
+            box-sizing: border-box;
         }
 
-        .title-element, .text-element, .content-box {
-            outline: none;
-            min-height: 1em;
-        }
-        
-        .title-element:focus, .text-element:focus, .content-box:focus {
-            background: rgba(255,255,255,0.02);
-        }
-
-        /* Barre d'outils texte flottante */
-        .text-toolbar {
-            position: absolute;
-            background: var(--nx-surface);
-            border: 1px solid var(--nx-border);
-            border-radius: 8px;
-            padding: 5px;
-            display: none;
-            gap: 5px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.5);
-            z-index: 200;
-            transform: translateY(-100%);
-            margin-top: -10px;
-        }
-        .text-toolbar button {
-            background: transparent;
-            border: none;
-            color: var(--nx-text);
-            padding: 5px 8px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 14px;
-        }
-        .text-toolbar button:hover, .text-toolbar button.active {
-            background: var(--nx-primary);
-            color: #fff;
-        }
-
-        .button-element {
-            display: inline-block;
-            padding: 12px 24px;
-            background: var(--nx-primary);
-            color: #fff;
-            border-radius: var(--r3);
-            text-decoration: none;
-            font-weight: 600;
-            border: none;
-            cursor: pointer;
-        }
-
-        .image-element img, .video-element video, .video-element iframe {
-            max-width: 100%;
-            border-radius: var(--r);
-            display: block;
-        }
-        
-        /* CORRECTION VIDEO : Empêche l'iframe de voler les clics */
-        .video-element iframe { 
-            pointer-events: none; 
-        }
-
-        .audio-element audio {
-            width: 100%;
-        }
-
-        .faq-item {
-            margin-bottom: 10px;
-            border: 1px solid var(--nx-border);
-            border-radius: var(--r);
-            overflow: hidden;
-        }
-
-        .faq-question {
-            padding: 15px;
-            background: rgba(26, 29, 53, 0.6);
-            cursor: pointer;
-            font-weight: 600;
-        }
-
-        .faq-answer {
-            padding: 15px;
-            background: rgba(11, 13, 23, 0.6);
-            display: none;
-        }
-        
+        .image-element img, .video-element video, .video-element iframe { max-width: 100%; border-radius: var(--r); display: block; }
+        .video-element iframe { pointer-events: none; }
+        .audio-element audio { width: 100%; }
+        .faq-item { margin-bottom: 10px; border: 1px solid var(--nx-border); border-radius: var(--r); overflow: hidden; }
+        .faq-question { padding: 15px; background: rgba(26, 29, 53, 0.6); cursor: pointer; font-weight: 600; }
+        .faq-answer { padding: 15px; background: rgba(11, 13, 23, 0.6); display: none; }
         .faq-answer.open { display: block; }
-
-        .countdown-element {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .countdown-block {
-            background: rgba(26, 29, 53, 0.6);
-            padding: 15px;
-            border-radius: var(--r);
-            text-align: center;
-            min-width: 80px;
-        }
-
-        .countdown-number {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--nx-primary);
-        }
-
-        .countdown-label {
-            font-size: 0.8rem;
-            color: var(--nx-text-dim);
-        }
-
-        /* Effets d'ombre */
+        .countdown-element { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; }
+        .countdown-block { background: rgba(26, 29, 53, 0.6); padding: 15px; border-radius: var(--r); text-align: center; min-width: 80px; }
+        .countdown-number { font-size: 1.5rem; font-weight: 700; color: var(--nx-primary); }
+        .countdown-label { font-size: 0.8rem; color: var(--nx-text-dim); }
         .shadow-none { box-shadow: none !important; }
         .shadow-soft { box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important; }
         .shadow-medium { box-shadow: 0 8px 25px rgba(0,0,0,0.2) !important; }
@@ -526,84 +111,31 @@
         .shadow-inner-soft { box-shadow: inset 0 2px 10px rgba(0,0,0,0.1) !important; }
         .shadow-inner-medium { box-shadow: inset 0 4px 15px rgba(0,0,0,0.2) !important; }
         .shadow-inner-intense { box-shadow: inset 0 6px 20px rgba(0,0,0,0.3) !important; }
-        .shadow-float { 
-            box-shadow: 0 10px 30px rgba(123,92,255,0.3) !important;
-            animation: float 3s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-        
-        /* Menu Styles */
-        .menu-element nav ul {
-            list-style: none;
-            display: flex;
-            gap: 20px;
-            padding: 0;
-            margin: 0;
-        }
-        .menu-element nav ul li {
-            position: relative;
-        }
-        .menu-element nav ul li a {
-            text-decoration: none;
-            color: var(--nx-text);
-            font-weight: 500;
-            transition: color 0.2s;
-            outline: none;
-        }
-        .menu-element nav ul li a:hover {
-            color: var(--nx-primary);
-        }
-        .menu-element nav ul li ul {
-            display: none;
-            position: absolute;
-            top: 100%;
-            left: 0;
-            background: var(--nx-surface);
-            flex-direction: column;
-            gap: 10px;
-            padding: 10px;
-            border-radius: var(--r);
-            border: 1px solid var(--nx-border);
-            min-width: 150px;
-        }
-        .menu-element nav ul li:hover ul {
-            display: flex;
-        }
-
-        /* Responsive */
-        @media (max-width: 1024px) {
-            .editor-container { flex-direction: column; }
-            .sidebar, .properties-panel { width: 100%; height: auto; max-height: 300px; }
-            .workspace { padding: 20px; }
-        }
+        .shadow-float { box-shadow: 0 10px 30px rgba(123,92,255,0.3) !important; animation: float 3s ease-in-out infinite; }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        .menu-element nav ul { list-style: none; display: flex; gap: 20px; padding: 0; margin: 0; }
+        .menu-element nav ul li { position: relative; }
+        .menu-element nav ul li a { text-decoration: none; color: var(--nx-text); font-weight: 500; transition: color 0.2s; outline: none; }
+        .menu-element nav ul li a:hover { color: var(--nx-primary); }
+        .menu-element nav ul li ul { display: none; position: absolute; top: 100%; left: 0; background: var(--nx-surface); flex-direction: column; gap: 10px; padding: 10px; border-radius: var(--r); border: 1px solid var(--nx-border); min-width: 150px; }
+        .menu-element nav ul li:hover ul { display: flex; }
+        @media (max-width: 1024px) { .editor-container { flex-direction: column; } .sidebar, .properties-panel { width: 100%; height: auto; max-height: 300px; } .workspace { padding: 20px; } }
     </style>
 </head>
 <body>
-    <!-- Background animé -->
     <canvas id="starry-canvas"></canvas>
-
-    <!-- Interface Éditeur -->
     <div class="editor-container">
-        <!-- Sidebar Outils -->
         <aside class="sidebar">
             <div class="logo-area">
                 <div class="user-avatar">N</div>
                 <span class="gradient-text" style="font-weight:700; font-size:18px;">Nyxia Editor</span>
             </div>
-
-            <!-- Onglets -->
             <div class="tabs-header">
                 <button class="tab-btn active" data-tab="structure">Structure</button>
                 <button class="tab-btn" data-tab="contenu">Contenu</button>
                 <button class="tab-btn" data-tab="forms">Forms</button>
                 <button class="tab-btn" data-tab="avance">Avancé</button>
             </div>
-
-            <!-- Panneau Structure -->
             <div class="tab-content active" id="structure">
                 <div class="tool-item" draggable="true" data-type="section">Section</div>
                 <div class="tool-item" draggable="true" data-type="row">Rangée</div>
@@ -611,8 +143,6 @@
                 <div class="tool-item" draggable="true" data-type="col3">3 Colonnes</div>
                 <div class="tool-item" draggable="true" data-type="col4">4 Colonnes</div>
             </div>
-
-            <!-- Panneau Contenu -->
             <div class="tab-content" id="contenu">
                 <div class="tool-item" draggable="true" data-type="title">Titre</div>
                 <div class="tool-item" draggable="true" data-type="text">Texte</div>
@@ -623,16 +153,12 @@
                 <div class="tool-item" draggable="true" data-type="audio">Audio</div>
                 <div class="tool-item" draggable="true" data-type="button">Bouton</div>
             </div>
-
-            <!-- Panneau Forms -->
             <div class="tab-content" id="forms">
                 <div class="tool-item" draggable="true" data-type="form-field">Champ texte</div>
                 <div class="tool-item" draggable="true" data-type="checkbox">Case à cocher</div>
                 <div class="tool-item" draggable="true" data-type="calendar">Calendrier</div>
-                <div class="tool-item" draggable="true" data-type="submit">Bouton Submit</div>
+                <div class="tool-item" draggable="true" data-type="submit">Bouton Envoie</div>
             </div>
-
-            <!-- Panneau Avancé -->
             <div class="tab-content" id="avance">
                 <div class="tool-item" draggable="true" data-type="countdown">Compte à rebours</div>
                 <div class="tool-item" draggable="true" data-type="menu">Menu</div>
@@ -641,24 +167,14 @@
                 <div class="tool-item" draggable="true" data-type="faq">FAQ</div>
             </div>
         </aside>
-
-        <!-- Zone de travail -->
         <main class="workspace" id="workspace">
-            <div class="canvas-area" id="canvas">
-                <!-- Éléments déposés ici -->
-            </div>
+            <div class="canvas-area" id="canvas"></div>
         </main>
-
-        <!-- Panneau de propriétés (Droite) -->
         <aside class="properties-panel" id="properties">
             <h3>Propriétés</h3>
-            <div id="prop-content">
-                <p>Sélectionnez un élément pour modifier ses propriétés.</p>
-            </div>
+            <div id="prop-content"><p>Sélectionnez un élément pour modifier ses propriétés.</p></div>
         </aside>
     </div>
-
-    <!-- Barre d'outils texte (Flottante) -->
     <div class="text-toolbar" id="text-toolbar">
         <button onclick="formatDoc('bold')" title="Gras"><i class="fas fa-bold"></i></button>
         <button onclick="formatDoc('italic')" title="Italique"><i class="fas fa-italic"></i></button>
@@ -668,148 +184,54 @@
         <button onclick="formatDoc('hiliteColor', '#FFFF00')" title="Surligner"><i class="fas fa-highlighter"></i></button>
         <input type="color" onchange="formatDoc('foreColor', this.value)" title="Couleur du texte" style="width:20px; height:20px; border:none; background:none; cursor:pointer;">
     </div>
-
-    <!-- Bouton Paramètres (Roulette) -->
-    <button class="settings-btn" id="settings-btn">
-        <i class="fas fa-cog"></i>
-    </button>
-
-    <!-- Modal Paramètres Globaux & SEO -->
+    <button class="settings-btn" id="settings-btn"><i class="fas fa-cog"></i></button>
     <div class="modal-overlay" id="settings-modal">
         <div class="modal">
             <h2>Paramètres Globaux & SEO</h2>
             <div class="modal-content">
-                <label>Couleur de fond globale</label>
-                <input type="color" id="global-bg-color" value="#0B0D17">
-                
-                <label>Image de fond globale</label>
-                <input type="file" id="global-bg-image" accept="image/*" class="input-field">
-                <button class="btn-secondary" onclick="clearGlobalBgImage()">Retirer l'image</button>
-
-                <label>Langue du site</label>
-                <select id="site-lang">
-                    <option value="fr">Français</option>
-                    <option value="en">English</option>
-                    <option value="es">Español</option>
-                </select>
-
-                <label>Titre SEO</label>
-                <input type="text" id="seo-title" class="input-field">
-                
-                <label>Description SEO</label>
-                <textarea id="seo-desc" class="textarea-field"></textarea>
-                
-                <label>Mots-clés</label>
-                <input type="text" id="seo-keywords" class="input-field">
-                
-                <label>Auteur</label>
-                <input type="text" id="seo-author" class="input-field">
-                
-                <label>Image réseaux sociaux</label>
-                <input type="file" id="seo-image" class="input-field">
-                
+                <label>Couleur de fond globale</label><input type="color" id="global-bg-color" value="#0B0D17">
+                <label>Image de fond globale</label><input type="file" id="global-bg-image" accept="image/*" class="input-field"><button class="btn-secondary" onclick="clearGlobalBgImage()">Retirer l'image</button>
+                <label>Langue du site</label><select id="site-lang"><option value="fr">Français</option><option value="en">English</option><option value="es">Español</option></select>
+                <label>Titre SEO</label><input type="text" id="seo-title" class="input-field">
+                <label>Description SEO</label><textarea id="seo-desc" class="textarea-field"></textarea>
+                <label>Mots-clés</label><input type="text" id="seo-keywords" class="input-field">
+                <label>Auteur</label><input type="text" id="seo-author" class="input-field">
+                <label>Image réseaux sociaux</label><input type="file" id="seo-image" class="input-field">
                 <label><input type="checkbox" id="seo-hide"> Masquer aux moteurs de recherche</label>
-                
-                <label>Code d'en-tête (Header)</label>
-                <textarea id="header-code" class="textarea-field"></textarea>
-                
-                <label>Code de pied de page (Footer)</label>
-                <textarea id="footer-code" class="textarea-field"></textarea>
+                <label>Code d'en-tête (Header)</label><textarea id="header-code" class="textarea-field"></textarea>
+                <label>Code de pied de page (Footer)</label><textarea id="footer-code" class="textarea-field"></textarea>
             </div>
             <button class="btn-primary" onclick="document.getElementById('settings-modal').style.display='none'">Fermer</button>
         </div>
     </div>
 
     <script>
-        // ================================================================
-        // NYXIA EDITOR V24 - LOGIQUE COMPLÈTE ET STABLE
-        // ================================================================
-
         let selectedElement = null;
-        let currentEditingFAQ = null;
-
         document.addEventListener('DOMContentLoaded', () => {
-            initTabs();
-            initDragAndDrop();
-            initSettings();
-            initStarfield();
-            
+            initTabs(); initDragAndDrop(); initSettings(); initStarfield();
             document.addEventListener('click', (e) => {
                 const toolbar = document.getElementById('text-toolbar');
-                if (!e.target.closest('.title-element') && !e.target.closest('.text-element') && !e.target.closest('.content-box') && !e.target.closest('.faq-question') && !e.target.closest('.faq-answer') && !e.target.closest('.text-toolbar')) {
-                    toolbar.style.display = 'none';
-                }
-                
-                if (!e.target.closest('.canvas-element') && !e.target.closest('.properties-panel') && !e.target.closest('.sidebar') && !e.target.closest('.element-controls') && !e.target.closest('.text-toolbar')) {
-                    deselectAll();
-                }
+                if (!e.target.closest('.title-element') && !e.target.closest('.text-element') && !e.target.closest('.content-box') && !e.target.closest('.faq-question') && !e.target.closest('.faq-answer') && !e.target.closest('.text-toolbar')) toolbar.style.display = 'none';
+                if (!e.target.closest('.canvas-element') && !e.target.closest('.properties-panel') && !e.target.closest('.sidebar') && !e.target.closest('.element-controls') && !e.target.closest('.text-toolbar')) deselectAll();
             });
         });
 
         function initTabs() {
             const tabs = document.querySelectorAll('.tab-btn');
             const contents = document.querySelectorAll('.tab-content');
-            tabs.forEach(tab => {
-                tab.addEventListener('click', () => {
-                    tabs.forEach(t => t.classList.remove('active'));
-                    contents.forEach(c => c.classList.remove('active'));
-                    tab.classList.add('active');
-                    document.getElementById(tab.dataset.tab).classList.add('active');
-                });
-            });
+            tabs.forEach(tab => { tab.addEventListener('click', () => { tabs.forEach(t => t.classList.remove('active')); contents.forEach(c => c.classList.remove('active')); tab.classList.add('active'); document.getElementById(tab.dataset.tab).classList.add('active'); }); });
         }
 
         function initDragAndDrop() {
             const tools = document.querySelectorAll('.tool-item');
             const canvas = document.getElementById('canvas');
-
-            tools.forEach(tool => {
-                tool.addEventListener('dragstart', (e) => {
-                    e.dataTransfer.setData('type', tool.dataset.type);
-                });
-            });
-
-            canvas.addEventListener('dragover', (e) => {
-                e.preventDefault();
-                canvas.style.borderColor = 'var(--nx-primary)';
-            });
-
-            canvas.addEventListener('dragleave', () => {
-                canvas.style.borderColor = 'transparent';
-            });
-
-            canvas.addEventListener('drop', (e) => {
-                e.preventDefault();
-                canvas.style.borderColor = 'transparent';
-                const type = e.dataTransfer.getData('type');
-                createElement(type, canvas);
-            });
-
-            document.addEventListener('dragover', (e) => {
-                const target = e.target.closest('.section-element, .row-element, .col-element');
-                if (target) {
-                    e.preventDefault();
-                    target.style.borderColor = 'var(--nx-green)';
-                }
-            });
-
-            document.addEventListener('dragleave', (e) => {
-                const target = e.target.closest('.section-element, .row-element, .col-element');
-                if (target) {
-                    target.style.borderColor = 'var(--nx-border)';
-                }
-            });
-
-            document.addEventListener('drop', (e) => {
-                const target = e.target.closest('.section-element, .row-element, .col-element');
-                if (target) {
-                    e.preventDefault();
-                    e.stopPropagation(); // Empêche le dédoublement
-                    target.style.borderColor = 'var(--nx-border)';
-                    const type = e.dataTransfer.getData('type');
-                    createElement(type, target);
-                }
-            });
+            tools.forEach(tool => { tool.addEventListener('dragstart', (e) => { e.dataTransfer.setData('type', tool.dataset.type); }); });
+            canvas.addEventListener('dragover', (e) => { e.preventDefault(); canvas.style.borderColor = 'var(--nx-primary)'; });
+            canvas.addEventListener('dragleave', () => { canvas.style.borderColor = 'transparent'; });
+            canvas.addEventListener('drop', (e) => { e.preventDefault(); canvas.style.borderColor = 'transparent'; createElement(e.dataTransfer.getData('type'), canvas); });
+            document.addEventListener('dragover', (e) => { const target = e.target.closest('.section-element, .row-element, .col-element'); if (target) { e.preventDefault(); target.style.borderColor = 'var(--nx-green)'; } });
+            document.addEventListener('dragleave', (e) => { const target = e.target.closest('.section-element, .row-element, .col-element'); if (target) target.style.borderColor = 'var(--nx-border)'; });
+            document.addEventListener('drop', (e) => { const target = e.target.closest('.section-element, .row-element, .col-element'); if (target) { e.preventDefault(); e.stopPropagation(); target.style.borderColor = 'var(--nx-border)'; createElement(e.dataTransfer.getData('type'), target); } });
         }
 
         function createElement(type, container) {
@@ -817,933 +239,272 @@
             el.classList.add('canvas-element');
             el.dataset.type = type;
             el.id = 'el-' + Date.now() + Math.random().toString(16).slice(2);
-
             const controls = document.createElement('div');
             controls.classList.add('element-controls');
-            controls.innerHTML = `
-                <button class="ctrl-btn" onclick="moveElement('${el.id}', -1)" title="Monter"><i class="fas fa-arrow-up"></i></button>
-                <button class="ctrl-btn" onclick="moveElement('${el.id}', 1)" title="Descendre"><i class="fas fa-arrow-down"></i></button>
-                <button class="ctrl-btn delete" onclick="deleteElement('${el.id}')" title="Supprimer"><i class="fas fa-trash"></i></button>
-            `;
+            controls.innerHTML = `<button class="ctrl-btn" onclick="moveElement('${el.id}', -1)" title="Monter"><i class="fas fa-arrow-up"></i></button><button class="ctrl-btn" onclick="moveElement('${el.id}', 1)" title="Descendre"><i class="fas fa-arrow-down"></i></button><button class="ctrl-btn delete" onclick="deleteElement('${el.id}')" title="Supprimer"><i class="fas fa-trash"></i></button>`;
             el.appendChild(controls);
 
             switch(type) {
-                case 'section':
-                    el.classList.add('section-element');
-                    break;
-                case 'row':
-                    el.classList.add('row-element');
-                    break;
-                case 'col2':
-                case 'col3':
-                case 'col4':
+                case 'section': el.classList.add('section-element'); break;
+                case 'row': el.classList.add('row-element'); break;
+                case 'col2': case 'col3': case 'col4':
                     el.classList.add('col-container');
                     const cols = type === 'col2' ? 2 : type === 'col3' ? 3 : 4;
-                    let wrapper = document.createElement('div');
-                    wrapper.className = 'columns-wrapper';
+                    let wrapper = document.createElement('div'); wrapper.className = 'columns-wrapper';
                     for(let i=0; i<cols; i++) {
                         let colDiv = document.createElement('div');
                         colDiv.className = 'col-element canvas-element';
                         colDiv.dataset.type = 'single-col';
                         colDiv.id = 'el-' + Date.now() + Math.random().toString(16).slice(2) + '-c' + i;
-                        
-                        colDiv.addEventListener('click', (e) => {
-                            e.stopPropagation();
-                            selectElement(colDiv);
-                        });
-                        
+                        colDiv.addEventListener('click', (e) => { e.stopPropagation(); selectElement(colDiv); });
                         colDiv.addEventListener('dragover', (e) => { e.preventDefault(); colDiv.style.borderColor = 'var(--nx-green)'; });
                         colDiv.addEventListener('dragleave', () => { colDiv.style.borderColor = 'var(--nx-border)'; });
-                        colDiv.addEventListener('drop', (e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            colDiv.style.borderColor = 'var(--nx-border)';
-                            const type = e.dataTransfer.getData('type');
-                            createElement(type, colDiv);
-                        });
-                        
+                        colDiv.addEventListener('drop', (e) => { e.preventDefault(); e.stopPropagation(); colDiv.style.borderColor = 'var(--nx-border)'; createElement(e.dataTransfer.getData('type'), colDiv); });
                         wrapper.appendChild(colDiv);
                     }
-                    el.appendChild(wrapper);
-                    break;
-                case 'title':
-                    el.classList.add('title-element');
-                    el.contentEditable = true;
-                    el.innerText = 'Titre modifiable';
-                    setupTextToolbar(el);
-                    break;
-                case 'text':
-                    el.classList.add('text-element');
-                    el.contentEditable = true;
-                    el.innerText = 'Texte modifiable. Sélectionnez pour éditer.';
-                    setupTextToolbar(el);
-                    break;
-                case 'list':
-                    el.innerHTML = `
-                        <ul class="list-element" style="padding-left:20px; list-style-type: disc;">
-                            <li>Élément 1</li>
-                            <li>Élément 2</li>
-                            <li>Élément 3</li>
-                        </ul>
-                    `;
-                    const ul = el.querySelector('ul');
-                    ul.contentEditable = true;
-                    break;
-                case 'content-box':
-                    el.classList.add('content-box');
-                    el.style.padding = '20px';
-                    el.style.background = 'rgba(26,29,53,0.6)';
-                    el.style.borderRadius = 'var(--r)';
-                    el.innerText = 'Boîte de contenu modifiable';
-                    el.contentEditable = true;
-                    setupTextToolbar(el);
-                    break;
-                case 'image':
-                    el.classList.add('image-element');
-                    el.innerHTML = `<img src="https://via.placeholder.com/400x200" alt="Image" style="width:100%;">`;
-                    break;
-                case 'video':
-                    el.classList.add('video-element');
-                    el.innerHTML = `<iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen style="width:100%; height:315px;"></iframe>`;
-                    break;
-                case 'audio':
-                    el.classList.add('audio-element');
-                    el.innerHTML = `<audio controls style="width:100%;"><source src="" type="audio/mpeg"></audio>`;
-                    break;
-                case 'button':
-                    el.classList.add('button-element');
-                    el.innerText = 'Bouton';
-                    break;
-                case 'form-field':
-                    el.innerHTML = `
-                        <label style="display:block; margin-bottom:5px;">Label du champ</label>
-                        <input type="text" class="input-field" placeholder="Votre texte">
-                    `;
-                    break;
-                case 'checkbox':
-                    el.innerHTML = `
-                        <label style="display:flex; align-items:center; gap:10px;">
-                            <input type="checkbox">
-                            <span>Texte de la case à cocher</span>
-                        </label>
-                    `;
-                    break;
-                case 'calendar':
-                    el.innerHTML = `<input type="date" class="input-field" style="width:100%;">`;
-                    break;
-                case 'submit':
-                    el.innerHTML = `<button class="btn-primary" style="width:100%;">Envoie</button>`;
-                    break;
-                case 'countdown':
-                    el.classList.add('countdown-element');
-                    el.innerHTML = `
-                        <div class="countdown-block"><div class="countdown-number">00</div><div class="countdown-label">Jours</div></div>
-                        <div class="countdown-block"><div class="countdown-number">00</div><div class="countdown-label">Heures</div></div>
-                        <div class="countdown-block"><div class="countdown-number">00</div><div class="countdown-label">Minutes</div></div>
-                        <div class="countdown-block"><div class="countdown-number">00</div><div class="countdown-label">Secondes</div></div>
-                    `;
-                    break;
-                case 'menu':
-                    el.classList.add('menu-element');
-                    el.innerHTML = `
-                        <nav>
-                            <ul>
-                                <li><a href="#" contenteditable="true">Accueil</a></li>
-                                <li><a href="#" contenteditable="true">Services</a></li>
-                                <li><a href="#" contenteditable="true">Contact</a></li>
-                            </ul>
-                        </nav>
-                    `;
-                    break;
-                case 'hr':
-                    el.innerHTML = `<hr style="border:0; border-top:1px solid var(--nx-border); margin:20px 0;">`;
-                    break;
-                case 'html-code':
-                    el.classList.add('html-code-render');
-                    break;
-                case 'faq':
-                    el.classList.add('faq-container');
-                    el.innerHTML = `
-                        <div class="faq-item">
-                            <div class="faq-question" contenteditable="true">Question 1</div>
-                            <div class="faq-answer" contenteditable="true">Réponse 1</div>
-                        </div>
-                    `;
-                    el.addEventListener('click', (e) => {
-                        if(e.target.classList.contains('faq-question')) {
-                            const answer = e.target.nextElementSibling;
-                            answer.classList.toggle('open');
-                        }
-                    });
-                    break;
+                    el.appendChild(wrapper); break;
+                case 'title': el.classList.add('title-element'); el.contentEditable = true; el.innerText = 'Titre modifiable'; setupTextToolbar(el); break;
+                case 'text': el.classList.add('text-element'); el.contentEditable = true; el.innerText = 'Texte modifiable. Sélectionnez pour éditer.'; setupTextToolbar(el); break;
+                case 'list': el.innerHTML = `<ul class="list-element" style="padding-left:20px; list-style-type: disc;"><li>Élément 1</li><li>Élément 2</li><li>Élément 3</li></ul>`; el.querySelector('ul').contentEditable = true; break;
+                case 'content-box': el.classList.add('content-box'); el.style.padding = '20px'; el.style.background = 'rgba(26,29,53,0.6)'; el.style.borderRadius = 'var(--r)'; el.innerText = 'Boîte de contenu modifiable'; el.contentEditable = true; setupTextToolbar(el); break;
+                case 'image': el.classList.add('image-element'); el.innerHTML = `<img src="https://via.placeholder.com/400x200" alt="Image" style="width:100%;">`; break;
+                case 'video': el.classList.add('video-element'); el.innerHTML = `<iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen style="width:100%; height:315px;"></iframe>`; break;
+                case 'audio': el.classList.add('audio-element'); el.innerHTML = `<audio controls style="width:100%;"><source src="" type="audio/mpeg"></audio>`; break;
+                case 'button': el.innerHTML = `<button class="button-element" id="btn-${el.id}">Bouton</button>`; break;
+                case 'form-field': el.innerHTML = `<label style="display:block; margin-bottom:5px;">Label du champ</label><input type="text" class="input-field" placeholder="Votre texte">`; break;
+                case 'checkbox': el.innerHTML = `<label style="display:flex; align-items:center; gap:10px;"><input type="checkbox"><span>Texte de la case à cocher</span></label>`; break;
+                case 'calendar': el.innerHTML = `<input type="date" class="input-field" style="width:100%;">`; break;
+                case 'submit': el.innerHTML = `<button class="btn-primary button-element" style="width:100%;" id="btn-${el.id}">Envoie</button>`; break;
+                case 'countdown': el.classList.add('countdown-element'); el.innerHTML = `<div class="countdown-block"><div class="countdown-number">00</div><div class="countdown-label">Jours</div></div><div class="countdown-block"><div class="countdown-number">00</div><div class="countdown-label">Heures</div></div><div class="countdown-block"><div class="countdown-number">00</div><div class="countdown-label">Minutes</div></div><div class="countdown-block"><div class="countdown-number">00</div><div class="countdown-label">Secondes</div></div>`; break;
+                case 'menu': el.classList.add('menu-element'); el.innerHTML = `<nav><ul><li><a href="#" contenteditable="true">Accueil</a></li><li><a href="#" contenteditable="true">Services</a></li><li><a href="#" contenteditable="true">Contact</a></li></ul></nav>`; break;
+                case 'hr': el.innerHTML = `<hr style="border:0; border-top:1px solid var(--nx-border); margin:20px 0;">`; break;
+                case 'html-code': el.classList.add('html-code-render'); break;
+                case 'faq': el.classList.add('faq-container'); el.innerHTML = `<div class="faq-item"><div class="faq-question" contenteditable="true">Question 1</div><div class="faq-answer" contenteditable="true">Réponse 1</div></div>`; el.addEventListener('click', (e) => { if(e.target.classList.contains('faq-question')) e.target.nextElementSibling.classList.toggle('open'); }); break;
             }
-
-            if (!['col2', 'col3', 'col4'].includes(type)) {
-                 if(el.firstChild !== controls) {
-                     el.insertBefore(controls, el.firstChild);
-                 }
-            }
-
-            if (container.classList.contains('col-element')) {
-                container.appendChild(el);
-            } else if (container.classList.contains('columns-wrapper')) {
-                container.appendChild(el);
-            } else {
-                container.appendChild(el);
-            }
-
-            el.addEventListener('click', (e) => {
-                e.stopPropagation();
-                selectElement(el);
-            });
-
-            selectElement(el);
-            adjustCanvasHeight();
+            if (!['col2', 'col3', 'col4'].includes(type)) { if(el.firstChild !== controls) el.insertBefore(controls, el.firstChild); }
+            if (container.classList.contains('col-element')) container.appendChild(el);
+            else if (container.classList.contains('columns-wrapper')) container.appendChild(el);
+            else container.appendChild(el);
+            el.addEventListener('click', (e) => { e.stopPropagation(); selectElement(el); });
+            selectElement(el); adjustCanvasHeight();
         }
 
-        function setupTextToolbar(el) {
-            el.addEventListener('mouseup', showTextToolbar);
-            el.addEventListener('keyup', showTextToolbar);
-        }
-
-        function showTextToolbar() {
-            const selection = window.getSelection();
-            if (selection.rangeCount > 0 && !selection.isCollapsed) {
-                const range = selection.getRangeAt(0);
-                const rect = range.getBoundingClientRect();
-                const toolbar = document.getElementById('text-toolbar');
-                
-                toolbar.style.display = 'flex';
-                toolbar.style.top = (rect.top + window.scrollY - 40) + 'px';
-                toolbar.style.left = (rect.left + window.scrollX + (rect.width / 2) - 100) + 'px';
-            }
-        }
-
-        function formatDoc(cmd, value = null) {
-            document.execCommand(cmd, false, value);
-            const sel = window.getSelection();
-            if (sel.rangeCount > 0) {
-                const range = sel.getRangeAt(0);
-                range.collapse(false);
-            }
-        }
-
-        // CORRECTION 1 : L'URL sur un mot sélectionné
-        function addLink() {
-            const sel = window.getSelection();
-            if (sel.rangeCount > 0 && !sel.isCollapsed) {
-                const range = sel.getRangeAt(0);
-                const startNode = range.startContainer;
-                const editableEl = startNode.nodeType === 3 ? startNode.parentElement : startNode;
-                
-                const url = prompt('Entrez l\'URL du lien :');
-                if (url) {
-                    editableEl.focus(); // Force le retour du focus sur le texte
-                    sel.removeAllRanges();
-                    sel.addRange(range); // Remet la sélection exacte
-                    document.execCommand('createLink', false, url);
-                }
-            }
-        }
-
-        function selectElement(el) {
-            deselectAll();
-            selectedElement = el;
-            el.classList.add('selected');
-            updatePropertiesPanel(el);
-        }
-
-        function deselectAll() {
-            document.querySelectorAll('.canvas-element').forEach(e => e.classList.remove('selected'));
-            selectedElement = null;
-            document.getElementById('prop-content').innerHTML = '<p>Sélectionnez un élément.</p>';
-        }
-
-        function deleteElement(id) {
-            const el = document.getElementById(id);
-            if (el) {
-                el.remove();
-                deselectAll();
-                adjustCanvasHeight();
-            }
-        }
-
-        function moveElement(id, direction) {
-            const el = document.getElementById(id);
-            if (!el) return;
-            const parent = el.parentElement;
-            if (direction === -1 && el.previousElementSibling) {
-                if (!el.previousElementSibling.classList.contains('element-controls')) {
-                     parent.insertBefore(el, el.previousElementSibling);
-                } else if (el.previousElementSibling.previousElementSibling) {
-                     parent.insertBefore(el, el.previousElementSibling.previousElementSibling);
-                }
-            } else if (direction === 1 && el.nextElementSibling) {
-                parent.insertBefore(el.nextElementSibling, el);
-            }
-            adjustCanvasHeight();
-        }
-
-        // FONCTION MAGIQUE : Gère l'alignement pour TOUT (même les flexbox comme les cases à cocher)
+        function setupTextToolbar(el) { el.addEventListener('mouseup', showTextToolbar); el.addEventListener('keyup', showTextToolbar); }
+        function showTextToolbar() { const selection = window.getSelection(); if (selection.rangeCount > 0 && !selection.isCollapsed) { const range = selection.getRangeAt(0); const rect = range.getBoundingClientRect(); const toolbar = document.getElementById('text-toolbar'); toolbar.style.display = 'flex'; toolbar.style.top = (rect.top + window.scrollY - 40) + 'px'; toolbar.style.left = (rect.left + window.scrollX + (rect.width / 2) - 100) + 'px'; } }
+        function formatDoc(cmd, value = null) { document.execCommand(cmd, false, value); }
+        function addLink() { const sel = window.getSelection(); if (sel.rangeCount > 0 && !sel.isCollapsed) { const range = sel.getRangeAt(0); const startNode = range.startContainer; const editableEl = startNode.nodeType === 3 ? startNode.parentElement : startNode; const url = prompt('Entrez l\'URL du lien :'); if (url) { editableEl.focus(); sel.removeAllRanges(); sel.addRange(range); document.execCommand('createLink', false, url); } } }
+        
         function alignElement(id, align) {
             const el = document.getElementById(id);
             if(!el) return;
             el.style.textAlign = align;
-            
-            const flexChildren = el.querySelectorAll(':scope > label[style*="display:flex"], :scope > div[style*="display:flex"]');
-            flexChildren.forEach(child => {
-                if(align === 'center') child.style.margin = '0 auto';
-                else if(align === 'right') child.style.margin = '0 0 0 auto';
-                else child.style.margin = '0';
-            });
-            
-            const inputs = el.querySelectorAll(':scope > input[type="date"], :scope > input[type="text"]');
-            inputs.forEach(inp => {
-                if(inp.style.width !== '100%') {
-                     if(align === 'center') inp.style.margin = '0 auto';
-                     else if(align === 'right') inp.style.margin = '0 0 0 auto';
-                     else inp.style.margin = '0';
+            Array.from(el.children).forEach(child => {
+                if(child.classList.contains('element-controls')) return;
+                child.style.marginLeft = '0';
+                child.style.marginRight = '0';
+                child.style.justifyContent = 'flex-start';
+                const style = window.getComputedStyle(child);
+                if (style.display === 'flex' || style.display === 'inline-flex') {
+                    child.style.justifyContent = align === 'right' ? 'flex-end' : align === 'center' ? 'center' : 'flex-start';
+                } else {
+                    if(align === 'center') { child.style.marginLeft = 'auto'; child.style.marginRight = 'auto'; }
+                    else if(align === 'right') { child.style.marginLeft = 'auto'; child.style.marginRight = '0'; }
                 }
             });
         }
+
+        // NOUVELLE FONCTION UNIQUE POUR LES BOUTONS
+        function alignButton(id, align) {
+            const btn = document.getElementById('btn-' + id);
+            if(!btn) return;
+            btn.style.marginLeft = align === 'center' || align === 'right' ? 'auto' : '0';
+            btn.style.marginRight = align === 'center' ? 'auto' : '0';
+        }
+
+        function selectElement(el) { deselectAll(); selectedElement = el; el.classList.add('selected'); updatePropertiesPanel(el); }
+        function deselectAll() { document.querySelectorAll('.canvas-element').forEach(e => e.classList.remove('selected')); selectedElement = null; document.getElementById('prop-content').innerHTML = '<p>Sélectionnez un élément.</p>'; }
+        function deleteElement(id) { const el = document.getElementById(id); if (el) { el.remove(); deselectAll(); adjustCanvasHeight(); } }
+        function moveElement(id, direction) { const el = document.getElementById(id); if (!el) return; const parent = el.parentElement; if (direction === -1 && el.previousElementSibling) { if (!el.previousElementSibling.classList.contains('element-controls')) parent.insertBefore(el, el.previousElementSibling); else if (el.previousElementSibling.previousElementSibling) parent.insertBefore(el, el.previousElementSibling.previousElementSibling); } else if (direction === 1 && el.nextElementSibling) parent.insertBefore(el.nextElementSibling, el); adjustCanvasHeight(); }
 
         function updatePropertiesPanel(el) {
             const panel = document.getElementById('prop-content');
             if (!el) return;
-            
             const type = el.dataset.type;
             const id = el.id; 
             let html = '';
 
-            // --- COMMUN : EFFETS & OMBRES (COMPLET) ---
-            html += `
-                <div class="prop-group">
-                    <label>Effets & Ombres</label>
-                    <select class="select-field" onchange="applyShadow('${id}', this.value)">
-                        <option value="shadow-none">Aucun</option>
-                        <option value="shadow-soft">Ombre douce</option>
-                        <option value="shadow-medium">Ombre moyenne</option>
-                        <option value="shadow-intense">Ombre intense</option>
-                        <option value="shadow-inner-soft">Intérieure douce</option>
-                        <option value="shadow-inner-medium">Intérieure moyenne</option>
-                        <option value="shadow-inner-intense">Intérieure intense</option>
-                        <option value="shadow-float">Flottement lumineux</option>
-                    </select>
-                    
-                    <label style="margin-top:10px;">Couleur de l'ombre</label>
-                    <div class="color-row">
-                        <input type="color" id="shadow-color-${id}" value="#000000" oninput="applyCustomShadow('${id}')">
-                        <input type="text" class="input-field" id="shadow-color-text-${id}" value="rgba(0,0,0,0.2)" onchange="applyCustomShadow('${id}')">
-                    </div>
+            html += `<div class="prop-group"><label>Effets & Ombres</label><select class="select-field" onchange="applyShadow('${id}', this.value)"><option value="shadow-none">Aucun</option><option value="shadow-soft">Ombre douce</option><option value="shadow-medium">Ombre moyenne</option><option value="shadow-intense">Ombre intense</option><option value="shadow-inner-soft">Intérieure douce</option><option value="shadow-inner-medium">Intérieure moyenne</option><option value="shadow-inner-intense">Intérieure intense</option><option value="shadow-float">Flottement lumineux</option></select><label style="margin-top:10px;">Couleur de l'ombre</label><div class="color-row"><input type="color" id="shadow-color-${id}" value="#000000" oninput="applyCustomShadow('${id}')"><input type="text" class="input-field" id="shadow-color-text-${id}" value="rgba(0,0,0,0.2)" onchange="applyCustomShadow('${id}')"></div><label style="margin-top:10px;">Flou (px)</label><input type="range" min="0" max="50" value="10" class="input-field" id="shadow-blur-${id}" oninput="applyCustomShadow('${id}')"><label style="margin-top:10px;">Décalage (px)</label><input type="range" min="-20" max="20" value="5" class="input-field" id="shadow-offset-${id}" oninput="applyCustomShadow('${id}')"></div>`;
 
-                    <label style="margin-top:10px;">Flou (px)</label>
-                    <input type="range" min="0" max="50" value="10" class="input-field" id="shadow-blur-${id}" oninput="applyCustomShadow('${id}')">
-                    
-                    <label style="margin-top:10px;">Décalage (px)</label>
-                    <input type="range" min="-20" max="20" value="5" class="input-field" id="shadow-offset-${id}" oninput="applyCustomShadow('${id}')">
-                </div>
-            `;
-
-            // --- COLONNES INDIVIDUELLES ---
             if (type === 'single-col') {
-                html += `
-                    <div class="prop-group">
-                        <label>Fond de la colonne</label>
-                        <div class="color-row">
-                            <input type="color" oninput="document.getElementById('${id}').style.backgroundColor = this.value">
-                            <input type="text" class="input-field" placeholder="#0B0D17" onchange="document.getElementById('${id}').style.backgroundColor = this.value">
-                            <button class="btn-secondary" onclick="document.getElementById('${id}').style.backgroundColor = 'transparent'">Transparent</button>
-                        </div>
-                    </div>
-                `;
+                html += `<div class="prop-group"><label>Fond de la colonne</label><div class="color-row"><input type="color" oninput="document.getElementById('${id}').style.backgroundColor = this.value"><input type="text" class="input-field" placeholder="#0B0D17" onchange="document.getElementById('${id}').style.backgroundColor = this.value"><button class="btn-secondary" onclick="document.getElementById('${id}').style.backgroundColor = 'transparent'">Transparent</button></div></div>`;
             }
 
-            // --- TEXTES ---
             if (['title', 'text', 'content-box', 'list'].includes(type)) {
-                html += `
-                    <div class="prop-group">
-                        <label>Police</label>
-                        <select class="select-field" onchange="document.getElementById('${id}').style.fontFamily = this.value">
-                            <option value="'Outfit', sans-serif">Outfit</option>
-                            <option value="'Cormorant Garamond', serif">Cormorant Garamond</option>
-                            <option value="'Playfair Display', serif">Playfair Display</option>
-                            <option value="'Montserrat', sans-serif">Montserrat</option>
-                            <option value="'Poppins', sans-serif">Poppins</option>
-                            <option value="'Lora', serif">Lora</option>
-                            <option value="'Dancing Script', cursive">Dancing Script</option>
-                        </select>
-                        
-                        <label style="margin-top:10px;">Alignement</label>
-                        <div class="btn-group">
-                            <button class="btn-secondary" onclick="alignElement('${id}', 'left')">Gauche</button>
-                            <button class="btn-secondary" onclick="alignElement('${id}', 'center')">Centre</button>
-                            <button class="btn-secondary" onclick="alignElement('${id}', 'right')">Droite</button>
-                        </div>
-                        
-                        <label style="margin-top:10px;">Couleur du texte</label>
-                        <div class="color-row">
-                            <input type="color" oninput="document.getElementById('${id}').style.color = this.value">
-                            <input type="text" class="input-field" placeholder="#FFFFFF" onchange="document.getElementById('${id}').style.color = this.value">
-                        </div>
-                    </div>
-                `;
+                html += `<div class="prop-group"><label>Police</label><select class="select-field" onchange="document.getElementById('${id}').style.fontFamily = this.value"><option value="'Outfit', sans-serif">Outfit</option><option value="'Cormorant Garamond', serif">Cormorant Garamond</option><option value="'Playfair Display', serif">Playfair Display</option><option value="'Montserrat', sans-serif">Montserrat</option><option value="'Poppins', sans-serif">Poppins</option><option value="'Lora', serif">Lora</option><option value="'Dancing Script', cursive">Dancing Script</option></select><label style="margin-top:10px;">Alignement</label><div class="btn-group"><button class="btn-secondary" onclick="alignElement('${id}', 'left')">Gauche</button><button class="btn-secondary" onclick="alignElement('${id}', 'center')">Centre</button><button class="btn-secondary" onclick="alignElement('${id}', 'right')">Droite</button></div><label style="margin-top:10px;">Couleur du texte</label><div class="color-row"><input type="color" oninput="document.getElementById('${id}').style.color = this.value"><input type="text" class="input-field" placeholder="#FFFFFF" onchange="document.getElementById('${id}').style.color = this.value"></div></div>`;
             }
+            if (type === 'list') { html += `<div class="prop-group"><label>Style des puces</label><select class="select-field" onchange="document.getElementById('${id}').querySelector('ul').style.listStyleType = this.value"><option value="disc">Disque</option><option value="circle">Cercle</option><option value="square">Carré</option><option value="none">Aucun</option></select></div>`; }
 
-            if (type === 'list') {
-                 html += `
-                    <div class="prop-group">
-                        <label>Style des puces</label>
-                        <select class="select-field" onchange="document.getElementById('${id}').querySelector('ul').style.listStyleType = this.value">
-                            <option value="disc">Disque</option>
-                            <option value="circle">Cercle</option>
-                            <option value="square">Carré</option>
-                            <option value="none">Aucun</option>
-                        </select>
-                    </div>
-                 `;
-            }
-
-            // --- SECTIONS, RANGES, COLONNES GLOBALES ---
             if (['section', 'row', 'col2', 'col3', 'col4', 'content-box'].includes(type)) {
-                html += `
-                    <div class="prop-group">
-                        <label>Fond (Couleur)</label>
-                        <div class="color-row">
-                            <input type="color" oninput="document.getElementById('${id}').style.backgroundColor = this.value">
-                            <input type="text" class="input-field" placeholder="#0B0D17" onchange="document.getElementById('${id}').style.backgroundColor = this.value">
-                            <button class="btn-secondary" onclick="document.getElementById('${id}').style.backgroundColor = 'transparent'">Transparent</button>
-                        </div>
-                        
-                        <label style="margin-top:10px;">Bordure</label>
-                        <div class="color-row">
-                             <input type="color" id="border-color-picker" value="#7B5CFF" oninput="updateBorder('${id}', this.value, 'color')">
-                             <input type="number" placeholder="Épaisseur (px)" value="1" min="0" class="input-field" style="width:80px;" oninput="updateBorder('${id}', this.value, 'width')">
-                        </div>
-                        <input type="text" class="input-field" placeholder="ex: 1px solid rgba(...)" onchange="document.getElementById('${id}').style.border = this.value">
-                    </div>
-                `;
+                html += `<div class="prop-group"><label>Fond (Couleur)</label><div class="color-row"><input type="color" oninput="document.getElementById('${id}').style.backgroundColor = this.value"><input type="text" class="input-field" placeholder="#0B0D17" onchange="document.getElementById('${id}').style.backgroundColor = this.value"><button class="btn-secondary" onclick="document.getElementById('${id}').style.backgroundColor = 'transparent'">Transparent</button></div><label style="margin-top:10px;">Bordure</label><div class="color-row"><input type="color" id="border-color-picker" value="#7B5CFF" oninput="updateBorder('${id}', this.value, 'color')"><input type="number" placeholder="Épaisseur (px)" value="1" min="0" class="input-field" style="width:80px;" oninput="updateBorder('${id}', this.value, 'width')"></div><input type="text" class="input-field" placeholder="ex: 1px solid rgba(...)" onchange="document.getElementById('${id}').style.border = this.value"></div>`;
             }
-            
-            if (type === 'section') {
-                html += `
-                    <div class="prop-group">
-                        <label>Image de fond</label>
-                        <input type="file" accept="image/*" class="input-field" onchange="uploadBgImage('${id}', this)">
-                        <button class="btn-secondary" onclick="document.getElementById('${id}').style.backgroundImage = 'none'">Retirer l'image</button>
-                    </div>
-                `;
-            }
+            if (type === 'section') { html += `<div class="prop-group"><label>Image de fond</label><input type="file" accept="image/*" class="input-field" onchange="uploadBgImage('${id}', this)"><button class="btn-secondary" onclick="document.getElementById('${id}').style.backgroundImage = 'none'">Retirer l'image</button></div>`; }
 
-            // --- MEDIAS ---
             if (['image', 'video', 'audio'].includes(type)) {
-                html += `
-                    <div class="prop-group">
-                        <label>Source</label>
-                        <input type="text" class="input-field" placeholder="URL..." 
-                            value="${type === 'image' ? el.querySelector('img').src : (type === 'video' ? el.querySelector('iframe').src : '')}"
-                            oninput="updateMediaSource('${id}', '${type}', this.value)">
-                        <label style="margin-top:10px;">Uploader</label>
-                        <input type="file" accept="${type === 'image' ? 'image/*' : (type === 'video' ? 'video/*' : 'audio/*')}" class="input-field" onchange="uploadMedia('${id}', '${type}', this)">
-                    </div>
-                    
-                    <div class="prop-group">
-                        <label>Largeur (%)</label>
-                        <input type="range" min="10" max="100" value="100" class="input-field" oninput="updateMediaWidth('${id}', '${type}', this.value)">
-                        ${type === 'video' ? '<label style="margin-top:5px;">Hauteur (px)</label><input type="number" value="315" class="input-field" oninput="updateMediaHeight(\''+id+'\', this.value)">' : ''}
-                        <label style="margin-top:10px;">Alignement</label>
-                        <div class="btn-group">
-                            <button class="btn-secondary" onclick="updateMediaAlign('${id}', '${type}', 'left')">Gauche</button>
-                            <button class="btn-secondary" onclick="updateMediaAlign('${id}', '${type}', 'center')">Centre</button>
-                            <button class="btn-secondary" onclick="updateMediaAlign('${id}', '${type}', 'right')">Droite</button>
-                        </div>
-                    </div>
-                `;
+                let currentSrc = '';
+                if(type === 'image' && el.querySelector('img')) currentSrc = el.querySelector('img').src;
+                if(type === 'video' && el.querySelector('iframe')) currentSrc = el.querySelector('iframe').src;
+                html += `<div class="prop-group"><label>Source</label><input type="text" class="input-field" placeholder="URL..." value="${currentSrc}" oninput="updateMediaSource('${id}', '${type}', this.value)"><label style="margin-top:10px;">Uploader</label><input type="file" accept="${type === 'image' ? 'image/*' : (type === 'video' ? 'video/*' : 'audio/*')}" class="input-field" onchange="uploadMedia('${id}', '${type}', this)"></div><div class="prop-group"><label>Largeur (%)</label><input type="range" min="10" max="100" value="100" class="input-field" oninput="updateMediaWidth('${id}', '${type}', this.value)">${type === 'video' ? '<label style="margin-top:5px;">Hauteur (px)</label><input type="number" value="315" class="input-field" oninput="updateMediaHeight(\''+id+'\', this.value)">' : ''}<label style="margin-top:10px;">Alignement</label><div class="btn-group"><button class="btn-secondary" onclick="updateMediaAlign('${id}', '${type}', 'left')">Gauche</button><button class="btn-secondary" onclick="updateMediaAlign('${id}', '${type}', 'center')">Centre</button><button class="btn-secondary" onclick="updateMediaAlign('${id}', '${type}', 'right')">Droite</button></div></div>`;
             }
 
-            // --- BOUTONS (CORRECTION 3 : Ajout hauteur et alignement garanti) ---
+            // CORRECTION BOUTONS : Utilise alignButton au lieu de alignElement
             if (['button', 'submit'].includes(type)) {
-                const btn = el.querySelector('button') || el;
-                html += `
-                    <div class="prop-group">
-                        <label>Texte du bouton</label>
-                        <input type="text" class="input-field" value="${btn.innerText}" oninput="document.querySelector('#${id} button, #${id}.button-element').innerText = this.value">
-                        
-                        <label style="margin-top:10px;">Couleur de fond</label>
-                        <div class="color-row">
-                            <input type="color" value="#7B5CFF" oninput="document.querySelector('#${id} button, #${id}.button-element').style.background = this.value">
-                        </div>
-                        
-                        <label style="margin-top:10px;">Largeur (%)</label>
-                        <input type="range" min="10" max="100" value="100" class="input-field" oninput="document.querySelector('#${id} button, #${id}.button-element').style.width = this.value + '%'">
-                        
-                        <label style="margin-top:5px;">Hauteur (Padding Vertical)</label>
-                        <input type="range" min="5" max="50" value="12" class="input-field" oninput="document.querySelector('#${id} button, #${id}.button-element').style.padding = this.value + 'px 24px'">
-                        
-                        <label style="margin-top:5px;">Arrondi (px)</label>
-                        <input type="range" min="0" max="50" value="50" class="input-field" oninput="document.querySelector('#${id} button, #${id}.button-element').style.borderRadius = this.value + 'px'">
-
-                        <label style="margin-top:10px;">Alignement du bouton</label>
-                        <div class="btn-group">
-                            <button class="btn-secondary" onclick="alignElement('${id}', 'left')">Gauche</button>
-                            <button class="btn-secondary" onclick="alignElement('${id}', 'center')">Centre</button>
-                            <button class="btn-secondary" onclick="alignElement('${id}', 'right')">Droite</button>
-                        </div>
-                    </div>
-                `;
+                const btn = el.querySelector('button');
+                html += `<div class="prop-group">
+                    <label>Texte du bouton</label><input type="text" class="input-field" value="${btn ? btn.innerText : ''}" oninput="document.getElementById('btn-${id}').innerText = this.value">
+                    <label style="margin-top:10px;">Couleur de fond</label><div class="color-row"><input type="color" value="#7B5CFF" oninput="document.getElementById('btn-${id}').style.background = this.value"></div>
+                    <label style="margin-top:10px;">Largeur (%)</label><input type="range" min="10" max="100" value="100" class="input-field" oninput="document.getElementById('btn-${id}').style.width = this.value + '%'">
+                    <label style="margin-top:5px;">Hauteur (Padding)</label><input type="range" min="5" max="50" value="12" class="input-field" oninput="document.getElementById('btn-${id}').style.padding = this.value + 'px 24px'">
+                    <label style="margin-top:5px;">Arrondi (px)</label><input type="range" min="0" max="50" value="50" class="input-field" oninput="document.getElementById('btn-${id}').style.borderRadius = this.value + 'px'">
+                    <label style="margin-top:10px;">Alignement du bouton</label><div class="btn-group"><button class="btn-secondary" onclick="alignButton('${id}', 'left')">Gauche</button><button class="btn-secondary" onclick="alignButton('${id}', 'center')">Centre</button><button class="btn-secondary" onclick="alignButton('${id}', 'right')">Droite</button></div></div>`;
             }
 
-            // --- FORMULAIRES (CORRECTION 4 & 5) ---
             if (['form-field', 'checkbox', 'calendar', 'submit'].includes(type)) {
-                html += `
-                    <div class="prop-group">
-                        <label>Largeur (%)</label>
-                        <input type="range" min="10" max="100" value="100" class="input-field" oninput="document.getElementById('${id}').style.width = this.value + '%'">
-                        <label style="margin-top:10px;">Alignement</label>
-                        <div class="btn-group">
-                            <button class="btn-secondary" onclick="alignElement('${id}', 'left')">Gauche</button>
-                            <button class="btn-secondary" onclick="alignElement('${id}', 'center')">Centre</button>
-                            <button class="btn-secondary" onclick="alignElement('${id}', 'right')">Droite</button>
-                        </div>
-                    </div>
-                `;
+                html += `<div class="prop-group"><label>Largeur (%)</label><input type="range" min="10" max="100" value="100" class="input-field" oninput="document.getElementById('${id}').style.width = this.value + '%'"><label style="margin-top:10px;">Alignement</label><div class="btn-group"><button class="btn-secondary" onclick="alignElement('${id}', 'left')">Gauche</button><button class="btn-secondary" onclick="alignElement('${id}', 'center')">Centre</button><button class="btn-secondary" onclick="alignElement('${id}', 'right')">Droite</button></div></div>`;
             }
+            if (type === 'form-field') { const labelEl = el.querySelector('label'); html += `<div class="prop-group"><label>Label du champ</label><input type="text" class="input-field" value="${labelEl.innerText}" oninput="document.querySelector('#${id} label').innerText = this.value"><label style="margin-top:10px;">Type de champ</label><select class="select-field" onchange="document.querySelector('#${id} input').type = this.value"><option value="text">Texte</option><option value="email">Email</option><option value="tel">Téléphone</option><option value="number">Nombre</option></select><label style="margin-top:10px;">Couleur de fond du champ</label><div class="color-row"><input type="color" value="#13152A" oninput="document.querySelector('#${id} input').style.background = this.value"></div></div>`; }
+            if (type === 'checkbox') { html += `<div class="prop-group"><label>Texte de la case</label><input type="text" class="input-field" value="${el.querySelector('span').innerText}" oninput="document.querySelector('#${id} span').innerText = this.value"></div>`; }
 
-            if (type === 'form-field') {
-                const labelEl = el.querySelector('label');
-                html += `
-                    <div class="prop-group">
-                        <label>Label du champ</label>
-                        <input type="text" class="input-field" value="${labelEl.innerText}" oninput="document.querySelector('#${id} label').innerText = this.value">
-                        <label style="margin-top:10px;">Type de champ</label>
-                        <select class="select-field" onchange="document.querySelector('#${id} input').type = this.value">
-                            <option value="text">Texte</option>
-                            <option value="email">Email</option>
-                            <option value="tel">Téléphone</option>
-                            <option value="number">Nombre</option>
-                        </select>
-                        <label style="margin-top:10px;">Couleur de fond du champ</label>
-                        <div class="color-row">
-                            <input type="color" value="#13152A" oninput="document.querySelector('#${id} input').style.background = this.value">
-                        </div>
-                    </div>
-                `;
-            }
-            
-            if (type === 'checkbox') {
-                html += `
-                    <div class="prop-group">
-                        <label>Texte de la case</label>
-                        <input type="text" class="input-field" value="${el.querySelector('span').innerText}" oninput="document.querySelector('#${id} span').innerText = this.value">
-                    </div>
-                `;
-            }
-
-            // --- COMPTE À REBOURS (CORRECTION 6 : Ajout du texte) ---
-            if (type === 'countdown') {
-                html += `
-                    <div class="prop-group">
-                        <label>Couleur des blocs (Fond)</label>
-                        <div class="color-row">
-                            <input type="color" value="#1A1D35" oninput="updateCountdownBlocks('${id}', 'bg', this.value)">
-                        </div>
-                        <label style="margin-top:10px;">Couleur du texte (Jours, Heures...)</label>
-                        <div class="color-row">
-                            <input type="color" value="#6B7094" oninput="updateCountdownBlocks('${id}', 'text', this.value)">
-                        </div>
-                        <label style="margin-top:10px;">Couleur des chiffres</label>
-                        <div class="color-row">
-                            <input type="color" value="#7B5CFF" oninput="updateCountdownBlocks('${id}', 'num', this.value)">
-                        </div>
-                    </div>
-                `;
-            }
-
-            // --- MENU ---
-            if (type === 'menu') {
-                html += `
-                    <div class="prop-group">
-                        <label>Gestion du menu</label>
-                        <p style="font-size:11px; color:var(--nx-text-dim); margin-bottom:10px;">Cliquez directement sur les textes des liens dans l'éditeur pour les modifier.</p>
-                        <button class="btn-secondary" style="width:100%; margin-bottom:10px;" onclick="addMenuItem('${id}')">+ Ajouter un lien</button>
-                        <label>Alignement du menu</label>
-                        <div class="btn-group">
-                            <button class="btn-secondary" onclick="document.querySelector('#${id} nav ul').style.justifyContent='flex-start'">Gauche</button>
-                            <button class="btn-secondary" onclick="document.querySelector('#${id} nav ul').style.justifyContent='center'">Centre</button>
-                            <button class="btn-secondary" onclick="document.querySelector('#${id} nav ul').style.justifyContent='flex-end'">Droite</button>
-                        </div>
-                    </div>
-                `;
-            }
-
-            // --- LIGNE HORIZONTALE ---
-            if (type === 'hr') {
-                html += `
-                    <div class="prop-group">
-                        <label>Couleur de la ligne</label>
-                        <div class="color-row">
-                            <input type="color" value="#7B5CFF" oninput="document.querySelector('#${id} hr').style.borderColor = this.value">
-                        </div>
-                    </div>
-                `;
-            }
-
-            // --- CODE HTML ---
-            if (type === 'html-code') {
-                html += `
-                    <div class="prop-group">
-                        <label>Code HTML / Embed</label>
-                        <textarea class="textarea-field" rows="10" placeholder="Collez votre code ici" oninput="renderHtmlCodeSafe('${id}', this.value)"></textarea>
-                    </div>
-                `;
-            }
-
-            // --- FAQ ---
-            if (type === 'faq') {
-                html += `
-                    <div class="prop-group">
-                        <label>Gestion de la FAQ</label>
-                        <button class="btn-secondary" style="width:100%; margin-bottom:10px;" onclick="addFaqItem('${id}')">+ Ajouter une question</button>
-                        <p style="font-size:11px; color:var(--nx-text-dim);">Cliquez sur les questions/réponses dans l'éditeur pour modifier le texte directement.</p>
-                        
-                        <label style="margin-top:10px;">Couleur Fond Question</label>
-                        <div class="color-row">
-                            <input type="color" value="#1A1D35" oninput="updateFaqColors('${id}', 'q-bg', this.value)">
-                        </div>
-                        <label style="margin-top:10px;">Couleur Fond Réponse</label>
-                        <div class="color-row">
-                            <input type="color" value="#0B0D17" oninput="updateFaqColors('${id}', 'a-bg', this.value)">
-                        </div>
-                    </div>
-                `;
-            }
+            if (type === 'countdown') { html += `<div class="prop-group"><label>Couleur des blocs (Fond)</label><div class="color-row"><input type="color" value="#1A1D35" oninput="updateCountdownBlocks('${id}', 'bg', this.value)"></div><label style="margin-top:10px;">Couleur du texte (Jours, Heures...)</label><div class="color-row"><input type="color" value="#6B7094" oninput="updateCountdownBlocks('${id}', 'text', this.value)"></div><label style="margin-top:10px;">Couleur des chiffres</label><div class="color-row"><input type="color" value="#7B5CFF" oninput="updateCountdownBlocks('${id}', 'num', this.value)"></div></div>`; }
+            if (type === 'menu') { html += `<div class="prop-group"><label>Gestion du menu</label><p style="font-size:11px; color:var(--nx-text-dim); margin-bottom:10px;">Cliquez directement sur les textes des liens dans l'éditeur pour les modifier.</p><button class="btn-secondary" style="width:100%; margin-bottom:10px;" onclick="addMenuItem('${id}')">+ Ajouter un lien</button><label>Alignement du menu</label><div class="btn-group"><button class="btn-secondary" onclick="document.querySelector('#${id} nav ul').style.justifyContent='flex-start'">Gauche</button><button class="btn-secondary" onclick="document.querySelector('#${id} nav ul').style.justifyContent='center'">Centre</button><button class="btn-secondary" onclick="document.querySelector('#${id} nav ul').style.justifyContent='flex-end'">Droite</button></div></div>`; }
+            if (type === 'hr') { html += `<div class="prop-group"><label>Couleur de la ligne</label><div class="color-row"><input type="color" value="#7B5CFF" oninput="document.querySelector('#${id} hr').style.borderColor = this.value"></div></div>`; }
+            if (type === 'html-code') { html += `<div class="prop-group"><label>Code HTML / Embed</label><textarea class="textarea-field" rows="10" placeholder="Collez votre code ici" oninput="renderHtmlCodeSafe('${id}', this.value)"></textarea></div>`; }
+            if (type === 'faq') { html += `<div class="prop-group"><label>Gestion de la FAQ</label><button class="btn-secondary" style="width:100%; margin-bottom:10px;" onclick="addFaqItem('${id}')">+ Ajouter une question</button><p style="font-size:11px; color:var(--nx-text-dim);">Cliquez sur les questions/réponses dans l'éditeur pour modifier le texte directement.</p><label style="margin-top:10px;">Couleur Fond Question</label><div class="color-row"><input type="color" value="#1A1D35" oninput="updateFaqColors('${id}', 'q-bg', this.value)"></div><label style="margin-top:10px;">Couleur Fond Réponse</label><div class="color-row"><input type="color" value="#0B0D17" oninput="updateFaqColors('${id}', 'a-bg', this.value)"></div></div>`; }
 
             panel.innerHTML = html;
         }
 
-        // --- FONCTIONS D'ACTION ---
-
-        function applyShadow(id, className) {
-            const el = document.getElementById(id);
-            if(!el) return;
-            el.classList.remove('shadow-none', 'shadow-soft', 'shadow-medium', 'shadow-intense', 'shadow-inner-soft', 'shadow-inner-medium', 'shadow-inner-intense', 'shadow-float');
-            el.classList.add(className);
-            el.style.boxShadow = ''; // Reset custom shadow if selecting a preset
-        }
-
-        function applyCustomShadow(id) {
-            const el = document.getElementById(id);
-            if(!el) return;
-            el.classList.remove('shadow-none', 'shadow-soft', 'shadow-medium', 'shadow-intense', 'shadow-inner-soft', 'shadow-inner-medium', 'shadow-inner-intense', 'shadow-float');
-            
-            const colorText = document.getElementById('shadow-color-text-' + id)?.value || 'rgba(0,0,0,0.2)';
-            const blur = document.getElementById('shadow-blur-' + id)?.value || '0';
-            const offset = document.getElementById('shadow-offset-' + id)?.value || '0';
-            
-            el.style.boxShadow = `${offset}px ${offset}px ${blur}px ${colorText}`;
-        }
-
-        function updateBorder(id, val, type) {
-            const el = document.getElementById(id);
-            if(!el) return;
-            const width = el.querySelector('input[placeholder="Épaisseur (px)"]')?.value || 1;
-            const color = document.getElementById('border-color-picker').value;
-            el.style.border = `${width}px solid ${color}`;
-        }
-
-        function uploadBgImage(id, input) {
-            if (input.files && input.files[0]) {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    const el = document.getElementById(id);
-                    el.style.backgroundImage = `url(${e.target.result})`;
-                    el.style.backgroundSize = 'cover';
-                    el.style.backgroundPosition = 'center';
-                };
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
-
-        function updateMediaSource(id, type, url) {
-            const el = document.getElementById(id);
-            if(!el) return;
-            if(type === 'image') el.querySelector('img').src = url;
-            if(type === 'video') {
-                if(url.includes('watch?v=')) url = url.replace('watch?v=', 'embed/');
-                el.querySelector('iframe').src = url;
-            }
-        }
-
-        function uploadMedia(id, type, input) {
-            if (input.files && input.files[0]) {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    const el = document.getElementById(id);
-                    if(type === 'image') el.querySelector('img').src = e.target.result;
-                    if(type === 'video') {
-                        const vid = document.createElement('video');
-                        vid.controls = true;
-                        vid.src = e.target.result;
-                        vid.style.width = '100%';
-                        el.querySelector('iframe').replaceWith(vid);
-                    }
-                    if(type === 'audio') {
-                        const aud = el.querySelector('audio');
-                        aud.querySelector('source').src = e.target.result;
-                        aud.load();
-                    }
-                };
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
-
-        function updateMediaWidth(id, type, val) {
-            const el = document.getElementById(id);
-            if(!el) return;
-            const media = el.querySelector('img, video, iframe, audio');
-            if(media) media.style.width = val + '%';
-        }
+        function applyShadow(id, className) { const el = document.getElementById(id); if(!el) return; el.classList.remove('shadow-none', 'shadow-soft', 'shadow-medium', 'shadow-intense', 'shadow-inner-soft', 'shadow-inner-medium', 'shadow-inner-intense', 'shadow-float'); el.classList.add(className); el.style.boxShadow = ''; }
+        function applyCustomShadow(id) { const el = document.getElementById(id); if(!el) return; el.classList.remove('shadow-none', 'shadow-soft', 'shadow-medium', 'shadow-intense', 'shadow-inner-soft', 'shadow-inner-medium', 'shadow-inner-intense', 'shadow-float'); const colorText = document.getElementById('shadow-color-text-' + id)?.value || 'rgba(0,0,0,0.2)'; const blur = document.getElementById('shadow-blur-' + id)?.value || '0'; const offset = document.getElementById('shadow-offset-' + id)?.value || '0'; el.style.boxShadow = `${offset}px ${offset}px ${blur}px ${colorText}`; }
+        function updateBorder(id, val, type) { const el = document.getElementById(id); if(!el) return; const width = el.querySelector('input[placeholder="Épaisseur (px)"]')?.value || 1; const color = document.getElementById('border-color-picker').value; el.style.border = `${width}px solid ${color}`; }
+        function uploadBgImage(id, input) { if (input.files && input.files[0]) { const reader = new FileReader(); reader.onload = (e) => { const el = document.getElementById(id); el.style.backgroundImage = `url(${e.target.result})`; el.style.backgroundSize = 'cover'; el.style.backgroundPosition = 'center'; }; reader.readAsDataURL(input.files[0]); } }
+        function updateMediaSource(id, type, url) { const el = document.getElementById(id); if(!el) return; if(type === 'image') { const img = el.querySelector('img'); if(img) img.src = url; } if(type === 'video') { if(url.includes('watch?v=')) url = url.replace('watch?v=', 'embed/'); const iframe = el.querySelector('iframe'); if(iframe) iframe.src = url; } }
+        function uploadMedia(id, type, input) { if (input.files && input.files[0]) { const reader = new FileReader(); reader.onload = (e) => { const el = document.getElementById(id); if(type === 'image') el.querySelector('img').src = e.target.result; if(type === 'video') { const vid = document.createElement('video'); vid.controls = true; vid.src = e.target.result; vid.style.width = '100%'; el.querySelector('iframe').replaceWith(vid); } if(type === 'audio') { const aud = el.querySelector('audio'); aud.querySelector('source').src = e.target.result; aud.load(); } }; reader.readAsDataURL(input.files[0]); } }
+        function updateMediaWidth(id, type, val) { const el = document.getElementById(id); if(!el) return; const media = el.querySelector('img, video, iframe, audio'); if(media) media.style.width = val + '%'; }
+        function updateMediaHeight(id, val) { const el = document.getElementById(id); if(!el) return; const iframe = el.querySelector('iframe'); if(iframe) iframe.style.height = val + 'px'; }
+        function updateMediaAlign(id, type, align) { const el = document.getElementById(id); if(!el) return; const media = el.querySelector('img, video, iframe, audio'); if(!media) return; el.style.textAlign = align; media.style.display = 'inline-block'; media.style.margin = '0'; if(align === 'left') media.style.float = 'left'; else if(align === 'right') media.style.float = 'right'; else media.style.float = 'none'; }
+        function updateCountdownBlocks(id, target, color) { const el = document.getElementById(id); if(!el) return; if(target === 'bg') el.querySelectorAll('.countdown-block').forEach(b => b.style.background = color); if(target === 'text') el.querySelectorAll('.countdown-label').forEach(l => l.style.color = color); if(target === 'num') el.querySelectorAll('.countdown-number').forEach(n => n.style.color = color); }
+        function addMenuItem(id) { const el = document.getElementById(id); if(!el) return; const ul = el.querySelector('ul'); const li = document.createElement('li'); li.innerHTML = `<a href="#" contenteditable="true">Nouveau lien</a>`; ul.appendChild(li); }
+        function addFaqItem(id) { const el = document.getElementById(id); if(!el) return; const div = document.createElement('div'); div.className = 'faq-item'; div.innerHTML = `<div class="faq-question" contenteditable="true">Nouvelle Question</div><div class="faq-answer" contenteditable="true">Nouvelle Réponse</div>`; div.querySelector('.faq-question').addEventListener('click', function() { this.nextElementSibling.classList.toggle('open'); }); el.appendChild(div); }
+        function updateFaqColors(id, target, color) { const el = document.getElementById(id); if(!el) return; if(target === 'q-bg') el.querySelectorAll('.faq-question').forEach(q => q.style.background = color); if(target === 'a-bg') el.querySelectorAll('.faq-answer').forEach(a => a.style.background = color); }
+        function renderHtmlCodeSafe(id, code) { const el = document.getElementById(id); if(!el) return; const controls = el.querySelector('.element-controls'); Array.from(el.childNodes).forEach(node => { if(node !== controls) el.removeChild(node); }); const div = document.createElement('div'); div.innerHTML = code; el.appendChild(div); }
         
-        function updateMediaHeight(id, val) {
-             const el = document.getElementById(id);
-             if(!el) return;
-             const iframe = el.querySelector('iframe');
-             if(iframe) iframe.style.height = val + 'px';
-        }
-
-        function updateMediaAlign(id, type, align) {
-            const el = document.getElementById(id);
-            if(!el) return;
-            const media = el.querySelector('img, video, iframe, audio');
-            if(!media) return;
-            el.style.textAlign = align;
-            media.style.display = 'inline-block';
-            media.style.margin = '0';
-            if(align === 'left') media.style.float = 'left';
-            else if(align === 'right') media.style.float = 'right';
-            else media.style.float = 'none';
-        }
-
-        function updateCountdownBlocks(id, target, color) {
-            const el = document.getElementById(id);
-            if(!el) return;
-            if(target === 'bg') el.querySelectorAll('.countdown-block').forEach(b => b.style.background = color);
-            if(target === 'text') el.querySelectorAll('.countdown-label').forEach(l => l.style.color = color);
-            if(target === 'num') el.querySelectorAll('.countdown-number').forEach(n => n.style.color = color);
-        }
-
-        function addMenuItem(id) {
-            const el = document.getElementById(id);
-            if(!el) return;
-            const ul = el.querySelector('ul');
-            const li = document.createElement('li');
-            li.innerHTML = `<a href="#" contenteditable="true">Nouveau lien</a>`;
-            ul.appendChild(li);
-        }
-
-        function addFaqItem(id) {
-            const el = document.getElementById(id);
-            if(!el) return;
-            const div = document.createElement('div');
-            div.className = 'faq-item';
-            div.innerHTML = `<div class="faq-question" contenteditable="true">Nouvelle Question</div><div class="faq-answer" contenteditable="true">Nouvelle Réponse</div>`;
-            div.querySelector('.faq-question').addEventListener('click', function() {
-                this.nextElementSibling.classList.toggle('open');
-            });
-            el.appendChild(div);
-        }
-
-        function updateFaqColors(id, target, color) {
-            const el = document.getElementById(id);
-            if(!el) return;
-            if(target === 'q-bg') el.querySelectorAll('.faq-question').forEach(q => q.style.background = color);
-            if(target === 'a-bg') el.querySelectorAll('.faq-answer').forEach(a => a.style.background = color);
-        }
-
-        function renderHtmlCodeSafe(id, code) {
-            const el = document.getElementById(id);
-            if(!el) return;
-            const controls = el.querySelector('.element-controls');
-            Array.from(el.childNodes).forEach(node => {
-                if(node !== controls) el.removeChild(node);
-            });
-            const div = document.createElement('div');
-            div.innerHTML = code;
-            el.appendChild(div);
-        }
-
-        function initSettings() {
-            const btn = document.getElementById('settings-btn');
-            const modal = document.getElementById('settings-modal');
-            btn.onclick = () => modal.style.display = 'flex';
-            
-            document.getElementById('global-bg-color').oninput = (e) => {
-                document.getElementById('canvas').style.backgroundColor = e.target.value;
-            };
-            
-            document.getElementById('global-bg-image').onchange = (e) => {
-                if(e.target.files && e.target.files[0]) {
-                    const reader = new FileReader();
-                    reader.onload = (ev) => {
-                        document.getElementById('canvas').style.backgroundImage = `url(${ev.target.result})`;
-                        document.getElementById('canvas').style.backgroundSize = 'cover';
-                    };
-                    reader.readAsDataURL(e.target.files[0]);
-                }
-            };
-        }
-        
-        function clearGlobalBgImage() {
-            document.getElementById('canvas').style.backgroundImage = 'none';
-        }
-
-        function initStarfield() {
-            const canvas = document.getElementById('starry-canvas');
-            const ctx = canvas.getContext('2d');
-            let stars = [];
-            const resize = () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; initStars(); };
-            const initStars = () => {
-                stars = [];
-                for(let i=0; i<300; i++) stars.push({x: Math.random()*canvas.width, y: Math.random()*canvas.height, r: Math.random()*1.5, a: Math.random(), v: Math.random()*0.05+0.01});
-            };
-            const animate = () => {
-                ctx.clearRect(0,0,canvas.width,canvas.height);
-                stars.forEach(s => {
-                    s.a += s.v; if(s.a>1 || s.a<0.2) s.v = -s.v;
-                    ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
-                    ctx.fillStyle = `rgba(255,255,255,${s.a})`; ctx.fill();
-                });
-                requestAnimationFrame(animate);
-            };
-            window.onresize = resize; resize(); animate();
-        }
-
-        function adjustCanvasHeight() {
-            const canvas = document.getElementById('canvas');
-            if(canvas) canvas.style.minHeight = canvas.scrollHeight + 40 + 'px';
-        }
+        function initSettings() { document.getElementById('settings-btn').onclick = () => document.getElementById('settings-modal').style.display = 'flex'; document.getElementById('global-bg-color').oninput = (e) => document.getElementById('canvas').style.backgroundColor = e.target.value; document.getElementById('global-bg-image').onchange = (e) => { if(e.target.files && e.target.files[0]) { const reader = new FileReader(); reader.onload = (ev) => { document.getElementById('canvas').style.backgroundImage = `url(${ev.target.result})`; document.getElementById('canvas').style.backgroundSize = 'cover'; }; reader.readAsDataURL(e.target.files[0]); } }; }
+        function clearGlobalBgImage() { document.getElementById('canvas').style.backgroundImage = 'none'; }
+        function initStarfield() { const canvas = document.getElementById('starry-canvas'); const ctx = canvas.getContext('2d'); let stars = []; const resize = () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; initStars(); }; const initStars = () => { stars = []; for(let i=0; i<300; i++) stars.push({x: Math.random()*canvas.width, y: Math.random()*canvas.height, r: Math.random()*1.5, a: Math.random(), v: Math.random()*0.05+0.01}); }; const animate = () => { ctx.clearRect(0,0,canvas.width,canvas.height); stars.forEach(s => { s.a += s.v; if(s.a>1 || s.a<0.2) s.v = -s.v; ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, Math.PI*2); ctx.fillStyle = `rgba(255,255,255,${s.a})`; ctx.fill(); }); requestAnimationFrame(animate); }; window.onresize = resize; resize(); animate(); }
+        function adjustCanvasHeight() { const canvas = document.getElementById('canvas'); if(canvas) canvas.style.minHeight = canvas.scrollHeight + 40 + 'px'; }
     </script>
 
-    <!-- --- GESTION SAUVEGARDE CLOUDFLARE --- -->
+    <!-- ========== SAUVEGARDE / CHARGEMENT D1 (Nyxia Cloud) ========== -->
+    <button id="save-btn" style="position:fixed;bottom:30px;right:100px;width:50px;height:50px;border-radius:50%;background:linear-gradient(135deg,#00E676,#00C853);border:none;color:#fff;font-size:18px;cursor:pointer;box-shadow:0 4px 20px rgba(0,230,118,0.4);z-index:1000;display:flex;align-items:center;justify-content:center;transition:transform 0.2s;" title="Sauvegarder" onclick="saveProject()"><i class="fas fa-cloud-upload-alt"></i></button>
+
     <script>
-    // Génère un ID unique si aucun n'existe
-    function getProjectId() {
-        let id = localStorage.getItem('nyxia_project_id');
-        if (!id) {
-            id = 'proj_' + Math.random().toString(36).substr(2, 9);
-            localStorage.setItem('nyxia_project_id', id);
-        }
-        return id;
-    }
-
-    // Fonction de Sauvegarde
-    async function saveProject() {
-        const projectId = getProjectId();
-        const projectName = prompt("Nom du projet :", "Mon Site Nyxia");
-        if (!projectName) return;
-
-        // Récupérer TOUT le HTML du canvas (l'état actuel)
-        const canvasContent = document.getElementById('canvas').innerHTML;
-
-        // On sauvegarde aussi la configuration globale (couleurs, etc.) si nécessaire
-        const fullState = {
-            html: canvasContent,
-            styles: document.querySelector('style').innerHTML // Optionnel
-        };
-
-        const btn = document.querySelector('.btn-save');
-        if(btn) {
-            btn.innerText = "Sauvegarde...";
-            btn.disabled = true;
-        }
-
-        try {
-            const response = await fetch('/api/projects/save', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    id: projectId,
-                    name: projectName,
-                    content: JSON.stringify(fullState)
-                })
-            });
-
-            const result = await response.json();
-
-            if (result.success) {
-                alert("✅ Projet sauvegardé avec succès sur Cloudflare D1 !");
-                localStorage.setItem('nyxia_project_name', projectName);
-            } else {
-                alert("❌ Erreur: " + result.error);
+        // --- Gestion ID projet via URL ou localStorage ---
+        function getProjectId() {
+            const params = new URLSearchParams(window.location.search);
+            let id = params.get('id');
+            if (!id) {
+                id = localStorage.getItem('nyxia-current-project-id');
             }
-        } catch (error) {
-            console.error(error);
-            alert("❌ Échec de la connexion au serveur.");
-        } finally {
-            if(btn) {
-                btn.innerText = "Sauvegarder";
-                btn.disabled = false;
+            if (!id) {
+                id = 'proj-' + Date.now() + '-' + Math.random().toString(36).slice(2, 8);
+                localStorage.setItem('nyxia-current-project-id', id);
+                const url = new URL(window.location);
+                url.searchParams.set('id', id);
+                window.history.replaceState({}, '', url);
+            }
+            return id;
+        }
+
+        // --- Sauvegarder le canvas dans D1 ---
+        async function saveProject() {
+            const btn = document.getElementById('save-btn');
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+            const projectId = getProjectId();
+            const canvas = document.getElementById('canvas');
+            const canvasHTML = canvas.innerHTML;
+            const projectName = document.getElementById('seo-title')?.value || 'Mon Projet Nyxia';
+
+            try {
+                const res = await fetch('/api/projects/save', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id: projectId, name: projectName, content: canvasHTML })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    btn.style.background = 'linear-gradient(135deg, #00E676, #00C853)';
+                    btn.innerHTML = '<i class="fas fa-check"></i>';
+                    setTimeout(() => { btn.innerHTML = '<i class="fas fa-cloud-upload-alt"></i>'; }, 2000);
+                } else {
+                    throw new Error(data.error || 'Erreur de sauvegarde');
+                }
+            } catch(err) {
+                console.error('Erreur sauvegarde:', err);
+                btn.style.background = 'linear-gradient(135deg, #FF4B6E, #FF1744)';
+                btn.innerHTML = '<i class="fas fa-times"></i>';
+                setTimeout(() => {
+                    btn.style.background = 'linear-gradient(135deg, #00E676, #00C853)';
+                    btn.innerHTML = '<i class="fas fa-cloud-upload-alt"></i>';
+                }, 2000);
+                // Fallback localStorage
+                localStorage.setItem('nyxia-backup-' + projectId, canvasHTML);
             }
         }
-    }
 
-    // Fonction de Chargement (au démarrage ou via bouton)
-    async function loadProject() {
-        const projectId = getProjectId();
-
-        // Vérifier si on a un nom en local pour pré-remplir
-        const savedName = localStorage.getItem('nyxia_project_name');
-        if(!savedName) return; // Premier visite, pas de chargement auto
-
-        try {
-            const response = await fetch('/api/projects/load', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ id: projectId })
-            });
-
-            if (response.status === 404) {
-                console.log("Aucun projet existant pour cet ID.");
-                return;
+        // --- Charger le canvas depuis D1 ---
+        async function loadProject() {
+            const projectId = getProjectId();
+            try {
+                const res = await fetch('/api/projects/load', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id: projectId })
+                });
+                const data = await res.json();
+                if (data.success && data.content) {
+                    document.getElementById('canvas').innerHTML = data.content;
+                    // Ré-attacher les événements sur les éléments chargés
+                    document.querySelectorAll('.canvas-element').forEach(el => {
+                        el.addEventListener('click', (e) => { e.stopPropagation(); selectElement(el); });
+                    });
+                    document.querySelectorAll('.col-element').forEach(col => {
+                        col.addEventListener('click', (e) => { e.stopPropagation(); selectElement(col); });
+                        col.addEventListener('dragover', (e) => { e.preventDefault(); col.style.borderColor = 'var(--nx-green)'; });
+                        col.addEventListener('dragleave', () => { col.style.borderColor = 'var(--nx-border)'; });
+                        col.addEventListener('drop', (e) => { e.preventDefault(); e.stopPropagation(); col.style.borderColor = 'var(--nx-border)'; createElement(e.dataTransfer.getData('type'), col); });
+                    });
+                    document.querySelectorAll('.faq-question').forEach(q => {
+                        q.addEventListener('click', function() { this.nextElementSibling.classList.toggle('open'); });
+                    });
+                    console.log('Projet chargé depuis D1');
+                }
+            } catch(err) {
+                console.error('Erreur chargement:', err);
+                // Fallback localStorage
+                const backup = localStorage.getItem('nyxia-backup-' + projectId);
+                if (backup) {
+                    document.getElementById('canvas').innerHTML = backup;
+                    console.log('Projet chargé depuis localStorage (fallback)');
+                }
             }
-
-            const data = await response.json();
-            const state = JSON.parse(data.content);
-
-            // Restaurer le contenu
-            document.getElementById('canvas').innerHTML = state.html;
-
-            // Optionnel: Restaurer les styles si vous les avez sauvegardés
-            // document.querySelector('style').innerHTML = state.styles;
-
-            console.log("✅ Projet chargé depuis Cloudflare D1");
-
-            // Rafraîchir l'interface si nécessaire (réinitialiser les écouteurs d'événements)
-            // Vous devrez peut-être ré-appeler initDragAndDrop() ou similaire selon votre code
-
-        } catch (error) {
-            console.error("Erreur de chargement:", error);
         }
-    }
 
-    // Ajouter un bouton "Sauvegarder" dans l'interface si absent
-    document.addEventListener('DOMContentLoaded', () => {
-        // Charger automatiquement au démarrage
-        loadProject();
-
-        // Créer un bouton flottant ou l'ajouter à la sidebar
-        const saveBtn = document.createElement('button');
-        saveBtn.innerText = "💾 Sauvegarder";
-        saveBtn.className = "btn-primary btn-save";
-        saveBtn.style.marginTop = "20px";
-        saveBtn.style.width = "100%";
-        saveBtn.onclick = saveProject;
-
-        // Insérer dans la sidebar en haut ou en bas
-        const sidebar = document.querySelector('.sidebar');
-        if(sidebar) {
-            sidebar.insertBefore(saveBtn, sidebar.firstChild);
-        }
-    });
+        // --- Auto-chargement au démarrage ---
+        document.addEventListener('DOMContentLoaded', () => {
+            loadProject();
+            // Auto-save toutes les 2 minutes
+            setInterval(saveProject, 120000);
+        });
     </script>
 </body>
 </html>
