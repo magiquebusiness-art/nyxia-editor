@@ -1,0 +1,540 @@
+/* ================================================================
+   NYXIA DESIGN SYSTEM - COULEURS OFFICIELLES
+================================================================ */
+:root {
+  --nx-primary: #7B5CFF;
+  --nx-primary-rgb: 123,92,255;
+  --nx-bg: #0B0D17;
+  --nx-surface: #13152A;
+  --nx-surface2: #1A1D35;
+  --nx-border: rgba(123,92,255,0.15);
+  --nx-text: #C8CCF0;
+  --nx-text-dim: #6B7094;
+  --nx-green: #00E676;
+  --nx-gold: #F4C842;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Outfit', sans-serif;
+  font-size: 14px;
+  color: var(--nx-text);
+  background: var(--nx-bg);
+  line-height: 1.6;
+  overflow: hidden;
+}
+
+/* Canvas Background */
+#starry-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background: var(--nx-bg); /* Fallback */
+}
+
+/* Layout */
+.app-container {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  position: relative;
+  z-index: 1;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 260px;
+  background: var(--nx-surface);
+  border-right: 1px solid var(--nx-border);
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  flex-shrink: 0;
+}
+
+.logo-area {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--nx-border);
+}
+
+.site-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.5px;
+}
+
+.nav-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 20px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all .2s;
+  color: var(--nx-text-dim);
+  font-weight: 500;
+  text-decoration: none;
+  border: 1px solid transparent;
+}
+.nav-item:hover {
+  background: rgba(var(--nx-primary-rgb), 0.08);
+  color: var(--nx-text);
+  border-color: rgba(var(--nx-primary-rgb), 0.1);
+}
+.nav-item.active {
+  background: rgba(var(--nx-primary-rgb), 0.12);
+  color: #fff;
+  border-color: rgba(var(--nx-primary-rgb), 0.3);
+  box-shadow: 0 0 15px rgba(var(--nx-primary-rgb), 0.1);
+}
+
+.sidebar-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--nx-text-dim);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.sidebar-divider {
+  height: 1px;
+  background: var(--nx-border);
+  margin: 10px 0;
+}
+
+/* Main Content */
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: radial-gradient(circle at top right, rgba(var(--nx-primary-rgb), 0.05), transparent 40%);
+}
+
+.top-bar {
+  height: 70px;
+  padding: 0 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--nx-border);
+  background: rgba(var(--nx-primary-rgb), 0.02);
+  backdrop-filter: blur(5px);
+}
+
+.content-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 30px;
+}
+
+/* Typography */
+.page-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 26px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 30px;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid var(--nx-border);
+}
+
+.section-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--nx-text);
+}
+
+/* Gradients Text */
+.gradient-text {
+  background: linear-gradient(135deg, #a78bfa, var(--nx-primary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.gradient-text-gold {
+  background: linear-gradient(135deg, var(--nx-gold), #e6a800);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Buttons */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: 50px;
+  border: none;
+  background: linear-gradient(135deg, var(--nx-primary), #9B7BFF);
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(var(--nx-primary-rgb), 0.3);
+  transition: all .25s;
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(var(--nx-primary-rgb), 0.5);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: 50px;
+  border: 1px solid var(--nx-border);
+  background: rgba(var(--nx-primary-rgb), 0.05);
+  color: var(--nx-text);
+  font-weight: 500;
+  cursor: pointer;
+  backdrop-filter: blur(5px);
+  transition: all .2s;
+}
+.btn-secondary:hover { 
+  border-color: var(--nx-primary); 
+  background: rgba(var(--nx-primary-rgb), 0.1);
+  color: #fff; 
+}
+
+.btn-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--nx-border);
+  background: transparent;
+  color: var(--nx-text-dim);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all .2s;
+}
+.btn-icon:hover {
+  border-color: var(--nx-primary);
+  color: var(--nx-primary);
+  background: rgba(var(--nx-primary-rgb), 0.1);
+}
+
+/* Cards & Grid */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.card-stat {
+  background: var(--nx-surface2);
+  border: 1px solid var(--nx-border);
+  border-radius: 14px;
+  padding: 20px;
+  text-align: center;
+}
+.card-stat-number {
+  font-size: 28px;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+.card-stat-label {
+  font-size: 12px;
+  color: var(--nx-text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 25px;
+}
+
+.card-glass {
+  background: var(--nx-surface2);
+  border: 1px solid var(--nx-border);
+  border-radius: 16px;
+  padding: 20px;
+  transition: all .3s;
+  position: relative;
+  overflow: hidden;
+}
+.card-glass:hover {
+  border-color: rgba(var(--nx-primary-rgb), 0.4);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.4);
+}
+
+.project-preview {
+  height: 140px;
+  background: rgba(0,0,0,0.2);
+  border-radius: 10px;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--nx-text-dim);
+  font-size: 13px;
+  border: 1px dashed var(--nx-border);
+}
+
+.project-title {
+  color: #fff;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 600;
+  margin-bottom: 5px;
+  font-size: 16px;
+}
+
+.project-url {
+  font-size: 12px;
+  color: var(--nx-text-dim);
+}
+
+.card-new-project {
+  background: rgba(var(--nx-primary-rgb), 0.03);
+  border: 1px dashed var(--nx-border);
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 280px;
+  cursor: pointer;
+  transition: all .2s;
+  text-align: center;
+  padding: 20px;
+}
+.card-new-project:hover {
+  background: rgba(var(--nx-primary-rgb), 0.06);
+  border-color: var(--nx-primary);
+}
+.new-project-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: rgba(var(--nx-primary-rgb), 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+/* Avatar Widget */
+.nx-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--nx-primary), #9B7BFF);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+  flex-shrink: 0;
+}
+.nx-logo-avatar {
+  width: 40px;
+  height: 40px;
+  font-size: 18px;
+}
+
+/* Status */
+.status-online {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--nx-green);
+  font-weight: 600;
+  background: rgba(0,230,118,0.1);
+  padding: 4px 10px;
+  border-radius: 20px;
+}
+.status-online::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  background: var(--nx-green);
+  border-radius: 50%;
+  box-shadow: 0 0 8px var(--nx-green);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(var(--nx-primary-rgb), 0.2); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(var(--nx-primary-rgb), 0.4); }
+
+/* ==========================================
+   WIDGET CHAT CSS (VOTRE CODE ORIGINAL)
+   ========================================== */
+#nyxia-toggle {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--nx-primary), #9B7BFF);
+  border: none;
+  cursor: pointer;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 24px rgba(var(--nx-primary-rgb), 0.4);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+#nyxia-toggle:hover { transform: scale(1.08); box-shadow: 0 6px 32px rgba(var(--nx-primary-rgb), 0.6); }
+#nyxia-toggle svg { width: 28px; height: 28px; fill: #fff; }
+
+#nyxia-chat {
+  position: fixed;
+  bottom: 100px;
+  right: 24px;
+  width: 400px;
+  max-width: calc(100vw - 48px);
+  height: 560px;
+  background: var(--nx-bg);
+  border: 1px solid var(--nx-border);
+  border-radius: 20px;
+  z-index: 99998;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 8px 48px rgba(0,0,0,0.5);
+  transform: translateY(20px) scale(0.95);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.2s;
+}
+#nyxia-chat.open { transform: translateY(0) scale(1); opacity: 1; pointer-events: auto; }
+
+#nyxia-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 18px;
+  background: var(--nx-surface);
+  border-bottom: 1px solid var(--nx-border);
+}
+#nyxia-header .nx-info { flex: 1; }
+#nyxia-header .nx-name { font-size: 15px; font-weight: 700; color: #fff; }
+#nyxia-header .nx-status { font-size: 11px; color: var(--nx-green); display: flex; align-items: center; gap: 4px; }
+#nyxia-header .nx-status::before { content: ''; width: 6px; height: 6px; background: var(--nx-green); border-radius: 50%; display: inline-block; }
+
+#nyxia-close {
+  background: none;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  color: var(--nx-text-dim);
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#nyxia-close:hover { background: rgba(255,255,255,0.05); color: #fff; }
+
+#nyxia-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.nx-msg { display: flex; flex-direction: column; max-width: 85%; }
+.nx-msg.bot { align-self: flex-start; }
+.nx-msg.user { align-self: flex-end; }
+.nx-bubble {
+  padding: 10px 14px;
+  border-radius: 16px;
+  font-size: 13.5px;
+  line-height: 1.5;
+}
+.nx-msg.bot .nx-bubble {
+  background: var(--nx-surface2);
+  color: var(--nx-text);
+  border-bottom-left-radius: 4px;
+}
+.nx-msg.user .nx-bubble {
+  background: linear-gradient(135deg, var(--nx-primary), #9B7BFF);
+  color: #fff;
+  border-bottom-right-radius: 4px;
+}
+
+#nyxia-input-area {
+  padding: 12px 16px 16px;
+  background: var(--nx-surface);
+  border-top: 1px solid var(--nx-border);
+}
+#nyxia-input-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  background: var(--nx-surface2);
+  border: 1px solid var(--nx-border);
+  border-radius: 14px;
+  padding: 6px 6px 6px 14px;
+}
+#nyxia-input {
+  flex: 1;
+  background: none;
+  border: none;
+  outline: none;
+  color: var(--nx-text);
+  font-size: 13.5px;
+  font-family: inherit;
+  resize: none;
+  max-height: 80px;
+  line-height: 1.4;
+}
+#nyxia-input::placeholder { color: var(--nx-text-dim); }
+#nyxia-send {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--nx-primary), #9B7BFF);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.15s;
+}
+#nyxia-send:hover:not(:disabled) { transform: scale(1.06); }
+#nyxia-send:disabled { opacity: 0.4; cursor: not-allowed; }
+#nyxia-send svg { width: 18px; height: 18px; fill: #fff; }

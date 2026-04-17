@@ -1,0 +1,8 @@
+name = "nyxia-editor"
+compatibility_date = "2024-01-01"
+pages_build_output_dir = "./dist"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "nyxia-db"
+database_id = "5c668909-2308-43f5-a3b0-a1e1d3036b48"
