@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NyXia — Automatisation Publications</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg1: #0A1628; --bg2: #0F1C3F; --bg3: #1A2554;
+      --p: #7B5CFF; --p2: #5A6CFF; --p3: #4FA3FF;
+      --t: #FFFFFF; --t2: #D6D9F0; --t3: #8891B8; --t4: #4a5278;
+      --green: #00E676; --gold: #F4C842; --r: 14px;
+    }
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    html, body { height:100%; overflow:hidden; }
+    body { background: var(--bg1); color: var(--t2); font-family: 'Outfit', sans-serif; }
+
+    .app { display:flex; flex-direction:column; height:100%; }
+
+    /* Header */
+    .auto-header { padding:20px 28px; border-bottom:1px solid rgba(123,92,255,0.1); background:rgba(10,22,40,0.6); backdrop-filter:blur(10px); flex-shrink:0; }
+    .auto-header h1 { font-family:'Cormorant Garamond',serif; font-size:24px; font-weight:600; background:linear-gradient(135deg,#a78bfa,var(--p3)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; margin-bottom:4px; }
+    .auto-header p { color:var(--t3); font-size:13px; }
+
+    /* Content */
+    .auto-content { flex:1; overflow-y:auto; padding:24px 28px; }
+    .auto-content::-webkit-scrollbar { width:4px; }
+    .auto-content::-webkit-scrollbar-thumb { background:rgba(123,92,255,0.2); border-radius:2px; }
+
+    /* Stats Grid */
+    .stats-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:14px; margin-bottom:28px; }
+    .stat-card { background:rgba(15,28,63,0.6); border:1px solid rgba(123,92,255,0.12); border-radius:var(--r); padding:18px 16px; text-align:center; transition:all .2s; }
+    .stat-card:hover { border-color:rgba(123,92,255,0.3); box-shadow:0 0 20px rgba(123,92,255,0.1); }
+    .stat-value { font-size:28px; font-weight:700; background:linear-gradient(135deg,var(--p),var(--p3)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+    .stat-label { font-size:11px; color:var(--t4); text-transform:uppercase; letter-spacing:0.8px; margin-top:4px; }
+
+    /* Section Card */
+    .section-card { background:rgba(15,28,63,0.5); border:1px solid rgba(123,92,255,0.12); border-radius:var(--r); padding:24px; margin-bottom:24px; }
+    .section-card h2 { font-family:'Cormorant Garamond',serif; font-size:20px; font-weight:600; color:var(--t); margin-bottom:16px; }
+    .section-card p.desc { color:var(--t3); font-size:13px; margin-bottom:16px; line-height:1.6; }
+
+    /* Form Grid */
+    .form-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+    .form-group { display:flex; flex-direction:column; gap:6px; }
+    .form-group.full { grid-column:1/-1; }
+    .form-label { font-size:12px; font-weight:600; color:var(--t2); }
+    .form-input, .form-select, .form-textarea {
+      background:rgba(15,28,63,0.8); border:1px solid rgba(123,92,255,0.2); border-radius:10px;
+      color:var(--t); font-family:'Outfit',sans-serif; font-size:14px; padding:11px 14px;
+      outline:none; transition:border-color .2s;
+    }
+    .form-input:focus, .form-select:focus, .form-textarea:focus { border-color:rgba(123,92,255,0.5); }
+    .form-input::placeholder, .form-textarea::placeholder { color:var(--t4); }
+    .form-textarea { resize:vertical; min-height:80px; }
+    .form-select { cursor:pointer; }
+    .form-select option { background:var(--bg2); }
+
+    /* Buttons */
+    .btn-primary {
+      padding:12px 24px; border-radius:50px; border:none; font-family:'Outfit',sans-serif;
+      font-size:14px; font-weight:600; cursor:pointer; transition:all .25s;
+      background:linear-gradient(135deg,var(--p),var(--p2)); color:#fff;
+      box-shadow:0 0 20px rgba(123,92,255,0.3);
+    }
+    .btn-primary:hover { transform:translateY(-1px); box-shadow:0 0 30px rgba(123,92,255,0.5); }
+    .btn-gold {
+      padding:12px 24px; border-radius:50px; border:none; font-family:'Outfit',sans-serif;
+      font-size:14px; font-weight:600; cursor:pointer; transition:all .25s;
+      background:linear-gradient(135deg,var(--gold),#e6a800); color:#1a1000;
+      box-shadow:0 0 20px rgba(244,200,66,0.3);
+    }
+    .btn-gold:hover { transform:translateY(-1px); box-shadow:0 0 30px rgba(244,200,66,0.5); }
+    .btn-sm { padding:8px 16px; font-size:12px; }
+    .btn-outline {
+      padding:8px 16px; border-radius:50px; border:1px solid rgba(123,92,255,0.25);
+      background:rgba(123,92,255,0.07); color:var(--t3); font-family:'Outfit',sans-serif;
+      font-size:12px; font-weight:500; cursor:pointer; transition:all .2s;
+    }
+    .btn-outline:hover { border-color:var(--p); color:var(--t2); background:rgba(123,92,255,0.14); }
+
+    /* Campaign List */
+    .campaign-item { background:rgba(26,37,84,0.5); border:1px solid rgba(123,92,255,0.1); border-radius:12px; padding:16px; margin-bottom:12px; transition:all .2s; }
+    .campaign-item:hover { border-color:rgba(123,92,255,0.25); }
+    .campaign-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
+    .campaign-title { font-size:16px; font-weight:600; color:var(--t); }
+    .badge { padding:4px 10px; border-radius:50px; font-size:11px; font-weight:600; }
+    .badge-purple { background:rgba(123,92,255,0.15); color:var(--p); border:1px solid rgba(123,92,255,0.3); }
+    .badge-gold { background:rgba(244,200,66,0.12); color:var(--gold); border:1px solid rgba(244,200,66,0.3); }
+    .badge-green { background:rgba(0,230,118,0.1); color:var(--green); border:1px solid rgba(0,230,118,0.25); }
+    .campaign-stats { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:12px; }
+    .campaign-stat-label { font-size:11px; color:var(--t4); }
+    .campaign-stat-value { font-size:14px; font-weight:600; color:var(--t2); }
+    .campaign-actions { display:flex; gap:8px; }
+
+    /* Platforms */
+    .platforms-row { display:flex; gap:10px; flex-wrap:wrap; margin-top:12px; }
+    .platform-tag { display:flex; align-items:center; gap:6px; padding:6px 12px; border-radius:50px; font-size:12px; font-weight:500; border:1px solid rgba(123,92,255,0.15); background:rgba(123,92,255,0.06); color:var(--t3); }
+    .platform-tag.connected { border-color:rgba(0,230,118,0.3); color:var(--green); background:rgba(0,230,118,0.06); }
+
+    /* Empty state */
+    .empty-state { text-align:center; padding:40px 20px; color:var(--t4); }
+    .empty-state .icon { font-size:48px; margin-bottom:12px; }
+    .empty-state p { font-size:14px; line-height:1.6; }
+
+    /* Progress bar */
+    .progress-bar { width:100%; height:6px; background:rgba(123,92,255,0.12); border-radius:3px; overflow:hidden; margin-top:8px; }
+    .progress-fill { height:100%; background:linear-gradient(90deg,var(--p),var(--p3)); border-radius:3px; transition:width .5s ease; }
+
+    /* Modal */
+    .modal-overlay { display:none; position:fixed; inset:0; z-index:999; background:rgba(0,0,0,0.7); backdrop-filter:blur(8px); align-items:center; justify-content:center; }
+    .modal-overlay.active { display:flex; }
+    .modal { background:var(--bg2); border:1px solid rgba(123,92,255,0.25); border-radius:20px; padding:28px; width:100%; max-width:480px; margin:20px; }
+    .modal h3 { font-size:18px; font-weight:700; color:var(--t); margin-bottom:6px; }
+    .modal p { font-size:13px; color:var(--t3); margin-bottom:20px; }
+    .modal-actions { display:flex; gap:10px; justify-content:flex-end; margin-top:20px; }
+
+    @media (max-width:768px) {
+      .auto-content { padding:16px; }
+      .form-grid { grid-template-columns:1fr; }
+      .stats-grid { grid-template-columns:repeat(2,1fr); }
+      .campaign-stats { grid-template-columns:repeat(2,1fr); }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="auto-header">
+      <h1>📱 Automatisation — Publications</h1>
+      <p>Génère et planifie 90 jours de contenu en quelques clics</p>
+    </div>
+
+    <div class="auto-content">
+      <!-- Stats -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-value" id="stat-campaigns">0</div>
+          <div class="stat-label">Campagnes</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="stat-content">0</div>
+          <div class="stat-label">Contenus</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="stat-scheduled">0</div>
+          <div class="stat-label">Planifiés</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="stat-published">0</div>
+          <div class="stat-label">Publiés</div>
+        </div>
+      </div>
+
+      <!-- Nouvelle Campagne -->
+      <div class="section-card">
+        <h2>✨ Nouvelle Campagne</h2>
+        <p class="desc">Crée une campagne de contenu automatique — reels, images, publications sur 30, 60 ou 90 jours.</p>
+        <form id="campaignForm">
+          <div class="form-grid">
+            <div class="form-group full">
+              <label class="form-label">Titre de la campagne</label>
+              <input type="text" class="form-input" id="c-title" placeholder="Ex : Lancement de mon livre" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Reels par jour</label>
+              <input type="number" class="form-input" id="c-reels" value="1" min="0" max="10">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Images par jour</label>
+              <input type="number" class="form-input" id="c-images" value="2" min="0" max="10">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Durée (jours)</label>
+              <input type="number" class="form-input" id="c-days" value="90" min="7" max="365">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Plateformes</label>
+              <select class="form-select" id="c-platform">
+                <option value="facebook">Facebook</option>
+                <option value="tiktok">TikTok</option>
+                <option value="both">Facebook + TikTok</option>
+              </select>
+            </div>
+            <div class="form-group full">
+              <label class="form-label">Hashtags</label>
+              <input type="text" class="form-input" id="c-hashtags" placeholder="#viral #monhashtag #marketing">
+            </div>
+            <div class="form-group full">
+              <button type="submit" class="btn-primary" style="width:100%">🚀 Créer la Campagne</button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <!-- Configurer les titres -->
+      <div class="section-card" id="titlesSection" style="display:none">
+        <h2>📝 Configurer les Titres</h2>
+        <p class="desc">Entre tes titres — NyXia va générer des visuels IA à partir de chaque titre.</p>
+        <form id="titlesForm">
+          <div class="form-grid">
+            <div class="form-group full">
+              <label class="form-label">Sélectionner une campagne</label>
+              <select class="form-select" id="t-campaign" required>
+                <option value="">-- Choisir --</option>
+              </select>
+            </div>
+            <div class="form-group full">
+              <label class="form-label">Titres pour Reels (un par ligne)</label>
+              <textarea class="form-textarea" id="t-reels" rows="4" placeholder="Mon premier conseil&#10;Derrière les scènes de...&#10;3 erreurs à éviter"></textarea>
+            </div>
+            <div class="form-group full">
+              <label class="form-label">Titres pour Images (un par ligne)</label>
+              <textarea class="form-textarea" id="t-images" rows="4" placeholder="Citation du jour&#10;Astuce express&#10;Question de la semaine"></textarea>
+            </div>
+            <div class="form-group full">
+              <button type="submit" class="btn-gold" style="width:100%">✨ Générer le Planning</button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <!-- Campagnes Actives -->
+      <div class="section-card">
+        <h2>🎯 Mes Campagnes</h2>
+        <div id="campaignsList">
+          <div class="empty-state">
+            <div class="icon">🚀</div>
+            <p>Aucune campagne pour le moment.<br>Crée ta première campagne ci-dessus !</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Page Sociale -->
+  <div class="modal-overlay" id="pageModal">
+    <div class="modal">
+      <h3>📱 Connecter une Page Sociale</h3>
+      <p>Ajoute ta page Facebook ou ton compte TikTok pour la publication automatique.</p>
+      <div class="form-group" style="margin-bottom:14px">
+        <label class="form-label">Plateforme</label>
+        <select class="form-select" id="m-platform">
+          <option value="facebook">Facebook Page</option>
+          <option value="tiktok">TikTok</option>
+        </select>
+      </div>
+      <div class="form-group" style="margin-bottom:14px">
+        <label class="form-label">Nom de la page</label>
+        <input type="text" class="form-input" id="m-pagename" placeholder="Ma Page Business">
+      </div>
+      <div class="form-group" style="margin-bottom:14px">
+        <label class="form-label">Page ID ou Username</label>
+        <input type="text" class="form-input" id="m-pageid" placeholder="Ex: 123456789 ou @moncompte">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Access Token</label>
+        <input type="text" class="form-input" id="m-token" placeholder="Colle ton token ici">
+      </div>
+      <div class="modal-actions">
+        <button class="btn-outline" onclick="closeModal()">Annuler</button>
+        <button class="btn-primary btn-sm" onclick="savePage()">Connecter</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* ═══ Campaigns LocalStorage ═══ */
+    var _campaigns = JSON.parse(localStorage.getItem('nyxia_auto_campaigns') || '[]')
+
+    function saveCampaigns() {
+      localStorage.setItem('nyxia_auto_campaigns', JSON.stringify(_campaigns))
+    }
+
+    function updateStats() {
+      var total = _campaigns.length
+      var content = 0, scheduled = 0, published = 0
+      _campaigns.forEach(function(c) {
+        var items = c.items || []
+        content += items.length
+        items.forEach(function(it) {
+          if (it.status === 'published') published++
+          else if (it.status === 'scheduled') scheduled++
+        })
+      })
+      document.getElementById('stat-campaigns').textContent = total
+      document.getElementById('stat-content').textContent = content
+      document.getElementById('stat-scheduled').textContent = scheduled
+      document.getElementById('stat-published').textContent = published
+    }
+
+    function renderCampaigns() {
+      var list = document.getElementById('campaignsList')
+      var select = document.getElementById('t-campaign')
+      if (_campaigns.length === 0) {
+        list.innerHTML = '<div class="empty-state"><div class="icon">🚀</div><p>Aucune campagne pour le moment.<br>Crée ta première campagne ci-dessus !</p></div>'
+        select.innerHTML = '<option value="">-- Choisir --</option>'
+        document.getElementById('titlesSection').style.display = 'none'
+        updateStats()
+        return
+      }
+      /* Update select */
+      select.innerHTML = '<option value="">-- Choisir --</option>'
+      _campaigns.forEach(function(c, i) {
+        select.innerHTML += '<option value="' + i + '">' + c.title + '</option>'
+      })
+      document.getElementById('titlesSection').style.display = ''
+
+      /* Render list */
+      list.innerHTML = ''
+      _campaigns.forEach(function(c, i) {
+        var items = c.items || []
+        var pub = items.filter(function(it) { return it.status === 'published' }).length
+        var pct = items.length > 0 ? Math.round(pub / items.length * 100) : 0
+        var platforms = ''
+        if (c.platform === 'facebook' || c.platform === 'both') platforms += '<span class="platform-tag ' + (c.fbConnected ? 'connected' : '') + '">📘 Facebook</span>'
+        if (c.platform === 'tiktok' || c.platform === 'both') platforms += '<span class="platform-tag ' + (c.tiktokConnected ? 'connected' : '') + '">🎵 TikTok</span>'
+
+        var div = document.createElement('div')
+        div.className = 'campaign-item'
+        div.innerHTML =
+          '<div class="campaign-top">' +
+            '<div class="campaign-title">' + c.title + '</div>' +
+            '<span class="badge badge-purple">' + c.reelsPerDay + ' reels + ' + c.imagesPerDay + ' images/jour</span>' +
+          '</div>' +
+          '<div class="campaign-stats">' +
+            '<div><div class="campaign-stat-label">Durée</div><div class="campaign-stat-value">' + c.days + ' jours</div></div>' +
+            '<div><div class="campaign-stat-label">Contenus</div><div class="campaign-stat-value">' + items.length + '</div></div>' +
+            '<div><div class="campaign-stat-label">Progression</div><div class="campaign-stat-value">' + pct + '%</div></div>' +
+          '</div>' +
+          '<div class="progress-bar"><div class="progress-fill" style="width:' + pct + '%"></div></div>' +
+          '<div class="platforms-row">' + platforms +
+            '<button class="btn-outline" style="margin-left:auto" onclick="openPageModal(' + i + ')">+ Page Sociale</button>' +
+          '</div>'
+        list.appendChild(div)
+      })
+      updateStats()
+    }
+
+    /* ═══ Create Campaign ═══ */
+    document.getElementById('campaignForm').addEventListener('submit', function(e) {
+      e.preventDefault()
+      var campaign = {
+        id: Date.now(),
+        title: document.getElementById('c-title').value.trim(),
+        reelsPerDay: parseInt(document.getElementById('c-reels').value) || 0,
+        imagesPerDay: parseInt(document.getElementById('c-images').value) || 0,
+        days: parseInt(document.getElementById('c-days').value) || 90,
+        platform: document.getElementById('c-platform').value,
+        hashtags: document.getElementById('c-hashtags').value.trim(),
+        fbConnected: false,
+        tiktokConnected: false,
+        items: [],
+        createdAt: new Date().toISOString()
+      }
+      _campaigns.unshift(campaign)
+      saveCampaigns()
+      renderCampaigns()
+      this.reset()
+    })
+
+    /* ═══ Generate Schedule ═══ */
+    document.getElementById('titlesForm').addEventListener('submit', function(e) {
+      e.preventDefault()
+      var idx = parseInt(document.getElementById('t-campaign').value)
+      if (isNaN(idx) || !_campaigns[idx]) return
+      var c = _campaigns[idx]
+      var reelsTitles = document.getElementById('t-reels').value.split('\n').filter(function(t) { return t.trim() })
+      var imagesTitles = document.getElementById('t-images').value.split('\n').filter(function(t) { return t.trim() })
+      if (reelsTitles.length === 0 && imagesTitles.length === 0) return
+
+      var items = []
+      var startDate = new Date()
+      var now = new Date()
+
+      for (var day = 0; day < c.days; day++) {
+        for (var r = 0; r < c.reelsPerDay; r++) {
+          var tIdx = (day * c.reelsPerDay + r) % reelsTitles.length
+          var hour = 9 + (r * 5)
+          var sched = new Date(startDate.getTime() + day * 86400000 + hour * 3600000)
+          items.push({
+            type: 'reel',
+            title: reelsTitles[tIdx],
+            status: sched <= now ? 'pending' : 'scheduled',
+            scheduledDate: sched.toISOString()
+          })
+        }
+        for (var img = 0; img < c.imagesPerDay; img++) {
+          var tiIdx = (day * c.imagesPerDay + img) % imagesTitles.length
+          var hImg = 11 + (img * 5)
+          var schedImg = new Date(startDate.getTime() + day * 86400000 + hImg * 3600000)
+          items.push({
+            type: 'image',
+            title: imagesTitles[tiIdx],
+            status: schedImg <= now ? 'pending' : 'scheduled',
+            scheduledDate: schedImg.toISOString()
+          })
+        }
+      }
+
+      c.items = items
+      saveCampaigns()
+      renderCampaigns()
+      this.reset()
+      var total = items.length
+      alert('✨ ' + total + ' contenus planifiés sur ' + c.days + ' jours !')
+    })
+
+    /* ═══ Page Sociale Modal ═══ */
+    var _currentCampaignIdx = -1
+    function openPageModal(idx) {
+      _currentCampaignIdx = idx
+      document.getElementById('pageModal').classList.add('active')
+    }
+    function closeModal() {
+      document.getElementById('pageModal').classList.remove('active')
+    }
+    function savePage() {
+      if (_currentCampaignIdx < 0) return
+      var platform = document.getElementById('m-platform').value
+      var c = _campaigns[_currentCampaignIdx]
+      if (platform === 'facebook') c.fbConnected = true
+      if (platform === 'tiktok') c.tiktokConnected = true
+      saveCampaigns()
+      renderCampaigns()
+      closeModal()
+    }
+
+    /* ═══ Init ═══ */
+    renderCampaigns()
+  </script>
+</body>
+</html>
