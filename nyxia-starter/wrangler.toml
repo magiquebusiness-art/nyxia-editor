@@ -1,0 +1,15 @@
+name              = "nyxia-starter-worker"
+main              = "worker.js"
+compatibility_date = "2024-01-01"
+
+# ── KV Namespace ──────────────────────────────────────────────
+# Créer dans Cloudflare Dashboard → Workers → KV
+# puis coller l'ID ci-dessous
+[[kv_namespaces]]
+binding = "NYXIA_KV"
+id      = "REMPLACE_PAR_TON_KV_ID"
+
+# ── Secrets ───────────────────────────────────────────────────
+# OPENROUTER_API_KEY ne va PAS ici.
+# Elle se configure dans :
+# Dashboard → Workers → nyxia-starter-worker → Settings → Variables → Add secret

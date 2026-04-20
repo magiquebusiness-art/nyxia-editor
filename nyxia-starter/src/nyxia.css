@@ -1,0 +1,746 @@
+/* ═══════════════════════════════════════════════════════════
+   NYXIA DESIGN SYSTEM — v1.0
+   ──────────────────────────────────────────────────────────
+   Fichier CSS unifié pour harmoniser tout le projet NyXia IA.
+   
+   Utilisation :
+   <link rel="stylesheet" href="/css/nyxia.css">
+   
+   Inclure APRÈS les Google Fonts :
+   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+═══════════════════════════════════════════════════════════ */
+
+
+/* ══════════════════════════════════════
+   1. VARIABLES — Tokens de design
+══════════════════════════════════════ */
+:root {
+  /* Backgrounds */
+  --bg1: #0A1628;
+  --bg2: #0F1C3F;
+  --bg3: #1A2554;
+  --bg4: #2A3A6E;
+  --sidebar: #080f22;
+
+  /* Surfaces (cartes, panels) */
+  --surface: #13152A;
+  --surface2: #1A1D35;
+  --surface3: #2B245C;
+
+  /* Primaire (violet NyXia) */
+  --p: #7B5CFF;
+  --p-rgb: 123,92,255;
+  --p2: #5A6CFF;
+  --p3: #4FA3FF;
+  --p-light: #9B7BFF;
+  --p-soft: #a78bfa;
+
+  /* Accents */
+  --green: #00E676;
+  --gold: #F4C842;
+  --red: #FF4B6E;
+  --red-soft: #ff8fab;
+  --red-light: #ff6b6b;
+
+  /* Texte */
+  --t: #FFFFFF;
+  --t2: #D6D9F0;
+  --t3: #8891B8;
+  --t4: #4a5278;
+  --t-dim: #6B7094;
+  --t-body: #C8CCF0;
+
+  /* Bordures */
+  --border: rgba(123,92,255,0.15);
+  --border-hover: rgba(123,92,255,0.3);
+  --border-active: rgba(123,92,255,0.5);
+
+  /* Glow */
+  --glow: rgba(123,92,255,0.4);
+  --glow-strong: rgba(123,92,255,0.6);
+
+  /* Rayons */
+  --r: 14px;
+  --r-sm: 10px;
+  --r-lg: 20px;
+  --r-full: 50px;
+
+  /* Transitions */
+  --ease: 0.2s ease;
+  --ease-slow: 0.3s ease;
+}
+
+
+/* ══════════════════════════════════════
+   2. RESET & BASE
+══════════════════════════════════════ */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--bg2);
+  color: var(--t2);
+  font-family: 'Outfit', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+
+/* ══════════════════════════════════════
+   3. TYPOGRAPHIE
+══════════════════════════════════════ */
+
+/* Famille principale : Outfit (body, UI) */
+/* Famille titre élégant : Cormorant Garamond (titres premium, serif) */
+/* Famille technique : Space Grotesk (badges, labels, monospace-like) */
+
+.font-body    { font-family: 'Outfit', sans-serif; }
+.font-display { font-family: 'Cormorant Garamond', serif; }
+.font-tech    { font-family: 'Space Grotesk', sans-serif; }
+
+/* Gradient texte signature NyXia */
+.gradient-text,
+.text-gradient {
+  background: linear-gradient(135deg, #a78bfa, var(--p3));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gold { color: var(--gold); }
+.text-green { color: var(--green); }
+.text-muted { color: var(--t3); }
+.text-dim { color: var(--t-dim); }
+
+
+/* ══════════════════════════════════════
+   4. AMBIENT GLOW (fond atmosphérique)
+══════════════════════════════════════ */
+.nx-ambient::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse 70% 45% at 15% 5%,  rgba(123,92,255,0.13) 0%, transparent 65%),
+    radial-gradient(ellipse 55% 35% at 85% 85%, rgba(79,163,255,0.08) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 30% at 50% 50%, rgba(62,45,122,0.06) 0%, transparent 70%);
+}
+
+
+/* ══════════════════════════════════════
+   5. NAVBAR
+══════════════════════════════════════ */
+.nx-nav {
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  height: 64px;
+  background: rgba(15,28,63,0.92);
+  backdrop-filter: blur(24px);
+  border-bottom: 1px solid rgba(123,92,255,0.1);
+}
+
+.nx-nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+.nx-nav-logo img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1.5px solid rgba(123,92,255,0.5);
+}
+
+.nx-nav-logo span {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #a78bfa, var(--p3));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.nx-nav-links {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.nx-nav-link {
+  color: var(--t3);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 7px 14px;
+  border-radius: var(--r-full);
+  transition: all var(--ease);
+  white-space: nowrap;
+}
+
+.nx-nav-link:hover {
+  color: var(--t);
+  background: rgba(123,92,255,0.1);
+}
+
+.nx-nav-link.active {
+  color: var(--t);
+  background: rgba(123,92,255,0.15);
+  border: 1px solid var(--border-hover);
+}
+
+
+/* ══════════════════════════════════════
+   6. AVATAR NYXIA
+══════════════════════════════════════ */
+.nx-avatar {
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(123,92,255,0.5);
+  box-shadow: 0 0 40px rgba(123,92,255,0.35), 0 0 80px rgba(123,92,255,0.12);
+  animation: nx-float 4s ease-in-out infinite;
+}
+
+.nx-avatar-sm  { width: 32px; height: 32px; }
+.nx-avatar-md  { width: 44px; height: 44px; }
+.nx-avatar-lg  { width: 80px; height: 80px; }
+.nx-avatar-xl  { width: 110px; height: 110px; }
+
+@keyframes nx-float {
+  0%, 100% { transform: translateY(0);   box-shadow: 0 0 40px rgba(123,92,255,0.35), 0 0 80px rgba(123,92,255,0.12); }
+  50%       { transform: translateY(-8px); box-shadow: 0 0 60px rgba(123,92,255,0.55), 0 0 100px rgba(123,92,255,0.2); }
+}
+
+@keyframes nx-breathe {
+  0%, 100% { box-shadow: 0 0 20px rgba(123,92,255,0.4); }
+  50%      { box-shadow: 0 0 35px rgba(123,92,255,0.7), 0 0 60px rgba(123,92,255,0.2); }
+}
+
+
+/* ══════════════════════════════════════
+   7. CARTES & SURFACES
+══════════════════════════════════════ */
+.nx-card {
+  background: rgba(26,37,84,0.45);
+  border: 1px solid rgba(123,92,255,0.14);
+  border-radius: var(--r-lg);
+  backdrop-filter: blur(12px);
+}
+
+.nx-card-solid {
+  background: rgba(26,37,84,0.7);
+  border: 1px solid rgba(123,92,255,0.12);
+  border-radius: 16px;
+}
+
+.nx-card:hover,
+.nx-card-hover:hover {
+  border-color: rgba(123,92,255,0.38);
+  transform: translateY(-4px);
+  box-shadow: 0 10px 36px rgba(0,0,0,0.35);
+}
+
+.nx-surface {
+  background: rgba(19,21,42,0.95);
+  backdrop-filter: blur(15px);
+  border: 1px solid var(--border);
+}
+
+.nx-glass {
+  background: rgba(26,37,84,0.4);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(123,92,255,0.12);
+  border-radius: var(--r-lg);
+}
+
+
+/* ══════════════════════════════════════
+   8. BOUTONS
+══════════════════════════════════════ */
+.nx-btn {
+  padding: 10px 24px;
+  border-radius: var(--r-full);
+  border: 1px solid var(--border-hover);
+  background: rgba(123,92,255,0.08);
+  color: var(--t2);
+  font-family: 'Outfit', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--ease);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+}
+
+.nx-btn:hover {
+  border-color: var(--p);
+  color: var(--t);
+  background: rgba(123,92,255,0.18);
+}
+
+/* Primaire */
+.nx-btn-primary {
+  padding: 12px 32px;
+  border-radius: var(--r-full);
+  border: none;
+  background: linear-gradient(135deg, var(--p), var(--p2));
+  color: #fff;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 0 24px var(--glow);
+  transition: all 0.25s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+}
+
+.nx-btn-primary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 0 40px var(--glow-strong);
+}
+
+.nx-btn-primary:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* Petit bouton */
+.nx-btn-sm {
+  padding: 7px 16px;
+  border-radius: var(--r-full);
+  border: 1px solid rgba(123,92,255,0.28);
+  background: rgba(123,92,255,0.08);
+  color: var(--t2);
+  font-family: 'Outfit', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--ease);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  text-decoration: none;
+}
+
+.nx-btn-sm:hover {
+  border-color: var(--p);
+  color: var(--t);
+  background: rgba(123,92,255,0.18);
+}
+
+.nx-btn-accent {
+  background: linear-gradient(135deg, var(--p), var(--p2));
+  border-color: transparent;
+  color: #fff;
+  box-shadow: 0 0 16px rgba(123,92,255,0.35);
+}
+
+.nx-btn-accent:hover {
+  box-shadow: 0 0 28px var(--glow-strong);
+  transform: translateY(-1px);
+}
+
+.nx-btn-green {
+  background: rgba(0,230,118,0.15);
+  border-color: rgba(0,230,118,0.3);
+  color: var(--green);
+}
+
+.nx-btn-danger {
+  background: rgba(255,75,110,0.1);
+  border: 1px solid rgba(255,75,110,0.25);
+  color: var(--red-soft);
+}
+
+.nx-btn-danger:hover {
+  background: rgba(255,75,110,0.2);
+}
+
+
+/* ══════════════════════════════════════
+   9. INPUTS & FORMS
+══════════════════════════════════════ */
+.nx-input {
+  width: 100%;
+  background: rgba(15,28,63,0.65);
+  border: 1px solid rgba(123,92,255,0.2);
+  border-radius: var(--r-full);
+  color: var(--t);
+  font-family: 'Outfit', sans-serif;
+  font-size: 15px;
+  padding: 13px 20px;
+  outline: none;
+  transition: border-color var(--ease), box-shadow var(--ease);
+}
+
+.nx-input:focus {
+  border-color: rgba(123,92,255,0.5);
+  box-shadow: 0 0 0 3px rgba(123,92,255,0.1);
+}
+
+.nx-input::placeholder {
+  color: var(--t3);
+}
+
+.nx-select {
+  background: rgba(15,28,63,0.65);
+  border: 1px solid rgba(123,92,255,0.2);
+  border-radius: var(--r-full);
+  color: var(--t2);
+  font-family: 'Outfit', sans-serif;
+  font-size: 13px;
+  padding: 7px 14px;
+  outline: none;
+  cursor: pointer;
+  transition: border-color var(--ease);
+}
+
+.nx-select:focus {
+  border-color: rgba(123,92,255,0.5);
+}
+
+.nx-textarea {
+  width: 100%;
+  background: rgba(15,28,63,0.7);
+  border: 1px solid rgba(123,92,255,0.2);
+  border-radius: var(--r);
+  color: var(--t);
+  font-family: 'Outfit', sans-serif;
+  font-size: 14px;
+  padding: 12px 16px;
+  outline: none;
+  resize: vertical;
+  transition: border-color var(--ease);
+  line-height: 1.5;
+}
+
+.nx-textarea:focus {
+  border-color: rgba(123,92,255,0.5);
+}
+
+
+/* ══════════════════════════════════════
+   10. BADGES
+══════════════════════════════════════ */
+.nx-badge {
+  background: rgba(123,92,255,0.2);
+  border: 1px solid var(--border-hover);
+  border-radius: var(--r-full);
+  font-size: 12px;
+  padding: 2px 10px;
+  color: var(--p3);
+  font-family: 'Outfit', sans-serif;
+}
+
+.nx-badge-brand {
+  background: linear-gradient(135deg, rgba(123,92,255,0.2), rgba(79,163,255,0.2));
+  border: 1px solid var(--border-hover);
+  padding: 3px 10px;
+  border-radius: var(--r-full);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--p3);
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+.nx-badge-green {
+  background: rgba(0,230,118,0.15);
+  border-color: rgba(0,230,118,0.3);
+  color: var(--green);
+}
+
+.nx-badge-gold {
+  background: linear-gradient(135deg, var(--gold), #e6a800);
+  color: #1a1000;
+}
+
+
+/* ══════════════════════════════════════
+   11. TABS
+══════════════════════════════════════ */
+.nx-tabs {
+  display: flex;
+  gap: 4px;
+  background: rgba(26,37,84,0.4);
+  border: 1px solid rgba(123,92,255,0.12);
+  border-radius: var(--r-full);
+  padding: 4px;
+  width: fit-content;
+}
+
+.nx-tab {
+  padding: 10px 28px;
+  border-radius: var(--r-full);
+  border: none;
+  background: transparent;
+  color: var(--t3);
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.nx-tab:hover { color: var(--t2); }
+
+.nx-tab.active {
+  background: linear-gradient(135deg, var(--p), var(--p2));
+  color: #fff;
+  box-shadow: 0 0 20px var(--glow);
+}
+
+
+/* ══════════════════════════════════════
+   12. SUGGESTIONS (tags cliquables)
+══════════════════════════════════════ */
+.nx-sugg {
+  padding: 5px 14px;
+  border-radius: var(--r-full);
+  border: 1px solid rgba(123,92,255,0.18);
+  background: rgba(123,92,255,0.06);
+  color: var(--t3);
+  font-family: 'Outfit', sans-serif;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.18s;
+}
+
+.nx-sugg:hover {
+  border-color: var(--p);
+  color: var(--t2);
+  background: rgba(123,92,255,0.12);
+}
+
+
+/* ══════════════════════════════════════
+   13. MODALS
+══════════════════════════════════════ */
+.nx-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(8px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.nx-modal-overlay.open {
+  display: flex;
+}
+
+.nx-modal {
+  background: var(--bg3);
+  border: 1px solid rgba(123,92,255,0.25);
+  border-radius: var(--r-lg);
+  padding: 32px;
+  width: 100%;
+  max-width: 480px;
+  margin: 20px;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.5);
+}
+
+
+/* ══════════════════════════════════════
+   14. TOAST (notification)
+══════════════════════════════════════ */
+.nx-toast {
+  position: fixed;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(26,37,84,0.95);
+  border: 1px solid var(--border-hover);
+  color: var(--t2);
+  font-family: 'Outfit', sans-serif;
+  font-size: 14px;
+  padding: 12px 24px;
+  border-radius: var(--r-full);
+  z-index: 9999;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  animation: nx-toast-in 0.3s ease;
+  max-width: 90vw;
+  text-align: center;
+}
+
+@keyframes nx-toast-in {
+  from { opacity: 0; transform: translateX(-50%) translateY(20px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+
+/* ══════════════════════════════════════
+   15. LOADER / SPINNER
+══════════════════════════════════════ */
+.nx-spinner {
+  width: 52px;
+  height: 52px;
+  border: 3px solid rgba(123,92,255,0.15);
+  border-top-color: var(--p);
+  border-radius: 50%;
+  animation: nx-spin 0.8s linear infinite;
+}
+
+.nx-spinner-sm {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: nx-spin 0.7s linear infinite;
+}
+
+@keyframes nx-spin {
+  to { transform: rotate(360deg); }
+}
+
+
+/* ══════════════════════════════════════
+   16. STATUS INDICATORS
+══════════════════════════════════════ */
+.nx-status-online {
+  font-size: 11px;
+  color: var(--green);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.nx-status-online::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--green);
+  animation: nx-pulse-green 2s ease-in-out infinite;
+}
+
+@keyframes nx-pulse-green {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.4; }
+}
+
+
+/* ══════════════════════════════════════
+   17. GRILLE MÉDIAS
+══════════════════════════════════════ */
+.nx-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.nx-grid-item {
+  background: rgba(26,37,84,0.4);
+  border: 1px solid rgba(123,92,255,0.1);
+  border-radius: var(--r);
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.25s;
+  position: relative;
+}
+
+.nx-grid-item:hover {
+  border-color: rgba(123,92,255,0.38);
+  transform: translateY(-4px);
+  box-shadow: 0 10px 36px rgba(0,0,0,0.35);
+}
+
+
+/* ══════════════════════════════════════
+   18. INFO BOX
+══════════════════════════════════════ */
+.nx-info {
+  background: rgba(79,163,255,0.06);
+  border: 1px solid rgba(79,163,255,0.15);
+  border-radius: var(--r);
+  padding: 16px 20px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  font-size: 13px;
+  color: var(--t3);
+  line-height: 1.6;
+}
+
+.nx-info strong {
+  color: var(--p3);
+  font-weight: 600;
+}
+
+
+/* ══════════════════════════════════════
+   19. ANIMATIONS UTILITAIRES
+══════════════════════════════════════ */
+@keyframes nx-fade-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: none; }
+}
+
+@keyframes nx-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.nx-fade-up { animation: nx-fade-up 0.4s ease; }
+.nx-fade-in { animation: nx-fade-in 0.3s ease; }
+
+
+/* ══════════════════════════════════════
+   20. SCROLLBAR PERSONNALISÉE
+══════════════════════════════════════ */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(123,92,255,0.2);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(123,92,255,0.4);
+}
+
+
+/* ══════════════════════════════════════
+   21. RESPONSIVE
+══════════════════════════════════════ */
+@media (max-width: 700px) {
+  .nx-nav { padding: 0 16px; }
+  .nx-tabs { width: 100%; justify-content: center; }
+  .nx-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
+  .nx-hide-mobile { display: none; }
+}

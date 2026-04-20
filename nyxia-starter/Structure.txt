@@ -1,0 +1,19 @@
+nyxia-starter/
+├── worker/
+│   ├── wrangler.toml
+│   └── src/
+│       └── index.js          ← le cerveau Worker
+│
+└── frontend/
+    └── src/
+        ├── index.html        ← l'accueil + les 4 questions
+        ├── loading.html      ← l'écran WOW avec les ✅
+        ├── result.html       ← la page de livraison
+        ├── style.css
+        └── app.js            ← la logique front
+		
+
+Résumé de ce qui change côté Cloudflare Dashboard :
+
+KV → Workers & Pages → KV → créer NYXIA_KV → copier l'ID dans wrangler.toml
+Secret → Worker → Settings → Variables → Add secret → nom : OPENROUTER_API_KEY, valeur : ta clé sk-or-...

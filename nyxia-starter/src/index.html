@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NyXia IA — Activation</title>
+  <link rel="icon" href="/images/NyXia-FavIcon.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+<link rel="icon" type="image/png" href="images/NyXia-FavIcon.png" />
+  <style>
+    /* ══════════════════════════════════════════
+       NYXIA DESIGN SYSTEM — Variables
+    ══════════════════════════════════════════ */
+    :root {
+      --bg1: #050810;
+      --bg2: #0A0D1A;
+      --bg3: #0F1228;
+      --p:   #7B5CFF;
+      --p2:  #5A6CFF;
+      --p3:  #4FA3FF;
+      --p-soft: #a78bfa;
+      --green: #00E676;
+      --gold:  #F4C842;
+      --t:   #FFFFFF;
+      --t2:  #D6D9F0;
+      --t3:  #8891B8;
+      --t4:  #3a3f60;
+      --border:        rgba(123,92,255,0.15);
+      --border-hover:  rgba(123,92,255,0.35);
+      --border-active: rgba(123,92,255,0.6);
+      --glow:        rgba(123,92,255,0.4);
+      --glow-strong: rgba(123,92,255,0.7);
+      --r-full: 50px;
+      --r-lg: 20px;
+      --r: 14px;
+      --ease: 0.2s ease;
+    }
+
+    /* ══════════════════════════════════════════
+       RESET & BASE
+    ══════════════════════════════════════════ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: #050810;
+      color: var(--t2);
+      min-height: 100vh;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ══════════════════════════════════════════
+       CANVAS ÉTOILÉ
+    ══════════════════════════════════════════ */
+    #starry-canvas {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* ══════════════════════════════════════════
+       FOND AMBIANT — glows violet atmosphérique
+    ══════════════════════════════════════════ */
+    .nx-ambient-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse 70% 50% at 15% 20%, rgba(123,92,255,0.10) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 40% at 85% 80%, rgba(79,163,255,0.07) 0%, transparent 55%),
+        radial-gradient(ellipse 40% 35% at 50% 50%, rgba(123,92,255,0.04) 0%, transparent 50%);
+    }
+
+    /* ══════════════════════════════════════════
+       ANIMATIONS
+    ══════════════════════════════════════════ */
+
+    /* nx-float : lévitation douce */
+    @keyframes nx-float {
+      0%, 100% {
+        transform: translateY(0px);
+        filter: drop-shadow(0 0 20px rgba(123,92,255,0.4)) drop-shadow(0 0 50px rgba(123,92,255,0.15));
+      }
+      50% {
+        transform: translateY(-12px);
+        filter: drop-shadow(0 0 35px rgba(123,92,255,0.65)) drop-shadow(0 0 80px rgba(123,92,255,0.25));
+      }
+    }
+
+    /* nx-breathe : halo qui pulse */
+    @keyframes nx-breathe {
+      0%, 100% { box-shadow: 0 0 20px rgba(123,92,255,0.3), 0 0 60px rgba(123,92,255,0.1); }
+      50%       { box-shadow: 0 0 50px rgba(123,92,255,0.7), 0 0 100px rgba(123,92,255,0.25), 0 0 150px rgba(79,163,255,0.1); }
+    }
+
+    /* nx-pulse-ring : anneaux qui s'étendent */
+    @keyframes nx-pulse-ring {
+      0%   { transform: scale(1);    opacity: 0.5; }
+      100% { transform: scale(1.35); opacity: 0; }
+    }
+
+    @keyframes nx-fade-up {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes nx-fade-in {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    @keyframes nx-spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes nx-crystal-float {
+      0%, 100% { transform: translateY(0) rotate(0deg);   filter: drop-shadow(0 0 15px rgba(123,92,255,0.5)); }
+      33%       { transform: translateY(-8px) rotate(3deg);  filter: drop-shadow(0 0 30px rgba(123,92,255,0.8)); }
+      66%       { transform: translateY(-4px) rotate(-2deg); filter: drop-shadow(0 0 22px rgba(79,163,255,0.6)); }
+    }
+
+    @keyframes nx-shimmer {
+      0%   { background-position: -200% center; }
+      100% { background-position:  200% center; }
+    }
+
+    @keyframes nx-toast-in {
+      from { opacity: 0; transform: translateX(-50%) translateY(16px); }
+      to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+    }
+
+    /* ══════════════════════════════════════════
+       LAYOUT PRINCIPAL
+    ══════════════════════════════════════════ */
+    .page-wrapper {
+      position: relative;
+      z-index: 10;
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 480px 1fr;
+      grid-template-rows: 1fr;
+      align-items: center;
+      padding: 40px 20px;
+    }
+
+    /* Colonne gauche — NyXia qui flotte */
+    .nyxia-left {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      padding-right: 24px;
+      animation: nx-fade-in 1s ease;
+    }
+
+    .nyxia-left img {
+      width: min(340px, 90%);
+      animation: nx-float 5s ease-in-out infinite;
+    }
+
+    /* Colonne centre — carte */
+    .activation-card {
+      background: rgba(10, 13, 26, 0.80);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(123,92,255,0.20);
+      border-radius: 28px;
+      padding: 44px 36px;
+      box-shadow:
+        0 0 0 1px rgba(123,92,255,0.06),
+        0 40px 100px rgba(0,0,0,0.7),
+        0 0 80px rgba(123,92,255,0.07);
+      animation: nx-fade-up 0.7s ease, nx-breathe 6s ease-in-out infinite;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Reflet supérieur de la carte */
+    .activation-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 10%; right: 10%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(123,92,255,0.5), rgba(79,163,255,0.3), transparent);
+    }
+
+    /* Colonne droite — cristal */
+    .crystal-right {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      padding-left: 24px;
+    }
+
+    .crystal-right img {
+      width: min(160px, 60%);
+      animation: nx-crystal-float 4s ease-in-out infinite;
+    }
+
+    /* ══════════════════════════════════════════
+       LOGO FIXE
+    ══════════════════════════════════════════ */
+    .nx-logo-fixed {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(5,8,16,0.80);
+      backdrop-filter: blur(16px);
+      padding: 8px 20px 8px 10px;
+      border-radius: var(--r-full);
+      border: 1px solid var(--border);
+      animation: nx-breathe 4s ease-in-out infinite;
+    }
+
+    .nx-logo-fixed img {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(123,92,255,0.5);
+    }
+
+    .nx-logo-fixed span {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      background: linear-gradient(135deg, #a78bfa, #4FA3FF);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* ══════════════════════════════════════════
+       PROGRESS DOTS
+    ══════════════════════════════════════════ */
+    .progress-dots {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 32px;
+    }
+
+    .progress-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: rgba(123,92,255,0.12);
+      border: 1px solid rgba(123,92,255,0.2);
+      transition: all 0.35s ease;
+    }
+
+    .progress-dot.active {
+      background: var(--p);
+      box-shadow: 0 0 10px rgba(123,92,255,0.8);
+      transform: scale(1.35);
+    }
+
+    .progress-dot.done {
+      background: rgba(0,230,118,0.35);
+      border-color: var(--green);
+    }
+
+    /* ══════════════════════════════════════════
+       ÉCRANS
+    ══════════════════════════════════════════ */
+    .screen { display: none; }
+    .screen.active { display: block; animation: nx-fade-up 0.4s ease; }
+
+    /* ══ ÉCRAN 0 — Intro ══ */
+    .intro-block {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 20px;
+    }
+
+    .avatar-ring-wrap {
+      position: relative;
+      width: 96px; height: 96px;
+    }
+
+    .avatar-ring-wrap img {
+      width: 96px; height: 96px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid rgba(123,92,255,0.6);
+      position: relative;
+      z-index: 2;
+      animation: nx-breathe 3s ease-in-out infinite;
+    }
+
+    .avatar-ring-wrap::before,
+    .avatar-ring-wrap::after {
+      content: '';
+      position: absolute;
+      inset: -8px;
+      border-radius: 50%;
+      border: 1px solid rgba(123,92,255,0.25);
+      animation: nx-pulse-ring 2.5s ease-out infinite;
+      z-index: 1;
+    }
+
+    .avatar-ring-wrap::after {
+      inset: -18px;
+      border-color: rgba(123,92,255,0.12);
+      animation-delay: 0.7s;
+    }
+
+    .intro-headline {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 32px;
+      font-weight: 600;
+      line-height: 1.25;
+      background: linear-gradient(135deg, #a78bfa 0%, #c4b5fd 40%, #4FA3FF 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .intro-body {
+      font-size: 14px;
+      color: var(--t3);
+      line-height: 1.8;
+      max-width: 340px;
+    }
+
+    .intro-body strong { color: var(--t2); font-weight: 600; }
+
+    .timer-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: rgba(244,200,66,0.08);
+      border: 1px solid rgba(244,200,66,0.22);
+      border-radius: var(--r-full);
+      padding: 5px 16px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .intro-note {
+      font-size: 11px;
+      color: var(--t4);
+    }
+
+    /* ══ BOUTON PRIMARY ══ */
+    .nx-btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 13px 32px;
+      border-radius: var(--r-full);
+      border: none;
+      cursor: pointer;
+      font-family: 'Outfit', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      color: #fff;
+      background: linear-gradient(135deg, var(--p), var(--p2));
+      box-shadow: 0 0 28px rgba(123,92,255,0.45), 0 4px 20px rgba(123,92,255,0.3);
+      transition: all 0.2s ease;
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+    }
+
+    .nx-btn-primary::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent);
+      border-radius: inherit;
+    }
+
+    .nx-btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 50px rgba(123,92,255,0.7), 0 8px 30px rgba(123,92,255,0.4);
+    }
+
+    .nx-btn-primary:active { transform: translateY(0); }
+
+    .nx-btn-primary:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    /* ══ BOUTON SECONDAIRE ══ */
+    .nx-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 13px 24px;
+      border-radius: var(--r-full);
+      border: 1px solid var(--border);
+      cursor: pointer;
+      font-family: 'Outfit', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--t2);
+      background: rgba(123,92,255,0.05);
+      transition: all 0.2s ease;
+      flex: 1;
+    }
+
+    .nx-btn:hover {
+      border-color: var(--border-hover);
+      background: rgba(123,92,255,0.12);
+      color: var(--t);
+      transform: translateY(-1px);
+    }
+
+    /* ══ INPUT ══ */
+    .nx-input {
+      width: 100%;
+      padding: 12px 20px;
+      border-radius: var(--r-full);
+      border: 1px solid var(--border);
+      background: rgba(5,8,16,0.7);
+      color: var(--t2);
+      font-family: 'Outfit', sans-serif;
+      font-size: 14px;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    .nx-input::placeholder { color: var(--t4); }
+
+    .nx-input:focus {
+      border-color: var(--border-active);
+      background: rgba(10,13,26,0.9);
+      box-shadow: 0 0 0 3px rgba(123,92,255,0.12), 0 0 20px rgba(123,92,255,0.15);
+    }
+
+    /* ══ DIVIDER ══ */
+    .nx-divider {
+      border: none;
+      border-top: 1px solid rgba(123,92,255,0.08);
+      margin: 8px 0;
+    }
+
+    /* ══ ÉCRANS QUESTIONS ══ */
+    .q-block { display: flex; flex-direction: column; gap: 24px; }
+
+    .q-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+
+    .q-num {
+      width: 28px; height: 28px;
+      flex-shrink: 0;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--p), var(--p2));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      color: #fff;
+      box-shadow: 0 0 12px rgba(123,92,255,0.5);
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+
+    .q-content { flex: 1; display: flex; flex-direction: column; gap: 9px; }
+
+    .q-label {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--t2);
+    }
+
+    .q-hint {
+      font-size: 11px;
+      color: var(--t4);
+      font-style: italic;
+    }
+
+    .q-inputs { display: flex; gap: 10px; }
+    .q-inputs .nx-input { flex: 1; }
+
+    /* ══ OBJECTIFS ══ */
+    .objectif-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 9px;
+    }
+
+    .objectif-opt {
+      padding: 13px 13px;
+      border: 1px solid rgba(123,92,255,0.12);
+      border-radius: 16px;
+      background: rgba(5,8,16,0.6);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .objectif-opt:hover {
+      border-color: rgba(123,92,255,0.35);
+      background: rgba(123,92,255,0.07);
+    }
+
+    .objectif-opt.selected {
+      border-color: var(--p);
+      background: rgba(123,92,255,0.12);
+      box-shadow: 0 0 24px rgba(123,92,255,0.2), inset 0 0 24px rgba(123,92,255,0.04);
+    }
+
+    .obj-icon  { font-size: 19px; }
+    .obj-label { font-size: 11.5px; font-weight: 600; color: var(--t2); line-height: 1.35; }
+
+    /* ══ ÉCRAN LOADING ══ */
+    .loading-block {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+      text-align: center;
+    }
+
+    .loading-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 28px;
+      font-weight: 600;
+      background: linear-gradient(135deg, #a78bfa, #4FA3FF);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .loading-sub { font-size: 13px; color: var(--t4); margin-top: -18px; }
+
+    .loading-steps { width: 100%; display: flex; flex-direction: column; gap: 9px; }
+
+    .l-step {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      border-radius: 14px;
+      background: rgba(5,8,16,0.6);
+      border: 1px solid rgba(123,92,255,0.07);
+      font-size: 13px;
+      color: var(--t4);
+      opacity: 0.45;
+      transition: all 0.35s ease;
+    }
+
+    .l-step.active {
+      color: var(--t2);
+      border-color: rgba(123,92,255,0.3);
+      background: rgba(123,92,255,0.07);
+      opacity: 1;
+      box-shadow: 0 0 24px rgba(123,92,255,0.1);
+    }
+
+    .l-step.done {
+      color: var(--green);
+      border-color: rgba(0,230,118,0.18);
+      background: rgba(0,230,118,0.04);
+      opacity: 1;
+    }
+
+    .l-step-icon   { font-size: 15px; width: 20px; text-align: center; flex-shrink: 0; }
+    .l-step-status { margin-left: auto; font-size: 11px; }
+
+    .step-spinner {
+      width: 13px; height: 13px;
+      border: 1.5px solid rgba(123,92,255,0.2);
+      border-top-color: var(--p);
+      border-radius: 50%;
+      animation: nx-spin 0.7s linear infinite;
+      display: inline-block;
+    }
+
+    /* ══ ÉCRAN RÉSULTATS ══ */
+    .result-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 28px;
+      font-weight: 600;
+      background: linear-gradient(135deg, #a78bfa, #4FA3FF);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-align: center;
+      line-height: 1.3;
+    }
+
+    .result-sub {
+      font-size: 12px;
+      color: var(--t4);
+      text-align: center;
+      margin-top: 5px;
+      margin-bottom: 22px;
+    }
+
+    .livrable-card {
+      background: rgba(5,8,16,0.65);
+      border: 1px solid rgba(123,92,255,0.12);
+      border-radius: 16px;
+      padding: 18px;
+      margin-bottom: 10px;
+      animation: nx-fade-up 0.4s ease;
+      transition: border-color 0.2s ease;
+    }
+
+    .livrable-card:hover { border-color: rgba(123,92,255,0.28); }
+
+    .livrable-head {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 9px;
+    }
+
+    .livrable-tag {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--p-soft);
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+    }
+
+    .livrable-text {
+      font-size: 12.5px;
+      color: var(--t2);
+      line-height: 1.7;
+      white-space: pre-wrap;
+    }
+
+    .result-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 22px;
+    }
+
+    .result-note {
+      text-align: center;
+      font-size: 11px;
+      color: var(--t4);
+      margin-top: 14px;
+    }
+
+    /* ══ SCROLLBAR ══ */
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(123,92,255,0.25); border-radius: 3px; }
+
+    ::selection { background: rgba(123,92,255,0.35); color: var(--t); }
+
+    /* ══ RESPONSIVE ══ */
+    @media (max-width: 900px) {
+      .page-wrapper {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto;
+        justify-items: center;
+        padding-top: 80px;
+        gap: 0;
+      }
+      .nyxia-left {
+        justify-content: center;
+        padding: 0;
+        margin-bottom: -40px;
+        z-index: 2;
+      }
+      .nyxia-left img { width: min(220px, 70%); }
+      .crystal-right { display: none; }
+      .activation-card { width: 100%; max-width: 460px; }
+    }
+
+    @media (max-width: 480px) {
+      .activation-card  { padding: 32px 18px; }
+      .objectif-grid    { grid-template-columns: 1fr; }
+      .intro-headline   { font-size: 26px; }
+      .result-actions   { flex-direction: column; }
+      .q-inputs         { flex-direction: column; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Canvas étoilé -->
+  <canvas id="starry-canvas"></canvas>
+  <div class="nx-ambient-bg"></div>
+
+  <!-- Logo fixe -->
+  <div class="nx-logo-fixed">
+    <img src="images/nyxia-avatar-circle.png" alt="NyXia" />
+    <span>NyXia IA</span>
+  </div>
+
+  <!-- LAYOUT : gauche | carte | droite -->
+  <div class="page-wrapper">
+
+    <!-- NyXia qui flotte à gauche -->
+    <div class="nyxia-left">
+   <img src="images/nyxia-pointing.png" alt="NyXia" />
+    </div>
+
+    <!-- ══ CARTE CENTRALE ══ -->
+    <div class="activation-card">
+
+      <div class="progress-dots" id="progressDots">
+        <div class="progress-dot active"></div>
+        <div class="progress-dot"></div>
+        <div class="progress-dot"></div>
+        <div class="progress-dot"></div>
+        <div class="progress-dot"></div>
+      </div>
+
+      <!-- ══ ÉCRAN 0 : Accueil ══ -->
+      <div class="screen active" id="screen-0">
+        <div class="intro-block">
+
+          <div class="avatar-ring-wrap">
+            <img src="images/NyXia-33.png" alt="NyXia" />
+          </div>
+
+          <div class="timer-pill">✦ &nbsp;2 minutes suffisent</div>
+
+          <h1 class="intro-headline">
+            Oublie tout ce que tu sais<br />sur les plateformes web.
+          </h1>
+
+          <p class="intro-body">
+            Tu n'as <strong>rien à construire</strong>. Rien à apprendre.<br />
+            Réponds à 4 questions — je m'occupe du reste.<br />
+            Tu repars avec quelque chose de <strong>vraiment à toi</strong>.
+          </p>
+
+          <button class="nx-btn-primary" onclick="goTo(1)" style="padding:14px 52px;font-size:15px;width:auto;">
+            ✦ &nbsp;C'est parti
+          </button>
+
+          <p class="intro-note">Aucune carte de crédit · Résultat immédiat</p>
+        </div>
+      </div>
+
+      <!-- ══ ÉCRAN 1 : Q1 & Q2 ══ -->
+      <div class="screen" id="screen-1">
+        <div class="q-block">
+          <div class="q-row">
+            <div class="q-num">1</div>
+            <div class="q-content">
+              <div class="q-label">Comment tu t'appelles, et ton domaine ?</div>
+              <div class="q-hint">ex : Sophie · coach en confiance en soi</div>
+              <div class="q-inputs">
+                <input class="nx-input" id="inputPrenom"  placeholder="Ton prénom" />
+                <input class="nx-input" id="inputDomaine" placeholder="Ton domaine" />
+              </div>
+            </div>
+          </div>
+
+          <hr class="nx-divider" />
+
+          <div class="q-row">
+            <div class="q-num">2</div>
+            <div class="q-content">
+              <div class="q-label">Qu'est-ce que tu veux vendre ou offrir ?</div>
+              <div class="q-hint">ex : programme en ligne, consultations, ebook</div>
+              <input class="nx-input" id="inputOffre" placeholder="Ton offre principale" />
+            </div>
+          </div>
+
+          <button class="nx-btn-primary" onclick="validateStep1()">Continuer →</button>
+        </div>
+      </div>
+
+      <!-- ══ ÉCRAN 2 : Q3 & Q4 ══ -->
+      <div class="screen" id="screen-2">
+        <div class="q-block">
+          <div class="q-row">
+            <div class="q-num">3</div>
+            <div class="q-content">
+              <div class="q-label">À qui ? Décris ta clientèle idéale.</div>
+              <div class="q-hint">ex : femmes qui veulent quitter leur emploi</div>
+              <input class="nx-input" id="inputCible" placeholder="Ta clientèle idéale" />
+            </div>
+          </div>
+
+          <hr class="nx-divider" />
+
+          <div class="q-row">
+            <div class="q-num">4</div>
+            <div class="q-content">
+              <div class="q-label">Ton objectif numéro 1 en ce moment ?</div>
+              <div class="objectif-grid" id="objectifGrid" style="margin-top:8px;">
+                <div class="objectif-opt" onclick="selectObjectif(this,'Générer mes premiers revenus en ligne')">
+                  <span class="obj-icon">💰</span>
+                  <span class="obj-label">Générer mes premiers revenus</span>
+                </div>
+                <div class="objectif-opt" onclick="selectObjectif(this,'Me faire connaître')">
+                  <span class="obj-icon">👁️</span>
+                  <span class="obj-label">Me faire connaître</span>
+                </div>
+                <div class="objectif-opt" onclick="selectObjectif(this,'Construire ma liste de contacts')">
+                  <span class="obj-icon">📋</span>
+                  <span class="obj-label">Construire ma liste</span>
+                </div>
+                <div class="objectif-opt" onclick="selectObjectif(this,'Lancer ma première formation')">
+                  <span class="obj-icon">🎓</span>
+                  <span class="obj-label">Lancer ma formation</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <button class="nx-btn-primary" id="btnGenerate" onclick="validateStep2()" disabled>
+            ✦ &nbsp;NyXia, construis mon univers
+          </button>
+        </div>
+      </div>
+
+      <!-- ══ ÉCRAN 3 : Génération ══ -->
+      <div class="screen" id="screen-3">
+        <div class="loading-block">
+          <h2 class="loading-title">Je construis ton univers…</h2>
+          <p class="loading-sub">Quelques secondes, pas plus.</p>
+
+          <div class="loading-steps">
+            <div class="l-step" id="step-site">
+              <span class="l-step-icon">🌐</span>
+              <span>Création de ta page web</span>
+              <span class="l-step-status">En attente</span>
+            </div>
+            <div class="l-step" id="step-accroche">
+              <span class="l-step-icon">✍️</span>
+              <span>Rédaction de ton accroche</span>
+              <span class="l-step-status">En attente</span>
+            </div>
+            <div class="l-step" id="step-post">
+              <span class="l-step-icon">📱</span>
+              <span>Premier post réseaux sociaux</span>
+              <span class="l-step-status">En attente</span>
+            </div>
+            <div class="l-step" id="step-email">
+              <span class="l-step-icon">📧</span>
+              <span>Email de bienvenue</span>
+              <span class="l-step-status">En attente</span>
+            </div>
+            <div class="l-step" id="step-visuel">
+              <span class="l-step-icon">🖼️</span>
+              <span>Identité visuelle</span>
+              <span class="l-step-status">En attente</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ ÉCRAN 4 : Résultats ══ -->
+      <div class="screen" id="screen-4">
+        <h2 class="result-title">Ton univers est prêt.</h2>
+        <p class="result-sub">Ce n'est pas une démo. C'est vraiment à toi.</p>
+        <div id="resultLivrables"></div>
+        <div class="result-actions">
+          <button class="nx-btn-primary" onclick="voirSite()" style="flex:1;">🌐 &nbsp;Voir mon site</button>
+          <button class="nx-btn" onclick="voirPlan()">🗺️ &nbsp;Mon plan</button>
+        </div>
+        <p class="result-note">✦ &nbsp;Tout est modifiable depuis ton tableau de bord</p>
+      </div>
+
+    </div>
+    <!-- fin carte -->
+
+    <!-- Cristal à droite -->
+    <div class="crystal-right">
+      <img src="/images/nyxia-crystal.png" alt="" />
+    </div>
+
+  </div>
+  <!-- fin page-wrapper -->
+
+
+  <!-- ══ CANVAS ÉTOILÉ ══ -->
+  <script>
+  (function () {
+    const canvas = document.getElementById('starry-canvas')
+    if (!canvas) return
+    const ctx = canvas.getContext('2d')
+    let W, H, stars = [], shootingStars = []
+
+    function resize() {
+      W = canvas.width  = window.innerWidth
+      H = canvas.height = window.innerHeight
+    }
+
+    function initStars() {
+      stars = []
+      for (let i = 0; i < 450; i++) {
+        stars.push({
+          x: Math.random() * W,
+          y: Math.random() * H,
+          r: Math.random() * 1.1 + 0.15,
+          alpha: Math.random() * 0.5 + 0.08,
+          speed: Math.random() * 0.007 + 0.002,
+          phase: Math.random() * Math.PI * 2
+        })
+      }
+    }
+
+    function spawnShooting() {
+      shootingStars.push({
+        x: Math.random() * W * 0.7,
+        y: Math.random() * H * 0.4,
+        len: Math.random() * 130 + 70,
+        speed: Math.random() * 7 + 4,
+        alpha: 1,
+        angle: Math.PI / 5
+      })
+    }
+
+    function draw(t) {
+      ctx.clearRect(0, 0, W, H)
+
+      stars.forEach(s => {
+        s.alpha = 0.08 + 0.52 * (0.5 + 0.5 * Math.sin(t * 0.001 * s.speed * 300 + s.phase))
+        ctx.beginPath()
+        ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2)
+        ctx.fillStyle = `rgba(255,255,255,${s.alpha})`
+        ctx.fill()
+      })
+
+      shootingStars = shootingStars.filter(s => s.alpha > 0.02)
+      shootingStars.forEach(s => {
+        const dx = Math.cos(s.angle) * s.len
+        const dy = Math.sin(s.angle) * s.len
+        const g = ctx.createLinearGradient(s.x, s.y, s.x + dx, s.y + dy)
+        g.addColorStop(0, `rgba(180,160,255,${s.alpha})`)
+        g.addColorStop(1, 'rgba(180,160,255,0)')
+        ctx.beginPath()
+        ctx.moveTo(s.x, s.y)
+        ctx.lineTo(s.x + dx, s.y + dy)
+        ctx.strokeStyle = g
+        ctx.lineWidth = 1.5
+        ctx.stroke()
+        s.x += Math.cos(s.angle) * s.speed
+        s.y += Math.sin(s.angle) * s.speed
+        s.alpha -= 0.013
+      })
+
+      requestAnimationFrame(draw)
+    }
+
+    window.addEventListener('resize', () => { resize(); initStars() })
+    resize(); initStars()
+    setInterval(spawnShooting, 3500)
+    requestAnimationFrame(draw)
+  })()
+  </script>
+
+
+  <!-- ══ LOGIQUE ACTIVATION ══ -->
+  <script>
+    let userData = {}
+    let selectedObjectif = ''
+
+    /* Navigation entre écrans */
+    function goTo(n) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'))
+      document.getElementById('screen-' + n).classList.add('active')
+      updateDots(n)
+
+      // Lance la génération dès l'écran 3
+      if (n === 3) startGeneration()
+    }
+
+    function updateDots(n) {
+      const dots = document.querySelectorAll('.progress-dot')
+      dots.forEach((d, i) => {
+        d.classList.remove('active', 'done')
+        if (i < n)  d.classList.add('done')
+        if (i === n) d.classList.add('active')
+      })
+    }
+
+    /* Validation étape 1 */
+    function validateStep1() {
+      const p = document.getElementById('inputPrenom').value.trim()
+      const d = document.getElementById('inputDomaine').value.trim()
+      const o = document.getElementById('inputOffre').value.trim()
+      if (!p || !d || !o) { showToast('Remplis tous les champs pour continuer ✦'); return }
+      userData.prenom = p
+      userData.domaine = d
+      userData.offre = o
+      goTo(2)
+    }
+
+    /* Sélection objectif */
+    function selectObjectif(el, val) {
+      document.querySelectorAll('.objectif-opt').forEach(o => o.classList.remove('selected'))
+      el.classList.add('selected')
+      selectedObjectif = val
+      document.getElementById('btnGenerate').disabled = false
+    }
+
+    /* Validation étape 2 */
+    function validateStep2() {
+      const c = document.getElementById('inputCible').value.trim()
+      if (!c) { showToast('Décris ta clientèle pour continuer ✦'); return }
+      if (!selectedObjectif) { showToast('Choisis un objectif ✦'); return }
+      userData.cible = c
+      userData.objectif = selectedObjectif
+      goTo(3)
+    }
+
+    /* ══ GÉNÉRATION SIMULÉE ══ */
+    const STEPS = ['step-site','step-accroche','step-post','step-email','step-visuel']
+
+    function startGeneration() {
+      let i = 0
+      function nextStep() {
+        if (i > 0) {
+          const prev = document.getElementById(STEPS[i-1])
+          prev.classList.remove('active')
+          prev.classList.add('done')
+          prev.querySelector('.l-step-status').textContent = '✓'
+        }
+        if (i >= STEPS.length) { setTimeout(showResults, 600); return }
+
+        const el = document.getElementById(STEPS[i])
+        el.classList.add('active')
+        el.querySelector('.l-step-status').innerHTML = '<span class="step-spinner"></span>'
+        i++
+        setTimeout(nextStep, 1400 + Math.random() * 600)
+      }
+      setTimeout(nextStep, 400)
+    }
+
+    /* ══ RÉSULTATS ══ */
+    function showResults() {
+      const { prenom, domaine, offre, cible, objectif } = userData
+      const container = document.getElementById('resultLivrables')
+
+      const livrables = [
+        {
+          icon: '🌐',
+          tag: 'Page web',
+          text: `${prenom} — ${domaine}\n\n"${offre} pour ${cible}.\n${objectif}."`,
+        },
+        {
+          icon: '✍️',
+          tag: 'Accroche',
+          text: `Tu en as assez de ${cible.toLowerCase().replace('des ','')} sans résultats ?\n${offre} change ça — en moins de 30 jours.`,
+        },
+        {
+          icon: '📱',
+          tag: 'Post réseaux',
+          text: `Je m'appelle ${prenom}.\nJe travaille avec ${cible} pour les aider à ${offre.toLowerCase()}.\n\nMon objectif : ${objectif.toLowerCase()}.\n\nTu veux qu'on en parle ? ↓`,
+        },
+        {
+          icon: '📧',
+          tag: 'Email de bienvenue',
+          text: `Bienvenue, [Prénom] !\n\nJe suis ${prenom}, et mon travail c'est simple : aider ${cible} à ${offre.toLowerCase()}.\n\nDans cet email, tu vas découvrir exactement comment je fais ça.\n\nÀ tout de suite,\n${prenom}`,
+        },
+      ]
+
+      container.innerHTML = ''
+      livrables.forEach((l, idx) => {
+        const div = document.createElement('div')
+        div.className = 'livrable-card'
+        div.style.animationDelay = `${idx * 0.12}s`
+        div.innerHTML = `
+          <div class="livrable-head">
+            <span>${l.icon}</span>
+            <span class="livrable-tag">${l.tag}</span>
+          </div>
+          <div class="livrable-text">${l.text}</div>
+        `
+        container.appendChild(div)
+      })
+
+      goTo(4)
+    }
+
+    function voirSite()  { showToast('Ouverture de ton site… ✦') }
+    function voirPlan()  { showToast('Ton plan stratégique arrive ✦') }
+
+    /* ══ TOAST ══ */
+    function showToast(msg) {
+      const old = document.querySelector('.nx-toast')
+      if (old) old.remove()
+      const t = document.createElement('div')
+      t.className = 'nx-toast'
+      t.textContent = msg
+      document.body.appendChild(t)
+      setTimeout(() => t.remove(), 3000)
+    }
+  </script>
+
+  <style>
+    .nx-toast {
+      position: fixed;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%) translateY(0);
+      background: rgba(10,13,26,0.95);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--border-hover);
+      border-radius: var(--r-full);
+      padding: 12px 28px;
+      color: var(--t2);
+      font-size: 13px;
+      font-family: 'Outfit', sans-serif;
+      box-shadow: 0 8px 40px rgba(123,92,255,0.3);
+      z-index: 9999;
+      animation: nx-toast-in 0.3s ease forwards;
+      white-space: nowrap;
+    }
+  </style>
+
+</body>
+</html>
